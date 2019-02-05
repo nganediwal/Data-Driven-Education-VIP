@@ -37,6 +37,9 @@ Once our student success models are ready, we plan to use them along with interv
 * [Davis et al., 2018: Retrieval Practice](https://learning-analytics.info/journals/index.php/JLA/article/view/6098)
 * [Kizilcec et al., 2017: Social Identity Threat ](http://science.sciencemag.org/content/sci/355/6322/251.full.pdf)
 
+## Pedagogical Theory
+* [Picciano, 2017. Pedagogical Theory in Online Education](https://olj.onlinelearningconsortium.org/index.php/olj/article/view/1225)
+
 # Researchers to Read
 * [Gardner](https://scholar.google.com/citations?user=SSq1t_YAAAAJ&hl=en&oi=ao)
 * [Kizilcec](https://scholar.google.com/citations?user=l3ZT5GkAAAAJ)
