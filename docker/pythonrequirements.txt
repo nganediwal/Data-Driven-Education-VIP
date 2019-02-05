@@ -1,1 +1,6 @@
 sklearn
+boto3
+awscli
+pandas
+pymongo
+psycopg2

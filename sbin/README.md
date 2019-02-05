@@ -1,0 +1,1 @@
+A directory for storing bash scripts
