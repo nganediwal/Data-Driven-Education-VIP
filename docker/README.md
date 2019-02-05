@@ -13,10 +13,10 @@ chmod +x ddesetup.sh
 ```
 3. On all systems, in the top-level directory (/vip-research/), run the following command:
 ```shell
-chmod +x ddesetup.sh
+./ddesetup.sh
 ```
 4. The script should automatically check for updates to this image, pull them from dockerhub, and then launch a container in terminal.
 
-## How to modify this image
+## WARNING
 
-**Warning: NEVER EVER put sensitive data of any kind in this /docker/ directory, because it might be packaged into an image and hosted on a public dockerhub server!**
+**NEVER EVER put sensitive data of any kind in this /docker/ directory, because it might be packaged into an image and hosted on a public dockerhub server!**
