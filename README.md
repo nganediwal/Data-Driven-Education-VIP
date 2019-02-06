@@ -25,6 +25,10 @@ Once our student success models are ready, we plan to use them along with interv
 * **Data Scientist** Write scripts to process data, train models, and evaluate results (can coordinate with integration team)
 * **Web Developer** Build interventions into edX
 
+# Relevant External Code
+* [bayesiantests](https://github.com/BayesianTestsML/tutorial): Library with examples for computing Bayesian Hierarchical Model Evaluation
+* [model_fitting.py](https://github.gatech.edu/C21U/vip-onboarding/blob/master/src/model_fitting.py): Example script for fitting many models with cross validation
+
 # Reading List
 ## Predicting Student Success
 * [Gardner and Brooks, 2018: Model Evaluation Method](https://learning-analytics.info/journals/index.php/JLA/article/view/5814)
