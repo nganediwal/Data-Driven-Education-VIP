@@ -11,3 +11,12 @@ from
 --Note: assessment category seems to be unused for this course?
 
 --Rubric items are unused, for instance.
+--Only a subset of classes use rubrics, and we can't make sense of Open Assessment Data w/o a rubric.
+
+select * from edx.assessment_assessment where course_id='course-v1:GTx+ISYE6501x+3T2018';
+--returns nothing
+
+select item_id, count(id) from edx.submissions_studentitem where course_id='course-v1:GTx+ISYE6501x+3T2018' group by item_id;
+--returns 30 possible item_id values. What are these? I do not yet know.
+
+--Where can we find 
