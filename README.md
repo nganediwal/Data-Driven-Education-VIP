@@ -36,7 +36,9 @@ Once our student success models are ready, we plan to use them along with interv
 * [Crossley et al., 2017: Cohesion Network Analysis](https://repository.isls.org/bitstream/1/220/1/17.pdf)
 * [O'Connell
  et al., 2018: Long Term Prediction](https://learning-analytics.info/journals/index.php/JLA/article/view/5833)
-
+* [Davis et al., 2016: Student self-regulated success](https://angusglchen.github.io/documents/LAK16_Dan_Encouraging.pdf)
+## edX Data Description
+* [Davis et al., 2018: Design of edX MOOCs](https://dl.acm.org/citation.cfm?id=3231663)
 ## Interventions
 * [Davis et al., 2018: Retrieval Practice](https://learning-analytics.info/journals/index.php/JLA/article/view/6098)
 * [Kizilcec et al., 2017: Social Identity Threat ](http://science.sciencemag.org/content/sci/355/6322/251.full.pdf)
