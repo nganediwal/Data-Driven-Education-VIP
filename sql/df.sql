@@ -60,7 +60,7 @@ COMMENT ON COLUMN edx.dataframe.forum_n_neutral IS 'Number of posts with net sen
 COMMENT ON COLUMN edx.dataframe.forum_sentiment_delta IS 'Average of (post sentiment – avg sentiment for thread)';
 COMMENT ON COLUMN edx.dataframe.forum_n_threads IS 'Total number of threads initiated by student';
 COMMENT ON COLUMN edx.dataframe.forum_n_words_bigrams IS 'Count of unique words/bigrams used across all posts';
-COMMENT ON COLUMN edx.dataframe.forum_f_reading_ease IS 'Flesch Reading Ease score, discretized into separate features in increments of 10 from0 to 100 (Kincaid et al., 1975)';
+COMMENT ON COLUMN edx.dataframe.forum_f_reading_ease IS 'Flesch Reading Ease score, discretized into separate features in increments of 10 from 0 to 100 (Kincaid et al., 1975)';
 COMMENT ON COLUMN edx.dataframe.forum_fk_readling_level IS 'Flesch-Kincaid grade level, discretized into separate features in increments of1 from 0 to 20 (Kincaid et al., 1975)';
 COMMENT ON COLUMN edx.dataframe.forum_net_votes IS 'Total net upvotes users’ posts received (positive – negative)';
 GRANT SELECT ON edx.dataframe TO edx_student;
