@@ -5,8 +5,8 @@ select *
 from edx.courses 
 where course_id='course-v1:GTx+ISYE6501x+3T2018';
 
---selecting the course structure 
-select * from edx.course_structure where course_id='"course-v1:GTx+ISYE6501x+3T2018"'
+--selecting the course structure
+select * from edx.course_structure where course_id='course-v1:GTx+ISYE6501x+3T2018'
 
 
 --selecting module_id from courseware_studentmodule
