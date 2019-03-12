@@ -11,15 +11,15 @@ CREATE TABLE edx.dataframe (
     clickstream_quiz_views INT,
     clickstream_exam_views INT,
     clickstream_quiz_peer_views INT,
-    quiz_lead_time INT,
-    quiz_raw_points INT,
-    quiz_avg_score NUMERIC,
-    quiz_raw_points_per_submission NUMERIC,
-    quiz_n_submissions INT,
-    quiz_percent_allowed_submissions NUMERIC,
-    quiz_percent_max_submissions NUMERIC,
-    quiz_percent_corrent_submissions NUMERIC,
-    quiz_weekly_delta NUMERIC,
+    assignment_lead_time INT,
+    assignment_raw_points INT,
+    assignment_avg_score NUMERIC,
+    assignment_raw_points_per_submission NUMERIC,
+    assignment_n_submissions INT,
+    assignment_percent_allowed_submissions NUMERIC,
+    assignment_percent_max_submissions NUMERIC,
+    assignment_percent_corrent_submissions NUMERIC,
+    assignment_weekly_delta NUMERIC,
     forum_posts INT,
     forum_replies INT,
     forum_avg_sentiment NUMERIC,
@@ -41,15 +41,15 @@ COMMENT ON COLUMN edx.dataframe.clickstream_active_days IS 'Number of days for w
 COMMENT ON COLUMN edx.dataframe.clickstream_quiz_views IS 'Number of pageviews of quiz attempt pages, as measured by clickstream features';
 COMMENT ON COLUMN edx.dataframe.clickstream_exam_views IS 'Number of pageviews of exam-type quiz pages, as measured by clickstream features';
 COMMENT ON COLUMN edx.dataframe.clickstream_quiz_peer_views IS 'Number  of  pageviews  of  human-graded  quiz  pages,  as  measured  by clickstream features';
-COMMENT ON COLUMN edx.dataframe.quiz_lead_time IS 'Time between a quiz submission and deadline for all submissions; discretized buckets for t≥7 days (2), 3≤t<7 (1), 1≤t<3, 0≤t<1 (0), and late (-1)';
-COMMENT ON COLUMN edx.dataframe.quiz_raw_points IS 'Sum of total raw points earned on quizzes';
-COMMENT ON COLUMN edx.dataframe.quiz_avg_score IS 'Average raw score on all assignments';
-COMMENT ON COLUMN edx.dataframe.quiz_raw_points_per_submission IS 'Total raw points divided by total submissions';
-COMMENT ON COLUMN edx.dataframe.quiz_n_submissions IS 'Total count of quiz submissions';
-COMMENT ON COLUMN edx.dataframe.quiz_percent_allowed_submissions IS 'Total count of quiz submissions as a percent of the maximum allowed submissions';
-COMMENT ON COLUMN edx.dataframe.quiz_percent_max_submissions IS 'A student total number of quiz submissions as a percent of themaximum number of submissions made by any student in the course';
-COMMENT ON COLUMN edx.dataframe.quiz_percent_corrent_submissions IS 'Percentage of the total submissions that were correct';
-COMMENT ON COLUMN edx.dataframe.quiz_weekly_delta IS 'Difference between current week average and previous week average quizgrade';
+COMMENT ON COLUMN edx.dataframe.assignment_lead_time IS 'Time between a quiz submission and deadline for all submissions; discretized buckets for t≥7 days (2), 3≤t<7 (1), 1≤t<3, 0≤t<1 (0), and late (-1)';
+COMMENT ON COLUMN edx.dataframe.assignment_raw_points IS 'Sum of total raw points earned on quizzes';
+COMMENT ON COLUMN edx.dataframe.assignment_avg_score IS 'Average raw score on all assignments';
+COMMENT ON COLUMN edx.dataframe.assignment_raw_points_per_submission IS 'Total raw points divided by total submissions';
+COMMENT ON COLUMN edx.dataframe.assignment_n_submissions IS 'Total count of quiz submissions';
+COMMENT ON COLUMN edx.dataframe.assignment_percent_allowed_submissions IS 'Total count of quiz submissions as a percent of the maximum allowed submissions';
+COMMENT ON COLUMN edx.dataframe.assignment_percent_max_submissions IS 'A student total number of quiz submissions as a percent of themaximum number of submissions made by any student in the course';
+COMMENT ON COLUMN edx.dataframe.assignment_percent_corrent_submissions IS 'Percentage of the total submissions that were correct';
+COMMENT ON COLUMN edx.dataframe.assignment_weekly_delta IS 'Difference between current week average and previous week average quizgrade';
 COMMENT ON COLUMN edx.dataframe.forum_posts IS 'Total number of posts';
 COMMENT ON COLUMN edx.dataframe.forum_replies IS 'Number of posts by user that were replies to other users (i.e., not to themselves, and notthe first post in the thread)';
 COMMENT ON COLUMN edx.dataframe.forum_avg_sentiment IS 'Average net sentiment of posts (positive – negative); Hutto & Gilbert 2014';
