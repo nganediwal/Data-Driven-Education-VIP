@@ -44,3 +44,17 @@ join edx.auth_user u
 	on g.user_id = u.id
 	and g.course_id = u.course_id
 	and g.course_id = 'course-v1:GTx+ISYE6501x+3T2018'
+
+-- inner join on course_id and user_id to get all verified students grades (censored version)
+select g.user_id, e.mode, e.is_active, u.is_active, u.last_login, g.percent_grade
+from edx.grades_persistentcoursegrade g
+join edx.student_courseenrollment e
+	on g.user_id = e.user_id
+	and g.course_id = e.course_id
+	and g.course_id = 'course-v1:GTx+ISYE6501x+3T2018'
+	and e.mode = 'verified'
+	and g.percent_grade > 0.0
+join edx.auth_user_censored u
+	on g.user_id = u.id
+	and g.course_id = u.course_id
+	and g.course_id = 'course-v1:GTx+ISYE6501x+3T2018'
