@@ -1,7 +1,7 @@
 //getting forum views for first week, week 34, 
 cursor = isye = db.ISYE6501.aggregate([
 	{ $match: 
-		{"name": "edx.forum.thread.viewed", 
+		{"event_type": "edx.forum.thread.viewed", 
 			$expr: {$eq: 
 				[{$week: 
 	    			{$dateFromString: 
