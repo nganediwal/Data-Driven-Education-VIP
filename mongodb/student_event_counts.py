@@ -58,14 +58,13 @@ def get_psql_conn(creds):
     )
     return conn
 
-def mongo_pipe():#course_id, course_start_ts):
+def mongo_pipe():
     event_date = {"$dateFromString": {"dateString": "$time"}}
     milliseconds = {'$subtract': [event_date, '$timestamps.start_ts']}
     week = {'$toInt': {'$divide': [milliseconds, MS_PER_WEEK]}}
     pipeline = [
         {
             '$match': {
-                # 'context.course_id': course_id,
                 'context.user_id': {
                     '$exists': 'true'
                 },
@@ -80,17 +79,13 @@ def mongo_pipe():#course_id, course_start_ts):
                 'as': 'timestamps'
             }
         },
-        {
-            '$unwind': '$timestamps'
-        },
+        {'$unwind': '$timestamps'},
         {
             '$addFields': {
                 'week': week
             }
         },
-        {
-            '$match': {'week': {'$gt': 0}}
-        },
+        {'$match': {'week': {'$gt': 0}}},
         {
             '$group': {
                 '_id': {
@@ -104,12 +99,6 @@ def mongo_pipe():#course_id, course_start_ts):
         }
     ]
     return pipeline
-
-def insert_data(conn, insert, data):
-    curs = conn.cursor()
-    for datum in data:
-        curs.execute(insert, datum)
-    conn.commit()
 
 def main():
     # Setting up by loading credentials and connections
