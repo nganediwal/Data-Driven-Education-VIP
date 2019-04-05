@@ -4,7 +4,7 @@ from edx.course_groups_cohortmembership cm
 right join edx.student_courseenrollment ce
 	on ce.course_id = cm.course_id
 	and ce.user_id = cm.user_id
-group by ce.mode, cm.name
+group by ce.mode, cm.name;
 
 -- A standard table that edX should provide...
 create view edx.student_type
@@ -39,4 +39,4 @@ from edx.course_groups_cohortmembership cm
 right join edx.student_courseenrollment ce
 	on ce.course_id = cm.course_id
 	and ce.user_id = cm.user_id
-where ce.mode = 'verified'
+where ce.mode = 'verified';
