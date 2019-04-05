@@ -20,18 +20,18 @@ EVENT_COUNT_TABLE = """
 DROP TABLE IF EXISTS edx.student_event_counts;
 CREATE TABLE edx.student_event_counts (
     course_id VARCHAR(255),
-    week INT,
     user_id INT,
+    week INT,
     event_type VARCHAR(255),
     count INT
 );
 """
 
 EVENT_COUNTS_INSERT = """
-INSERT INTO edx.student_event_counts (course_id, week, user_id, event_type, count)
+INSERT INTO edx.student_event_counts (course_id, user_id, week, event_type, count)
 VALUES %s;
 """
-SNIPPET = "(%(course_id)s, %(week)s, %(user_id)s, %(event_type)s, %(count)s)"
+SNIPPET = "(%(course_id)s, %(user_id)s, %(week)s, %(event_type)s, %(count)s)"
 
 def get_creds(credentials_filename):
     creds = open(credentials_filename, 'r').read()
@@ -58,19 +58,30 @@ def get_psql_conn(creds):
     )
     return conn
 
-def mongo_pipe(course_id, course_start_ts):
+def mongo_pipe():#course_id, course_start_ts):
     event_date = {"$dateFromString": {"dateString": "$time"}}
-    milliseconds = {'$subtract': [event_date, course_start_ts]}
+    milliseconds = {'$subtract': [event_date, '$timestamps.start_ts']}
     week = {'$toInt': {'$divide': [milliseconds, MS_PER_WEEK]}}
     pipeline = [
         {
             '$match': {
-                'context.course_id': course_id,
+                # 'context.course_id': course_id,
                 'context.user_id': {
                     '$exists': 'true'
                 },
                 'event_source': 'browser',
             }
+        },
+        {
+            '$lookup': {
+                'from': 'course_timestamps',
+                'localField': 'context.course_id',
+                'foreignField': 'course_id',
+                'as': 'timestamps'
+            }
+        },
+        {
+            '$unwind': '$timestamps'
         },
         {
             '$addFields': {
@@ -84,8 +95,8 @@ def mongo_pipe(course_id, course_start_ts):
             '$group': {
                 '_id': {
                     'course_id': '$context.course_id',
-                    'week': '$week',
                     'user_id': '$context.user_id',
+                    'week': '$week',
                     'event_type': '$event_type'
                 },
                 'count': {'$sum': 1}
@@ -112,19 +123,19 @@ def main():
     cur.execute(EVENT_COUNT_TABLE)
     psql_conn.commit()
     cur.execute('SELECT course_id, start_ts FROM edx.courses')
+    dicts = [{'course_id': course_id, 'start_ts': start_ts} \
+        for course_id, start_ts in cur.fetchall()
+    ]
+    mongo_db["course_timestamps"].drop()
+    mongo_db["course_timestamps"].insert_many(dicts)
 
-    # Aggregates for each course and uploads to the psql database
-    for course_id, course_start_ts in cur.fetchall():
-        pipeline = mongo_pipe(course_id, course_start_ts)
-        results = mongo_db.subset.aggregate(pipeline)
+    pipeline = mongo_pipe()
+    results = mongo_db['ISYE6501'].aggregate(pipeline)
 
-        # Lazily unpacks the _id field
-        results = map(lambda r: {**r['_id'], 'count': r['count']}, results)
-
-        # Uploads to database
-        execute_values(cur, EVENT_COUNTS_INSERT, results, template=SNIPPET)
-        psql_conn.commit()
-        print(f'Done with: {course_id}')
+    # Lazily unpacks the results
+    results = map(lambda r: {**r['_id'], 'count': r['count']}, results)
+    execute_values(cur, EVENT_COUNTS_INSERT, results, template=SNIPPET)
+    psql_conn.commit()
 
 if __name__ == '__main__':
     main()
