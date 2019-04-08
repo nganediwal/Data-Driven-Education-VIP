@@ -11,8 +11,8 @@ This table contains an aggregation of the count of events by:
     event_type: ...
     count: The number of times the tuple occurs in the event data
 
-Note: We only consider events from the browser (actual clicks,
-not processing done on the server)
+Note: We only consider events from the browser 
+(actual clicks, not processing done on the server)
 """
 
 MS_PER_WEEK = 1000*60*60*24*7
@@ -31,7 +31,7 @@ EVENT_COUNTS_INSERT = """
 INSERT INTO edx.student_event_counts (course_id, user_id, week, event_type, count)
 VALUES %s;
 """
-SNIPPET = "(%(course_id)s, %(user_id)s, %(week)s, %(event_type)s, %(count)s)"
+TEMPLATE = "(%(course_id)s, %(user_id)s, %(week)s, %(event_type)s, %(count)s)"
 
 def get_creds(credentials_filename):
     creds = open(credentials_filename, 'r').read()
@@ -59,35 +59,26 @@ def get_psql_conn(creds):
     return conn
 
 def mongo_pipe():
+    # Setting up our week calculation
     event_date = {"$dateFromString": {"dateString": "$time"}}
     milliseconds = {'$subtract': [event_date, '$timestamps.start_ts']}
     week = {'$toInt': {'$divide': [milliseconds, MS_PER_WEEK]}}
     pipeline = [
-        {
-            '$match': {
-                'context.user_id': {
-                    '$exists': 'true'
-                },
-                'event_source': 'browser',
-            }
-        },
-        {
-            '$lookup': {
+        # Include only browser events (i.e., events from the user)
+        {'$match': {'event_source': 'browser'}},
+        # Join the course_timestamps data
+        {'$lookup': {
                 'from': 'course_timestamps',
                 'localField': 'context.course_id',
                 'foreignField': 'course_id',
                 'as': 'timestamps'
             }
         },
+        # Lookup returns a single valued list so we unwind it
         {'$unwind': '$timestamps'},
-        {
-            '$addFields': {
-                'week': week
-            }
-        },
-        {'$match': {'week': {'$gt': 0}}},
-        {
-            '$group': {
+        {'$addFields': {'week': week}},
+        {'$match': {'week': {'$gte': 0}}},
+        {'$group': {
                 '_id': {
                     'course_id': '$context.course_id',
                     'user_id': '$context.user_id',
@@ -123,7 +114,7 @@ def main():
 
     # Lazily unpacks the results
     results = map(lambda r: {**r['_id'], 'count': r['count']}, results)
-    execute_values(cur, EVENT_COUNTS_INSERT, results, template=SNIPPET)
+    execute_values(cur, EVENT_COUNTS_INSERT, results, template=TEMPLATE)
     psql_conn.commit()
 
 if __name__ == '__main__':
