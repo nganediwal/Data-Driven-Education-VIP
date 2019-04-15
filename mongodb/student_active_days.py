@@ -16,22 +16,21 @@ Note: We only consider events from the browser
 """
 
 MS_PER_WEEK = 1000*60*60*24*7
-EVENT_COUNT_TABLE = """
-DROP TABLE IF EXISTS edx.student_event_counts;
-CREATE TABLE edx.student_event_counts (
+ACTIVE_DAYS_TABLE = """
+DROP TABLE IF EXISTS edx.student_active_days;
+CREATE TABLE edx.student_active_days (
     course_id VARCHAR(255),
     user_id INT,
     week INT,
-    event_type VARCHAR(255),
-    count INT
+    n_days_active INT
 );
 """
 
-EVENT_COUNTS_INSERT = """
-INSERT INTO edx.student_event_counts (course_id, user_id, week, event_type, count)
+ACTIVE_DAYS_INSERT = """
+INSERT INTO edx.student_active_days (course_id, user_id, week, n_days_active)
 VALUES %s;
 """
-TEMPLATE = "(%(course_id)s, %(user_id)s, %(week)s, %(event_type)s, %(count)s)"
+TEMPLATE = "(%(course_id)s, %(user_id)s, %(week)s, %(n_days_active)s)"
 
 def get_creds(credentials_filename):
     creds = open(credentials_filename, 'r').read()
@@ -62,6 +61,7 @@ def mongo_pipe():
     # Setting up our week calculation
     event_date = {"$dateFromString": {"dateString": "$time"}}
     milliseconds = {'$subtract': [event_date, '$timestamps.start_ts']}
+    day = {'$dayOfWeek': event_date}
     week = {'$toInt': {'$divide': [milliseconds, MS_PER_WEEK]}}
     pipeline = [
         # Include only browser events (i.e., events from the user)
@@ -80,16 +80,22 @@ def mongo_pipe():
         },
         # Lookup returns a single valued list so we unwind it
         {'$unwind': '$timestamps'},
-        {'$addFields': {'week': week}},
-        {'$match': {'week': {'$gte': 0}}},
+        {'$addFields': {'week': week, 'day': day}},
         {'$group': {
                 '_id': {
                     'course_id': '$context.course_id',
                     'user_id': '$context.user_id',
                     'week': '$week',
-                    'event_type': '$event_type'
                 },
-                'count': {'$sum': 1}
+                'days': {'$addToSet': '$day'}
+            }
+        },
+        {'$project': {
+                '_id': 0,
+                'course_id': '$_id.course_id',
+                'user_id': '$_id.user_id',
+                'week': '$_id.week',
+                'n_days_active': {'$size': '$days'},
             }
         }
     ]
@@ -104,7 +110,7 @@ def main():
 
     # Creates the table in the psql database and selects course_id, start_ts
     cur = psql_conn.cursor()
-    cur.execute(EVENT_COUNT_TABLE)
+    cur.execute(ACTIVE_DAYS_TABLE)
     psql_conn.commit()
     cur.execute('SELECT course_id, start_ts FROM edx.courses')
     dicts = [{'course_id': course_id, 'start_ts': start_ts} \
@@ -117,9 +123,7 @@ def main():
     pipeline = mongo_pipe()
     results = mongo_db['ISYE6501'].aggregate(pipeline)
 
-    # Lazily unpacks the results
-    results = map(lambda r: {**r['_id'], 'count': r['count']}, results)
-    execute_values(cur, EVENT_COUNTS_INSERT, results, template=TEMPLATE)
+    execute_values(cur, ACTIVE_DAYS_INSERT, results, template=TEMPLATE)
     psql_conn.commit()
 
 if __name__ == '__main__':

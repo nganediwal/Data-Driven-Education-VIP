@@ -1,4 +1,8 @@
--- The dataframe used to train our models. Based on Gardner+Brooks2018
+/* 
+The dataframe used to train our models. Based on Gardner+Brooks2018
+Note that this table will be created by joins and may not necessarily have
+every field specified here.
+*/
 DROP TABLE IF EXISTS edx.dataframe CASCADE;
 
 CREATE TABLE edx.dataframe (
@@ -31,7 +35,7 @@ CREATE TABLE edx.dataframe (
     forum_n_threads INT,
     forum_n_words_bigrams INT,
     forum_f_reading_ease INT,
-    forum_fk_readling_level INT,
+    forum_fk_reading_level INT,
     forum_net_votes INT
 );
 
