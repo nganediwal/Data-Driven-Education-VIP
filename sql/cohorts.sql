@@ -40,3 +40,5 @@ right join edx.student_courseenrollment ce
 	on ce.course_id = cm.course_id
 	and ce.user_id = cm.user_id
 where ce.mode = 'verified';
+
+grant select on edx.student_type to edx_student;
