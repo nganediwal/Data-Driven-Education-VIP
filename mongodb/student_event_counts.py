@@ -65,7 +65,11 @@ def mongo_pipe():
     week = {'$toInt': {'$divide': [milliseconds, MS_PER_WEEK]}}
     pipeline = [
         # Include only browser events (i.e., events from the user)
-        {'$match': {'event_source': 'browser'}},
+        {'$match': {
+            'event_source': 'browser',
+            'context.user_id': {'$ne': None}
+            }
+        },
         # Join the course_timestamps data
         {'$lookup': {
                 'from': 'course_timestamps',
@@ -106,6 +110,7 @@ def main():
     dicts = [{'course_id': course_id, 'start_ts': start_ts} \
         for course_id, start_ts in cur.fetchall()
     ]
+    
     mongo_db["course_timestamps"].drop()
     mongo_db["course_timestamps"].insert_many(dicts)
 
