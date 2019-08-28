@@ -1,4 +1,4 @@
-import pymongo 
+import pymongo
 import psycopg2
 from psycopg2.extras import execute_values
 
@@ -11,7 +11,7 @@ This table contains an aggregation of the count of events by:
     event_type: ...
     count: The number of times the tuple occurs in the event data
 
-Note: We only consider events from the browser 
+Note: We only consider events from the browser
 (actual clicks, not processing done on the server)
 """
 
@@ -33,6 +33,7 @@ VALUES %s;
 """
 TEMPLATE = "(%(course_id)s, %(user_id)s, %(week)s, %(event_type)s, %(count)s)"
 
+
 def get_creds(credentials_filename):
     creds = open(credentials_filename, 'r').read()
     host, username, password, dbname = creds.split()
@@ -43,11 +44,13 @@ def get_creds(credentials_filename):
         'dbname': dbname
     }
 
+
 def get_mongo_db(creds):
     client = pymongo.MongoClient(creds['host'], 27017)
     db = client[creds['dbname']]
     db.authenticate(creds['username'], creds['password'])
     return db
+
 
 def get_psql_conn(creds):
     conn = psycopg2.connect(
@@ -57,6 +60,7 @@ def get_psql_conn(creds):
         dbname=creds['dbname']
     )
     return conn
+
 
 def mongo_pipe():
     # Setting up our week calculation
@@ -95,6 +99,7 @@ def mongo_pipe():
     ]
     return pipeline
 
+
 def main():
     # Setting up by loading credentials and connections
     mongo_creds = get_creds('../creds/mongo_creds.txt')
@@ -107,10 +112,10 @@ def main():
     cur.execute(EVENT_COUNT_TABLE)
     psql_conn.commit()
     cur.execute('SELECT course_id, start_ts FROM edx.courses')
-    dicts = [{'course_id': course_id, 'start_ts': start_ts} \
+    dicts = [{'course_id': course_id, 'start_ts': start_ts}
         for course_id, start_ts in cur.fetchall()
     ]
-    
+
     mongo_db["course_timestamps"].drop()
     mongo_db["course_timestamps"].insert_many(dicts)
 
