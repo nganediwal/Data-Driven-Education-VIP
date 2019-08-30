@@ -1,0 +1,52 @@
+8/30
+	ML using data to predict the data
+	SAT is x vs Grade is y
+	Using clickstream data to find out success in the classroom from their grade and assignment life (time left to do, etc)
+	
+	Overfitting:
+		too much data, your algorithm finds irrelevant data or trend because you have too much data (or coincidences)
+	Using the least number of feature sets to find the best applicable trend
+
+	Adaboost - small trees and averages together to find the edge cases
+
+	Sequel database is a large spreadsheet
+		columns of grades but we don't have that from the very beginning
+
+		from a No sequel mongoDB server
+			full of documents that are all different
+
+	MongoDB:
+		no sQL data, full of documents
+
+	Relational dB
+		datasheet
+
+	nonrelational db
+		random blobs of data
+
+	cleaning the data:
+		into a spreadsheet form that we can use for ML
+
+	ROCAUC
+		metric for figuring out how well your model did
+		Receiver operating characteristic: Area under curve
+
+	5% disease rate, 95% accuracy rate if yyou do nothing
+		doesn't mean that not doing anything is a good model
+
+	Options:
+		revision
+			longer training time
+			data from past semesters
+			more features
+			different modeling technique (HMM)
+		Look at all the code and make sure it's working
+			pipeline doing data transformation with one click to training
+		Best intervention method
+		app to alert professors to students in danger of dropping/failing
+
+	flask lti python
+
+	binary prediction
+		dropout and when
+		vs grade and passing/survival rate
