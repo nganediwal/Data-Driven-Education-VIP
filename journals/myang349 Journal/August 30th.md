@@ -1,5 +1,5 @@
-# 8/30/2019
-# Subteam Meeting 1 Fall 2019
+## 8/30/2019
+## Subteam Meeting 1 Fall 2019
 
 Meeting notes:
 
