@@ -4,6 +4,6 @@
 
  - Set up PGAdmin, set up password
  - Going over basics of SQL/PSQL
-      - join/left join/right join
+      - join / left join / right join
    
  
