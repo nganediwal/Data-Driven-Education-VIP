@@ -1,0 +1,39 @@
+9/13/19 Meeting Notes: 
+
+Discussed pgAdmin4 software
+Downloaded and looked into pgAdmin4: 
+- ran and tested a few SQL files from GT Git repository (potential files we will be using this semester) 
+- looked into potential cases/variables that will be used this semester 
+- examined problems within Garner research paper 
+
+*learned about queries in pgAdmin4 with SQL code* 
+*looked at features (i.e. user ID matches and other conditions)*
+
+Wednesday's Presentation: 
+- looked into phrasing research question 
+- determined who would be responsible for each section 
+- examined old presentations 
+- potential research question: master plan = part 1 including data, part 2 including models, and evaluations 
+- determine possible intervention methods (i.e. email, app, etc.) 
+
+*hope to predict student droupout rates within the course, hopefully enable professor to intervene before failing the class or dropout from the class*
+*look potentially into reasons for doing poorly*
+
+*consider time intervals for data collection (i.e. lagged data ~ week 1 - week 4 and each individual week)*
+
+*look at old data = driving data 
+*look at new data = testing data 
+
+Data arrangement: 
+- current available data (i.e. old and new data creating a mixture of both)
+- as stated above, looking into old data used for training and new data from current semesters for testing 
+
+Goals: 
+- having a table including both student and current week data 
+- running python scripts inside a container to be able to control queries that are used 
+- be able to complete data engineering with collected data 
+- provide an output for Panda dataframe 
+
+Presentation assignment: 
+- looking into what data will be collected and from where
+- from edX and Canvas (examining clickstream data from edX and assignment grades from Canvas)  
