@@ -23,3 +23,19 @@ Options for project:
 - revision: examining data from previous semesters (i.e. prolonged training times)could look into newer modeling techniques (i.e. Hidden Markov Modeling)examining code for accuracy and efficiency 
 
 - potential intervention method:build an application to notify professors of students who are at risk for dropping out or failing the class  
+
+Past Plans: 
+- clean data 
+- create library of models 
+- evaluate model success
+
+Possible Plans: 
+- revise previous models 
+- add more data 
+- revise code to determine proven functionality 
+
+Refreshing on: JavaScript, Python, Django, and Python Flask 
+
+SQL and mongoDB: 
+- join, query, select, aggregate, and filter data 
+- PostgreSQL 
