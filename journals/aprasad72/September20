@@ -1,0 +1,19 @@
+9/20/19 Meeting Notes: 
+
+Determined individuals in both SQL and mongoDB teams: 
+- will be working on SQL team 
+- could potentially cross-over into mongoDB team (switch off) in the future 
+*disclaimer: if working on both teams must be responsible for both deadlines*
+
+Potential Goals: 
+- Two Fridays (week before 10/11) = within teams, must write queries to extract features 
+*look at old queries for inspiration, explore data, use data documentation, look at papers*
+
+- Three Fridays (10/25) = begin to engineer features that are based on the features obtained
+
+- Hope to eventually run a python script inside a container
+*be able to control and run queries
+*be able to perform data/feature engineering
+*be able to output pandas (spreadsheet format) data frame 
+
+Began to look into old SQL code to examine old data within pgAdmin4 (beginning to find potential query features for data collection)
