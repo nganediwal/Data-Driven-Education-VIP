@@ -17,3 +17,7 @@ enter login data //stored in secret place
 
 ## Final Run
 ./ec2_start.sh //shell script to start amazon elastic compute cloud 2
+
+##ToDO
+Get Forum attributes via MongoDB scripts.
+Print out data to see you're accessing correctly
