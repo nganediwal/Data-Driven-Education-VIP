@@ -1,4 +1,4 @@
-#Meeting: October 2, 2019
+# Meeting: October 2, 2019
 1) Write a python script 
     - Responsible for using SQLAlchemy to call the SQL queries from the past. 
         * Figure out how to get information from the old queries 
