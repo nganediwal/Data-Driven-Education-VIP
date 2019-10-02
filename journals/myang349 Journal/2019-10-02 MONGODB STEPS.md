@@ -15,4 +15,5 @@ enter login data //stored in secret place
 
 //Default output format is blank
 
+## Final Run
 ./ec2_start.sh //shell script to start amazon elastic compute cloud 2
