@@ -1,0 +1,4 @@
+pyhamcrest
+boto3
+pymongo
+textblob
