@@ -19,6 +19,7 @@ Last semester this subteam replicated the analysis of [Gardner and Brooks, 2018]
 * **Web Developer** Build interventions into edX
 
 # Relevant External Code
+* [lifelines](https://lifelines.readthedocs.io/en/latest/Survival%20Regression.html): Library with cox survivable model
 * [bayesiantests](https://github.com/BayesianTestsML/tutorial): Library with examples for computing Bayesian Hierarchical Model Evaluation
 * [model_fitting.py](https://github.gatech.edu/C21U/vip-onboarding/blob/master/src/model_fitting.py): Example script for fitting many models with cross validation
 

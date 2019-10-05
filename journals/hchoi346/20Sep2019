@@ -1,0 +1,36 @@
+Splitting into two subteams and start doing things seperately
+	Could be that clickstream data could be used for both and that assignment data isnt as useful for some people
+
+MongoDB
+	blob style data base
+	individual blobs and these blobs may or may not have certain fields
+	need to panda to get table or applicable data to link with the SQL team and create the final data framework
+
+Produce features that are relevant
+Get data and then run scripts to set up data for use
+	Create table and a way to organize the data and use
+
+Final goal:
+	Table with Student and current week and everything up to that week
+
+Now -> next-next friday 10/11
+	Write queries to extract features
+	Use data documentation
+	look at papers
+	explore data
+	look at old queries
+		-> next-next-next friday 10/25
+			Begin to engineer features that are based on features obtained
+
+Final goal:
+	1. run python script within a container and control the queries we would need (while running queries)
+	2. Perform data/feature engineering with stuff obtained
+ 	3. Output Panda's dataframe
+
+Panda dataframe -python data manipulation tool
+
+0 - first week of class
+
+To Do:
+	try new Mongo script and make sure the environment is set up using new environment provided by Sean
+	explore the data and features and possibly write a query or two

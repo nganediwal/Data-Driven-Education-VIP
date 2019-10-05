@@ -1,3 +1,7 @@
+creds.zip
+creds.py
+.aws/
+
 # Ignore your credential files!
 creds/
 

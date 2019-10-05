@@ -1,0 +1,13 @@
+9/13 subteam meeting
+	Downloaded and set up PGAdmin and started doing with Postgres
+	Learned about writing queries and finding data
+	learned about renaming spreadsheets and assigning them to variables in order to create a table on the conditions that we give
+		E.G. if the user id on both spread sheets are the same, we would collect data from both spreadsheets since the data should be for the same person
+	left/right join
+		indicates side to keep all information from (Even if its not the same from the other spreadsheet)
+
+	Started working on our presentation
+	
+	To do:
+		make presentation slide on data arrangements
+		mess around with data from PGAdmin and make sure it works/we understand it
