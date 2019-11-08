@@ -1,0 +1,21 @@
+student_event_counts.py under edx
+	has all of our data
+	no longer need mongo team
+
+work instead on accumulating and cleaning this data (66k pages)
+	select features to find
+	clear all the other courses
+
+SELECT * FROM edx.student_event_counts where course_id = 'course-v1:GTx+ISYE6501x+1T2018'
+
+get in form with columns:
+	userid
+	week
+	event1 - event n
+	course id (Excluding most recent course)
+
+ml
+	putting it together and leaving one column blank to have the machine find what that value would be 
+	have input as x and have that one column as y
+
+do more queries in sql and try to pivot the data to the point that we can 

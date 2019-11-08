@@ -1,0 +1,58 @@
+Lost all Postgres access so we cannot access
+
+
+-- Remove the table in case there are updates
+DROP TABLE IF EXISTS jiti.event_dataframe; //drop the table every time
+
+SELECT
+	base.course_id,
+	base.user_id, //making the table
+	base.week, //renaming labels
+	COALESCE(load_video.count, 0) load_video, -- Note: COALESCE replaces NULLs with 0
+	COALESCE(play_video.count, 0) play_video  -- count is renamed to the relevant column name
+INTO jiti.event_dataframe -- Save to a table (you have write access in the jiti schema)
+-- Create a stable base to join onto
+FROM (
+	SELECT DISTINCT //selecting distinct triples of the values 
+		course_id,
+		user_id,
+		week
+	FROM edx.student_event_counts
+	WHERE course_id like '%ISYE6501%'
+) base
+-- A left join preserves the index of the base
+LEFT JOIN edx.student_event_counts load_video (left joining load_video with title load_video.count)
+    -- First, join on the three keys
+	ON  base.course_id = load_video.course_id
+	AND base.user_id = load_video.user_id
+	AND base.week = load_video.week
+    -- Then, filter all irrelevant event types
+	AND load_video.event_type = 'load_video'
+LEFT JOIN edx.student_event_counts play_video (left joining load_video with title play_video.count)
+	ON  base.course_id = play_video.course_id -- Make sure to use the correct table alias here!
+	AND base.user_id = play_video.user_id
+	AND base.week = play_video.week
+	AND play_video.event_type = 'play_video'
+;
+
+Left Joining the base table with new columns of the clickstream data with 
+
+select * from (
+	SELECT DISTINCT //selecting distinct triples of the values 
+		course_id,
+		user_id,
+		week
+	FROM edx.student_event_counts
+	WHERE course_id like '%ISYE6501%' ) base
+LEFT JOIN edx.student_event_counts load_video
+	ON  base.course_id = load_video.course_id
+	AND base.user_id = load_video.user_id
+	AND base.week = load_video.week
+    -- Then, filter all irrelevant event types
+	AND load_video.event_type = 'load_video'
+LEFT JOIN edx.student_event_counts play_video (left joining load_video with title play_video.count)
+	ON  base.course_id = play_video.course_id -- Make sure to use the correct table alias here!
+	AND base.user_id = play_video.user_id
+	AND base.week = play_video.week
+	AND play_video.event_type = 'play_video'
+;// needs to have it wrapped because joins happen first

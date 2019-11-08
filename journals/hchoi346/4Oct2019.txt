@@ -1,0 +1,12 @@
+ordering for mongoDB
+	sbin/ddestart.sh
+		run AWS if you have to
+	./ec2_start.sh
+exit
+
+New creds.py and new way to access MongoDB
+
+Start looking at data and feature to consider in use for our models with mongoDB data.
+
+Presentation next week
+	Feature and MongoDB slides
