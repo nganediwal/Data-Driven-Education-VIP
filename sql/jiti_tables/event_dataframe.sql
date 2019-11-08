@@ -17,7 +17,8 @@ SELECT
 	coalesce(active_days.count, 0) active_days,
 	coalesce(course_updated.count, 0) course_updated,
 	coalesce(show_transcript.count, 0) show_transcript,
-	coalesce(resume_course.count, 0) resume_course
+	coalesce(resume_course.count, 0) resume_course,
+	COALESCE(persistent_grade.percent_grade, 0) final_grade
 -- Create a stable base to join onto
 FROM (
 	SELECT DISTINCT
@@ -104,4 +105,7 @@ LEFT JOIN edx.student_event_counts resume_course
     AND base.user_id = resume_course.user_id
     AND base.week = resume_course.week
     AND resume_course.event_type = 'edx.course.home.resume_course.clicked'
+LEFT JOIN edx.grades_persistentcoursegrade persistent_grade
+	ON base.course_id = persistent_grade.course_id
+	AND base.user_id = persistent_grade.user_id
 ;--forum views, active days, quiz views, exam views, human-graded quiz pageview
