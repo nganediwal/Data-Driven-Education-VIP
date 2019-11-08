@@ -8,7 +8,7 @@ import sqlalchemy as sql
 # create connect string using format, 
 # dbtype://username:password@host:port/database  
 # fill in the string below
-connect_string = 'postgresql://myang349:Xyzthunder123@gatechmoocs.cjlu8nfb8vh0.us-east-1.rds.amazonaws.com:5432/gatechmoocs'
+connect_string = 'postgresql://username:password@host:port/databaseName'
 
 # create the engine using the connect string
 sql_engine = sql.create_engine(connect_string)
@@ -16,7 +16,6 @@ sql_engine = sql.create_engine(connect_string)
 # triple quotes to do multiline query
 # Insert query here
 query = """
-
 SELECT
 	base.course_id,
 	base.user_id,
