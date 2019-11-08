@@ -8,16 +8,14 @@ import sqlalchemy as sql
 # create connect string using format, 
 # dbtype://username:password@host:port/database  
 # fill in the string below
+connect_string = ''
 
-connect_string = 'postgresql://username:password@host:port/database'
 # create the engine using the connect string
 sql_engine = sql.create_engine(connect_string)
 
 # triple quotes to do multiline query
 # Insert query here
-query = """
-
-SELECT
+query1 = """ SELECT
 	base.course_id,
 	base.user_id,
 	base.week,
@@ -120,9 +118,31 @@ LEFT JOIN edx.student_active_days active_days
 	ON base.course_id = active_days.course_id
 	AND base.user_id = active_days.user_id
 	AND base.week = active_days.week
-;--forum views, active days, quiz views, exam views, human-graded quiz pageview
-"""
+--forum views, active days, quiz views, exam views, human-graded quiz pageview
+LIMIT 5; """
+
+query2 = """
+select *
+from (
+select edx.courses.course_id, student_id, student_item_id, submission_id, points_earned, points_possible, created_at, start_ts, TRUNC(DATE_PART('Day', created_at::timestamp -start_ts::timestamp)/7)
+from (
+select edx.submissions_studentitem.course_id, student_id, student_item_id, submission_id, points_earned, points_possible, created_at
+from edx.submissions_studentitem join edx.submissions_score
+on edx.submissions_score.submission_id = CAST(edx.submissions_studentitem.id AS INTEGER)
+) st_it
+join edx.courses on st_it.course_id = edx.courses.course_id
+) t
+Where t.course_id like '%%ISYE6501%%'
+LIMIT 5;"""
+# Order by student_id ASC;
+
 
 # first param is query, 2nd param is the engine
-df = pd.read_sql_query(query, sql_engine)
-print(df)
+df1 = pd.read_sql_query(query1, sql_engine)
+df2 = pd.read_sql_query(query2, sql_engine)
+
+print(df1);
+print(df2);
+
+df_merge_difkey = pd.merge(df1, df2, left_on='user_id', right_on='student_id')
+print(df_merge_difkey)
