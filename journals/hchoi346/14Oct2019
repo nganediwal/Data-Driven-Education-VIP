@@ -1,0 +1,48 @@
+Mongo Subteam meeting 10-14-2019
+	getting all column names 
+	    db = connect.get_db('clickstream')
+	    cursor = get_cursor(db)
+	    dataframe = get_dataframe(db, cursor)
+	    #print(dataframe)
+	    for col in dataframe.columns:
+	        print(col)
+
+	find 
+		get everything
+
+	pipeline
+		aggregate the data
+
+	13 columns
+		0               _id
+1      event_source
+2              name
+3   accept_language
+4              time
+5             agent
+6              page
+7              host
+8           session
+9           referer
+10          context
+11            event
+12       event_type
+
+**filter with event_source**
+useful:
+	name
+	time
+	context['user_id']
+	context['course_id']
+	event['user_id']
+
+get all events for one event type and then count per student 
+	ex: 	sutdent 1 has 2423546789 y's.
+
+NOTE:
+	'.' does not work in element
+	change to _ in element
+
+list comprehension
+[3, 2, 1, 6]
+[x**2, for x in my_list]

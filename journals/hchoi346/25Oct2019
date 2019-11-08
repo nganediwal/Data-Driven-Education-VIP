@@ -1,0 +1,96 @@
+Learning SQL
+	1) can you find the most active user_id on Edx
+
+Sql starts at 1
+
+select user_id, sum(n_days_active) from edx.student_active_days group by user_id order by 2 desc
+	by user_id // all courses
+
+select course_id, user_id, sum(n_days_active) from edx.student_active_days group by user_id, course_id order by 3 desc
+	by courses
+
+Where happens before the grouping 
+	choosing what data goes through
+
+
+
+
+
+
+//where weekly logins > 1
+select course_id, user_id, sum(n_days_active) hiyah 
+from edx.student_active_days 
+where n_days_active > 1 
+group by user_id, course_id 
+order by hiyah desc
+
+
+
+
+
+
+//where they logged in at least once
+select *
+from 
+(
+select course_id, user_id, sum(n_days_active) hiyah 
+from edx.student_active_days 
+where n_days_active > 1 
+group by user_id, course_id 
+order by hiyah desc
+) sum_table 
+where hiyah > 1
+
+
+
+
+
+select *
+from edx.student_active_Days a
+join edx.student_courseaccessrole b
+	on a.user_id = b.user_id
+	and a.course_id = b.course_id
+	and a.course_id is not null
+	and a.course_id = 'course-v1:GTx+ISYE6420+2T2019'
+
+outerjoin - in either table
+leftjoin - from table
+rightjoin - join table
+
+
+
+
+
+//joining tables sum_table and courseaccessrole where hiyah > 1
+select *
+from 
+(
+select course_id, user_id, sum(n_days_active) hiyah 
+from edx.student_active_days 
+where n_days_active > 1 
+group by user_id, course_id 
+order by hiyah desc
+) sum_table 
+join edx.student_courseaccessrole b
+	on sum_table.course_id = b.course_id
+	and sum_table.user_id = b.user_id
+where hiyah > 1
+
+
+
+
+
+//number of null entries in b.course_id
+select count(*)
+from 
+(
+select b.course_id
+from edx.student_active_days a
+left join edx.student_courseaccessrole b
+	on a.user_id = b.user_id
+	and a.course_id = b.course_id
+	and a.course_id = 'course-v1:GTx+ISYE6420+2T2019'
+) c
+where course_id is null
+
+Grades vs events
