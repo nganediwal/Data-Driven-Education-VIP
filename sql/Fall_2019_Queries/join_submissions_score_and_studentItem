@@ -1,0 +1,4 @@
+/*all assignments are open assessment*/
+select student_id, student_item_id, submission_id, points_earned, points_possible, created_at 
+from edx.submissions_studentitem, edx.submissions_score 
+limit 100
