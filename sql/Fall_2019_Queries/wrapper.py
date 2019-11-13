@@ -8,7 +8,7 @@ import sqlalchemy as sql
 # create connect string using format, 
 # dbtype://username:password@host:port/database  
 # fill in the string below
-connect_string = 'postgresql://username:password@host:port/databaseName'
+connect_string = 'postgresql://username:password@host:port/database'
 
 # create the engine using the connect string
 sql_engine = sql.create_engine(connect_string)
@@ -16,6 +16,7 @@ sql_engine = sql.create_engine(connect_string)
 # triple quotes to do multiline query
 # Insert query here
 query = """
+
 SELECT
 	base.course_id,
 	base.user_id,
@@ -31,10 +32,10 @@ SELECT
 	Coalesce(seek_video.count, 0) seek_video,
 	Coalesce(link_clicked.count, 0) link_clicked,
 	coalesce(closed_captions_show.count, 0) closed_captions_show,
-	coalesce(active_days.count, 0) active_days,
-	coalesce(course_updated.count, 0) course_updated,
+	coalesce(active_days.n_days_active, 0) active_days,
 	coalesce(show_transcript.count, 0) show_transcript,
-	coalesce(resume_course.count, 0) resume_course
+	coalesce(resume_course.count, 0) resume_course,
+	COALESCE(persistent_grade.percent_grade, 0) final_grade
 -- Create a stable base to join onto
 FROM (
 	SELECT DISTINCT
@@ -42,7 +43,7 @@ FROM (
 		user_id,
 		week
 	FROM edx.student_event_counts
-	WHERE course_id like '%ISYE6501%'
+	WHERE course_id like '%%ISYE6501%%'
 ) base
 -- A left join preserves the index of the base
 LEFT JOIN edx.student_event_counts load_video
@@ -102,15 +103,6 @@ LEFT JOIN edx.student_event_counts closed_captions_show
     AND base.user_id = closed_captions_show.user_id
     AND base.week = closed_captions_show.week
     AND closed_captions_show.event_type = 'edx.video.closed_captions.show'
-LEFT JOIN edx.student_active_days active_days
-	ON base.course_id = active_days.course_id
-	AND base.user_id = active_days.user_id
-	AND base.week = active_days.week
-LEFT JOIN edx.student_event_counts course_updated
-    ON  base.course_id = course_updated.course_id
-    AND base.user_id = course_updated.user_id
-    AND base.week = course_updated.toggled.week
-    AND course_updated.event_type = 'edx.course.home.course_update.toggled'
 LEFT JOIN edx.student_event_counts show_transcript
     ON  base.course_id = show_transcript.course_id
     AND base.user_id = show_transcript.user_id
@@ -121,8 +113,14 @@ LEFT JOIN edx.student_event_counts resume_course
     AND base.user_id = resume_course.user_id
     AND base.week = resume_course.week
     AND resume_course.event_type = 'edx.course.home.resume_course.clicked'
-;
-LIMIT 100
+LEFT JOIN edx.grades_persistentcoursegrade persistent_grade
+	ON base.course_id = persistent_grade.course_id
+	AND base.user_id = persistent_grade.user_id
+LEFT JOIN edx.student_active_days active_days
+	ON base.course_id = active_days.course_id
+	AND base.user_id = active_days.user_id
+	AND base.week = active_days.week
+;--forum views, active days, quiz views, exam views, human-graded quiz pageview
 """
 
 # first param is query, 2nd param is the engine
