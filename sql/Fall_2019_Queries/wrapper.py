@@ -8,7 +8,6 @@ import sqlalchemy as sql
 # create connect string using format, 
 # dbtype://username:password@host:port/database  
 # fill in the string below
-
 connect_string = 'postgresql://username:password@host:port/database'
 # create the engine using the connect string
 sql_engine = sql.create_engine(connect_string)
@@ -120,7 +119,8 @@ LEFT JOIN edx.student_active_days active_days
 	ON base.course_id = active_days.course_id
 	AND base.user_id = active_days.user_id
 	AND base.week = active_days.week
-;--forum views, active days, quiz views, exam views, human-graded quiz pageview
+--forum views, active days, quiz views, exam views, human-graded quiz pageview
+LIMIT 100;
 """
 
 # first param is query, 2nd param is the engine

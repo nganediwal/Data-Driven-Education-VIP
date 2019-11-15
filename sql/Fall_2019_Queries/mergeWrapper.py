@@ -8,8 +8,7 @@ import sqlalchemy as sql
 # create connect string using format, 
 # dbtype://username:password@host:port/database  
 # fill in the string below
-connect_string = ''
-
+connect_string = 'dbtype://username:password@host:port/database'
 # create the engine using the connect string
 sql_engine = sql.create_engine(connect_string)
 
@@ -143,6 +142,5 @@ df2 = pd.read_sql_query(query2, sql_engine)
 
 print(df1);
 print(df2);
-
 df_merge_difkey = pd.merge(df1, df2, left_on='user_id', right_on='student_id')
 print(df_merge_difkey)
