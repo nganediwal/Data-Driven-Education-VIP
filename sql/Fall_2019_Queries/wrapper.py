@@ -32,7 +32,7 @@ SELECT
 	Coalesce(link_clicked.count, 0) link_clicked,
 	coalesce(closed_captions_show.count, 0) closed_captions_show,
 	coalesce(active_days.n_days_active, 0) active_days,
-	coalesce(show_transcript.count, 0) show_transcript,
+	coalesce(show_transcript.count, 0) show_transcript,s
 	coalesce(resume_course.count, 0) resume_course,
 	COALESCE(persistent_grade.percent_grade, 0) final_grade
 -- Create a stable base to join onto
