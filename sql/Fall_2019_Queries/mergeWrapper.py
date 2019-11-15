@@ -8,16 +8,18 @@ import sqlalchemy as sql
 # create connect string using format, 
 # dbtype://username:password@host:port/database  
 # fill in the string below
-connect_string = 'dbtype://username:password@host:port/database'
+connect_string = 'postgresql://hchoi346:yo02130yo@gatechmoocs.cjlu8nfb8vh0.us-east-1.rds.amazonaws.com:5432/gatechmoocs'
 # create the engine using the connect string
 sql_engine = sql.create_engine(connect_string)
 
 # triple quotes to do multiline query
 # Insert query here
-query1 = """ SELECT
+query1 = """ 
+SELECT
 	base.course_id,
 	base.user_id,
 	base.week,
+	COALESCE(anonID.anonymous_user_id, 00000000000000000000000000000000::varchar) student_id,
 	COALESCE(load_video.count, 0) load_video, -- Note: COALESCE replaces NULLs with 0
 	COALESCE(play_video.count, 0) play_video,  -- count is renamed to the relevant column name
 	COALESCE(seq_next.count, 0) seq_next,
@@ -117,8 +119,11 @@ LEFT JOIN edx.student_active_days active_days
 	ON base.course_id = active_days.course_id
 	AND base.user_id = active_days.user_id
 	AND base.week = active_days.week
+LEFT JOIN edx.student_anonymoususerid anonID
+	ON base.course_id = anonID.course_id
+	AND base.user_id = anonID.user_id
 --forum views, active days, quiz views, exam views, human-graded quiz pageview
-LIMIT 5; """
+;"""
 
 query2 = """
 select *
@@ -132,7 +137,7 @@ on edx.submissions_score.submission_id = CAST(edx.submissions_studentitem.id AS 
 join edx.courses on st_it.course_id = edx.courses.course_id
 ) t
 Where t.course_id like '%%ISYE6501%%'
-LIMIT 5;"""
+;"""
 # Order by student_id ASC;
 
 
