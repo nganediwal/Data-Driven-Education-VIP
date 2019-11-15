@@ -8,7 +8,6 @@ import sqlalchemy as sql
 # create connect string using format, 
 # dbtype://username:password@host:port/database  
 # fill in the string below
-
 connect_string = 'postgresql://username:password@host:port/database'
 # create the engine using the connect string
 sql_engine = sql.create_engine(connect_string)
