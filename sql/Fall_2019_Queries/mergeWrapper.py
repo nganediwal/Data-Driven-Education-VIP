@@ -1,14 +1,15 @@
+import connect
 import pandas as pd       
 import pandas.io.sql as psql
 import sqlalchemy as sql
-
+from forum import aggregate_posts, get_comments
 # pip install sqlalchemy
 # Need to pipinstall pandas
 
 # create connect string using format, 
 # dbtype://username:password@host:port/database  
 # fill in the string below
-connect_string = 'postgresql://hchoi346:yo02130yo@gatechmoocs.cjlu8nfb8vh0.us-east-1.rds.amazonaws.com:5432/gatechmoocs'
+connect_string = 'xx'
 # create the engine using the connect string
 sql_engine = sql.create_engine(connect_string)
 
@@ -128,7 +129,7 @@ LEFT JOIN edx.student_anonymoususerid anonID
 query2 = """
 select *
 from (
-select edx.courses.course_id, student_id, student_item_id, submission_id, points_earned, points_possible, created_at, start_ts, TRUNC(DATE_PART('Day', created_at::timestamp -start_ts::timestamp)/7)
+select edx.courses.course_id, student_id, student_item_id, submission_id, points_earned, points_possible, created_at, start_ts, TRUNC(DATE_PART('Day', created_at::timestamp -start_ts::timestamp)/7) week
 from (
 select edx.submissions_studentitem.course_id, student_id, student_item_id, submission_id, points_earned, points_possible, created_at
 from edx.submissions_studentitem join edx.submissions_score
@@ -140,12 +141,22 @@ Where t.course_id like '%%ISYE6501%%'
 ;"""
 # Order by student_id ASC;
 
+def forums():
+    db = connect.get_db('forum')
+    post_counts = get_comments(db)
+    aggregated_posts = aggregate_posts(post_counts)
+    return aggregated_posts
 
 # first param is query, 2nd param is the engine
 df1 = pd.read_sql_query(query1, sql_engine)
 df2 = pd.read_sql_query(query2, sql_engine)
-
-print(df1);
-print(df2);
-df_merge_difkey = pd.merge(df1, df2, left_on='user_id', right_on='student_id')
-print(df_merge_difkey)
+forumOutput = forums()
+print(df1.columns)
+print(df2.columns)
+print(forumOutput.columns)
+df_merge_difkey = pd.merge(df1, df2, left_on=['student_id', 'course_id'], right_on=['student_id', 'course_id'])
+print(df_merge_difkey.sort_values(by=['student_id']))
+df_merge_difkey = df_merge_difkey.astype({'user_id': 'int32'})
+forumOutput = forumOutput.astype({'user_id': 'int32'})
+df_merge_difkey = pd.merge(df_merge_difkey, forumOutput, left_on=['user_id', 'week', 'course_id'], right_on=['user_id', 'week', 'course_id'])
+print(df_merge_difkey.columns)
