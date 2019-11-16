@@ -3,13 +3,19 @@ import pandas as pd
 import pandas.io.sql as psql
 import sqlalchemy as sql
 from forum import aggregate_posts, get_comments
+import sys
+
 # pip install sqlalchemy
 # Need to pipinstall pandas
+
+NANOSECONDS_PER_WEEK = 1000*1000*1000*60*60*24*7
 
 # create connect string using format, 
 # dbtype://username:password@host:port/database  
 # fill in the string below
-connect_string = 'xx'
+
+connect_string = sys.argv[1]
+
 # create the engine using the connect string
 sql_engine = sql.create_engine(connect_string)
 
@@ -129,17 +135,55 @@ LEFT JOIN edx.student_anonymoususerid anonID
 query2 = """
 select *
 from (
-select edx.courses.course_id, student_id, student_item_id, submission_id, points_earned, points_possible, created_at, start_ts, TRUNC(DATE_PART('Day', created_at::timestamp -start_ts::timestamp)/7) week
-from (
-select edx.submissions_studentitem.course_id, student_id, student_item_id, submission_id, points_earned, points_possible, created_at
-from edx.submissions_studentitem join edx.submissions_score
-on edx.submissions_score.submission_id = CAST(edx.submissions_studentitem.id AS INTEGER)
-) st_it
-join edx.courses on st_it.course_id = edx.courses.course_id
+	select edx.courses.course_id, student_id, student_item_id, submission_id, points_earned, points_possible, created_at, start_ts, TRUNC(DATE_PART('Day', created_at::timestamp -start_ts::timestamp)/7) week
+	from (
+		select edx.submissions_studentitem.course_id, student_id, student_item_id, submission_id, points_earned, points_possible, created_at
+		from edx.submissions_studentitem join edx.submissions_score
+		on edx.submissions_score.submission_id = CAST(edx.submissions_studentitem.id AS INTEGER)
+	) st_it
+	join edx.courses on st_it.course_id = edx.courses.course_id
 ) t
-Where t.course_id like '%%ISYE6501%%'
+where t.course_id like '%%ISYE6501%%'
 ;"""
 # Order by student_id ASC;
+
+query3 = """
+select course_id, start_ts
+from edx.courses
+;
+"""
+
+query4 = """
+select 
+    c.course_id, 
+    id.user_id,
+    ((extract(day from ((c.metadata ->> 'submission_due')::timestamp - ct.start_ts)))/7.0)::int week,
+    (c.metadata ->> 'submission_due')::timestamp - sub.submitted_at time_diff,
+    coalesce(100*(score.points_earned/score.points_possible::float), 0) grade
+from edx.course_structure c
+join edx.courses ct
+    on ct.course_id = c.course_id
+    and c.course_id like '%%ISYE6501%%'
+    and c.metadata ->> 'display_name' like 'Homework%%'
+	and (((c.metadata ->> 'group_access')::jsonb ->> '50')::jsonb ->> 0)::int4 != 1
+join edx.student_anonymoususerid id
+    on c.course_id = id.course_id
+join edx.student_type st
+    on st.course_id = c.course_id
+    and st.user_id = id.user_id
+    and st.learner_type = 'Verified'
+left join edx.submissions_studentitem si
+	on si.course_id = c.course_id
+    and c.id = si.item_id
+    and id.anonymous_user_id = si.student_id
+left join edx.submissions_score score
+    on score.course_id = si.course_id
+    and score.student_item_id = si.id
+    and score.points_possible > 0
+left join edx.submissions_submission sub
+    on sub.course_id = si.course_id
+    and sub.student_item_id = si.id
+"""
 
 def forums():
     db = connect.get_db('forum')
@@ -148,15 +192,36 @@ def forums():
     return aggregated_posts
 
 # first param is query, 2nd param is the engine
+
+old_weight = 0.5
+
+# Read SQL queries
 df1 = pd.read_sql_query(query1, sql_engine)
-df2 = pd.read_sql_query(query2, sql_engine)
-forumOutput = forums()
-print(df1.columns)
-print(df2.columns)
-print(forumOutput.columns)
-df_merge_difkey = pd.merge(df1, df2, left_on=['student_id', 'course_id'], right_on=['student_id', 'course_id'])
-print(df_merge_difkey.sort_values(by=['student_id']))
-df_merge_difkey = df_merge_difkey.astype({'user_id': 'int32'})
-forumOutput = forumOutput.astype({'user_id': 'int32'})
-df_merge_difkey = pd.merge(df_merge_difkey, forumOutput, left_on=['user_id', 'week', 'course_id'], right_on=['user_id', 'week', 'course_id'])
-print(df_merge_difkey.columns)
+# df2 = pd.read_sql_query(query2, sql_engine)
+df3 = pd.read_sql_query(query3, sql_engine)
+df4 = pd.read_sql_query(query4, sql_engine)
+
+# Get Forum Data From MongoDb, and correct the week calculation
+forum_output = forums()
+forums_with_start_ts = pd.merge(forum_output, df3, left_on=['course_id'], right_on=['course_id'])
+forums_with_start_ts['week'] = forums_with_start_ts['ts'] - forums_with_start_ts['start_ts']
+forums_with_start_ts = forums_with_start_ts.astype({'week': 'int64'})
+forums_with_start_ts['week'] = forums_with_start_ts['week'] // NANOSECONDS_PER_WEEK
+forums = forums_with_start_ts
+forums = forums.astype({'user_id': 'int32'}).drop(columns=['ts', 'start_ts'])
+
+# Perform Merge
+sql_merge = pd.merge(df1, df4, left_on=['user_id', 'course_id', 'week'], right_on=['user_id', 'course_id','week'])
+sql_mongo_merge = pd.merge(sql_merge, forums, left_on=['user_id', 'week', 'course_id'], right_on=['user_id', 'week', 'course_id'], how='left').drop(columns=['student_id'])
+
+# Impute
+sql_mongo_merge = sql_mongo_merge.fillna({'time_diff':0, 'Comment':0, 'CommentThread':0})
+
+# Sort
+sql_mongo_merge = sql_mongo_merge.sort_values(by=['course_id','user_id','week'])
+
+for 
+
+print(sql_mongo_merge)
+
+print(sql_mongo_merge.columns)
