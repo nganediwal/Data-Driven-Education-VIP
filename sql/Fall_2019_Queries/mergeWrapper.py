@@ -220,8 +220,12 @@ sql_mongo_merge = sql_mongo_merge.fillna({'time_diff':0, 'Comment':0, 'CommentTh
 # Sort
 sql_mongo_merge = sql_mongo_merge.sort_values(by=['course_id','user_id','week'])
 
-for 
+# Accumulate
+sql_mongo_merge_copy = sql_mongo_merge.copy()
+load_video_avg = []
+for index, row in sql_mongo_merge.iterrows():
+	load_video_avg.append(sql_mongo_merge.loc[(sql_mongo_merge['week'] <= row['week']) & (sql_mongo_merge['user_id'] == row['user_id']) & (sql_mongo_merge['course_id'] == row['course_id']), 'load_video'].mean())
+sql_mongo_merge_copy['load_video_avg'] = load_video_avg
 
-print(sql_mongo_merge)
-
+print(sql_mongo_merge_copy)
 print(sql_mongo_merge.columns)
