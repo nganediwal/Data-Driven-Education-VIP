@@ -103,8 +103,12 @@ LEFT JOIN edx.student_active_days active_days
 	ON base.course_id = active_days.course_id
 	AND base.user_id = active_days.user_id
 	AND base.week = active_days.week
+<<<<<<< HEAD
+;--forum views, active days, quiz views, exam views, human-graded quiz pageview
+=======
 LEFT JOIN edx.student_anonymoususerid anonID
 	ON base.course_id = anonID.course_id
 	AND base.user_id = anonID.user_id
 --forum views, active days, quiz views, exam views, human-graded quiz pageview
 LIMIT 100;
+>>>>>>> 42764476f29b8d3b842fd85a1f243471cb1649b7
