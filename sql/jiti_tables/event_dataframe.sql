@@ -3,6 +3,7 @@ SELECT
 	base.course_id,
 	base.user_id,
 	base.week,
+	COALESCE(anonID.anonymous_user_id, 00000000000000000000000000000000::varchar) student_id,
 	COALESCE(load_video.count, 0) load_video, -- Note: COALESCE replaces NULLs with 0
 	COALESCE(play_video.count, 0) play_video,  -- count is renamed to the relevant column name
 	COALESCE(seq_next.count, 0) seq_next,
@@ -25,7 +26,7 @@ FROM (
 		user_id,
 		week
 	FROM edx.student_event_counts
-	WHERE course_id like '%ISYE6501%'
+	WHERE course_id like '%%ISYE6501%%'
 ) base
 -- A left join preserves the index of the base
 LEFT JOIN edx.student_event_counts load_video
@@ -102,4 +103,12 @@ LEFT JOIN edx.student_active_days active_days
 	ON base.course_id = active_days.course_id
 	AND base.user_id = active_days.user_id
 	AND base.week = active_days.week
+<<<<<<< HEAD
 ;--forum views, active days, quiz views, exam views, human-graded quiz pageview
+=======
+LEFT JOIN edx.student_anonymoususerid anonID
+	ON base.course_id = anonID.course_id
+	AND base.user_id = anonID.user_id
+--forum views, active days, quiz views, exam views, human-graded quiz pageview
+LIMIT 100;
+>>>>>>> 42764476f29b8d3b842fd85a1f243471cb1649b7
