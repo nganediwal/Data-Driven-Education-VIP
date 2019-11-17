@@ -239,10 +239,10 @@ def collect_data(course_name, connect_string):
 
 	# Add average columns
 	for col in avg_columns:
-		sql_mongo_merge[col] = avg_columns[col]
+		sql_mongo_merge[col + '_avg'] = avg_rows[col]
 
 	# Remove PII columns
-	sql_mongo_merge = sql_mongo_merge.drop(columns=['user_id, course_id'])
+	sql_mongo_merge = sql_mongo_merge.drop(columns=['user_id'])
 
 	print("\nAGGREGATED DATA\n")
 
