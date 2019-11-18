@@ -235,7 +235,7 @@ def collect_data(course_name, connect_string):
 		if (index % 100 == 0):
 			print(str(index))
 		for col in avg_columns:
-			avg_rows[col].append(sql_mongo_merge.loc[(sql_mongo_merge['week'] <= row['week']) & (sql_mongo_merge['user_id'] == row['user_id']) & (sql_mongo_merge['course_id'] == row['course_id']), col].m	ean())
+			avg_rows[col].append(sql_mongo_merge.loc[(sql_mongo_merge['week'] <= row['week']) & (sql_mongo_merge['user_id'] == row['user_id']) & (sql_mongo_merge['course_id'] == row['course_id']), col].mean())
 
 	# Add average columns
 	for col in avg_columns:
