@@ -235,14 +235,14 @@ def collect_data(course_name, connect_string):
 		if (index % 100 == 0):
 			print(str(index))
 		for col in avg_columns:
-			avg_rows[col].append(sql_mongo_merge.loc[(sql_mongo_merge['week'] <= row['week']) & (sql_mongo_merge['user_id'] == row['user_id']) & (sql_mongo_merge['course_id'] == row['course_id']), 'load_video'].mean())
+			avg_rows[col].append(sql_mongo_merge.loc[(sql_mongo_merge['week'] <= row['week']) & (sql_mongo_merge['user_id'] == row['user_id']) & (sql_mongo_merge['course_id'] == row['course_id']), col].mean())
 
 	# Add average columns
 	for col in avg_columns:
-		sql_mongo_merge[col] = avg_columns[col]
+		sql_mongo_merge[col + '_avg'] = avg_rows[col]
 
 	# Remove PII columns
-	sql_mongo_merge = sql_mongo_merge.drop(columns=['user_id, course_id'])
+	sql_mongo_merge = sql_mongo_merge.drop(columns=['user_id'])
 
 	print("\nAGGREGATED DATA\n")
 
