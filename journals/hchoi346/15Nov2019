@@ -1,0 +1,16 @@
+Met and fixed up queries to match
+    realized that the two query table id's that we were going to use actually had different sets of id's. 
+    Had to find out and search for a way to combine these two sets of data with differing id's.
+    Put in some work and made sure the wrapper classes were working for SQL > pandas
+    Left early because we couldn't access the data without user_id_map
+
+11/16/2019
+    Shawn told us that our user_id should match up with anon_id in student_anon_id
+    so we queried into that and made a table with both student_id and anon_id and made a giant table for two wrappers!
+    also completed forum query and combined both sets of queries (so 3 queries total) into one giant table in pandas ready to be used
+        as food for the machine learning algorithms
+
+11/17/2019
+    started looking at ML python files and syntax;
+    looking to do a linear regression with the data that we will save as a CSV file onto the docker container as a hidden file (So that when docker is killed, the file will also disappear unless we deliberately move it to a different folder)
+    

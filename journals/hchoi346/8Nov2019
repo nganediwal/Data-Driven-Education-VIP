@@ -1,0 +1,16 @@
+seperating tasks and piplining data
+    taking data frames we are making anc combine it into one 
+
+
+SQL for getting all the event _types from SQL:
+    Select distinct event_type from edx.student_event_counts
+
+
+SQL for adding feature to the table pipeline (Replace hehe with data type from student_Event_counts)
+LEFT JOIN edx.student_event_counts hehe
+    ON  base.course_id = hehe.course_id
+    AND base.user_id = hehe.user_id
+    AND base.week = hehe.week
+    AND hehe.event_type = 'hehe'
+
+writing SQL query for all the features and final grade and active student days
