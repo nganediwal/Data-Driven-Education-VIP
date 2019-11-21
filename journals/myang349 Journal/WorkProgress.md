@@ -4,7 +4,7 @@
 Gave our final presentation! Had a fun semester :)
 
 ## 11/15/19
-Before this meeting, I had created the MERGE wrapper that allows you to pass in multiple queries, create multiple dataframes, and merge them together via pandas library.
+Before this meeting, I had created the MERGE wrapper that allows you to pass in multiple queries, create multiple dataframes, and merge them together via pandas library. Worked on the final queries and started modeling.
 
 ## 11/8/19
 I created the wrapper file that connects to PSQL database using SQLAlchemy and pandas. The file takes a multi-line query, puts it into a dataframe, and prints it.
