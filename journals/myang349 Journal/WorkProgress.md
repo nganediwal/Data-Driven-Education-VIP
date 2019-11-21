@@ -1,5 +1,8 @@
 ## Note: Dates are just approximations, meaning work was done around the time of the date.
 
+## 10/2/19
+Able to connect to Mongo DB via EC2_start. Recorded directions and put them in journal log. Tested running some scripts.
+
 ## 9/27/19
 
 Looked at MongoDB database commands, practiced writing a few scripts.
