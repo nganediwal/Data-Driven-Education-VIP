@@ -1,0 +1,17 @@
+Sub-team Weekly Meeting: 
+
+Objective: 
+Creating a python script 
+
+Tasks completed: 
+
+- Used SQLAlchemy to examine and run SQL queries from previous semesters 
+- Determined how to extract necessary information from old queries 
+- Began construction of a Pandas data-frame to display information from SQL queries 
+- Determined method for aggregating information for one person in the course over a period of set weeks 
+
+*look into potentially altering past SQL queries to cover a broad range for data extraction* 
+
+*examine final data slide for past semester’s presentation slides; begin determining methods for checking grade differences between each week* 
+
+*differentiated into seperate postgresSQL and MongoDB teams* 

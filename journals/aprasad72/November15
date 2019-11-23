@@ -1,0 +1,13 @@
+Sub-team Weekly Meeting: 
+
+Objective: 
+Finalized standards for postgresSQL team (utilizing PgAdmin database)
+
+Tasks completed: 
+
+- Began finalizing main queries for analysis and training models (in combination with work done by MongoDB team regarding Pandas data frame) 
+- Began merging of separate queries to input into script for viewing data tables within created data frame 
+
+Personal goal: 
+
+- Begin merging various components of previously created data tables (joining tables) *hope to determine important attributes contributing to predicting student success within a course* 

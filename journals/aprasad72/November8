@@ -1,0 +1,20 @@
+Sub-team Weekly Meeting: 
+
+Objective: 
+Establishing standards for postgresSQL team (utilizing PgAdmin database)
+
+Identify the number of assignments each student submits a week for the course
+ 
+Tasks completed: 
+
+- Looked at data fields from submissions_studentitem and submissions_score data tables to create new joined table to examine assignment data
+- Created a query including: student id, course id, week of the year, total 
+
+Person goal: 
+
+- Begin creating new tables with new queries (from previous data tables and SQL queries) 
+
+Query snippets: 
+
+Select * from edx.submissions_studentitem 
+where course_id like ‘ISYE6501%’ /*tag*/

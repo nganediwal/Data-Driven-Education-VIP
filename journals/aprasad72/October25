@@ -1,0 +1,38 @@
+Sub-team Weekly Meeting: 
+
+Objective: 
+Establishing standards for postgresSQL team (utilizing PgAdmin database)
+
+Established expectations for training model for all the data that is gathered and cleaned 
+
+Tasks completed: 
+
+- Examined and analyzed old data tables from previous SQL queries
+- Continued reviewing Gardner and Brookes research paper to identify additional attributes that could potentially be incorporated into newly created queries 
+
+Personal goal: 
+
+- Begin writing new queries utilizing format and structure of previous queries 
+- Look into joining and pivoting tables within PgAdmin using SQL 
+
+Code snippet: 
+
+--select*
+--from
+--(
+--select user_id, course_id, sum(n_days_active) total_days_active --alias for sum (immediately after)
+--from edx.student_active_days
+--where n_days_active > 1
+--group by user_id, course_id
+--order by total_days_active desc
+--limit 100
+--) sum_table
+--where total_days_active > 226 --do where on aggregation so must use alias
+
+/* this a multi line comment
+  just like in java */
+select *
+from edx.student_active_days st
+join edx.student_courseaccessrole b
+    on st.user_id = b.user_id
+     and st.course_id = b.course_id

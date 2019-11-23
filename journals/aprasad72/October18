@@ -1,0 +1,20 @@
+Sub-team weekly meeting: 
+
+Objective: 
+Establishing standards for postgresSQL team (utilizing PgAdmin database)
+
+Tasks Completed: 
+
+- Began work on creating new queries to run on PgAdmin software and database
+*will allow for easier use when aggregating through old data and identifying various common factors (meant to be carried over to new longer-scale project; aid in training models for future use and analysis)* 
+
+*established two teams: postgresSQL and MongoDB 
+
+postgresSQL = Ania and Anusha 
+MongoDB = Manley, Matthew, and Hosuk* 
+
+Personal goals: 
+
+- Begin reviewing old SQL queries from git repository to construct new queries for running in PgAdmin  
+
+*received helpful crash course on SQL* 

@@ -1,0 +1,15 @@
+Sub-team Weekly Meeting: 
+
+Objective: 
+Establishing standards for postgresSQL team (utilizing PgAdmin database)
+ 
+Tasks completed: 
+
+- Conferred within team to establish format and structure for new queries (set attributes utilized) 
+- Looked into determining number of assignments for ISYE course (limited variety for course data with edX, canvas, and coursera)
+- Looked into determining varying types of assignments for each week 
+- Looked into determining the weight of each assignment to ascertain the affect of assignment grades on overall student score within a course 
+
+General goal: 
+
+- Find approach for creating a query for obtaining student grades within the course by the end of a specific week *will provide insight into various grade changes between each week (inference into overall student performance in the course)*  
