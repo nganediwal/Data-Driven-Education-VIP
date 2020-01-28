@@ -1,0 +1,20 @@
+Things to Know for Data Access
+Databases divided into → Schema (under which you have data tables)
+Data is stripped of PII (personally identifiable info) 
+Clickstream data → event data
+Relational data  (converge and translate)→ machine learning 
+X - gathered data
+Y - predictions
+Fitting → putting a line to data (average)
+Machine learning → fitting a line to make a prediction
+
+Ideas
+Create a student dashboard (similar to MyAnalytics)
+
+Tasks
+Create a wireframe of how the dashboard should look 
+Visualization****
+Gain access to backend data
+Authentication
+Look around Github -> final presentation
+ - Visualization, Front End (web design, HTML, Javascript), Backend (databases, flask)
