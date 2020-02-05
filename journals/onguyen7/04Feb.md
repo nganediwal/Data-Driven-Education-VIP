@@ -4,7 +4,7 @@
 - Go over our presentation
 - Discuss about specific roles for the project
 
-#Goals
+# Goals
 - Get to familiar with database and methods used last semester
 - Come up with the new ideas 
 - Looking for the tools used for back-end support
