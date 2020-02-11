@@ -1,0 +1,13 @@
+Talked about apps to use for SQL/Postgres.
+
+admin dashboard that has prediction from ML algorithm as well as basic stats on usage patterns over past week/weeks
+
+encourage students to do something about their own success
+
+categorize grades and say which category of grades that students receive and what kind of patterns those kinds of students have
+
+making some wireframes and stuff in order to get a visual idea of what it looks like
+
+back end data access, authentication, maybe incorporate more classes into the mix instead of just ISYE
+
+focus on ISYE for now and get a working prototype and then put more classes in OMSCS

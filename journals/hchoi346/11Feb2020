@@ -1,0 +1,9 @@
+https://stackoverflow.com/questions/17071871/how-to-select-rows-from-a-dataframe-based-on-column-values 
+
+https://stackoverflow.com/questions/30482071/how-to-calculate-mean-values-grouped-on-another-column-in-pandas
+
+looking to seperate the dataframe into 3 more dataframes (A, B, C) in order that we can display the averages for A, B, C for the student to view in his student window.
+
+Looking to add this to the MergeWrapper class (Which already has the data frame) so that we can also calculate all the average for the student as well.
+
+Worked on this a bit, was mainly a working day today for the meeting.
