@@ -1,0 +1,24 @@
+Sub-team Weekly Meeting: 
+
+Objective: 
+Finalized work done by both postgresSQL and MongoDB team 
+
+Began creating presentation for final sub-team presentations 
+
+Tasks completed: 
+
+MongoDB team: 
+
+- Finished creating last Pandas data frame (utilized 3 main queries from SQL team) 
+- Began rewriting code for regressors rather than classifiers 
+- Worked on Decision Tree Regressor (showing path for feature comparisons) *did not yield favorable results* 
+- Compiled models to get necessary results for MAE and MSE 
+- Graphed the modeled data 
+
+PostgresSQL team: 
+
+- Finalized queries for placement into Pandas data frame for creating decision trees and beginning training models 
+
+Personal goal: 
+
+- Set up framework for final sub-team presentation 
