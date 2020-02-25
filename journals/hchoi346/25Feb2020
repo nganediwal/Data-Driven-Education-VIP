@@ -1,0 +1,8 @@
+Today we were supposed to have a meeting and a python tutorial by Shawn, but since people were missing, we just had a work session. I tried to grind out more of the code for the mergeWrapper to be able to pull the data into the forms of A, B, C that we wanted. When I ran those today, they ended up not working.
+
+So I was fidgeting with the code the entire time with long run times since merge Wrapper needs to recollect the data every time that we run it. But then Shawn showed me something called groupby for pandas dataframes and that can easily solve the problem. The syntax goes like 
+df.groupby(['letter_grade', 'week']).mean() and this will get the mean for all the columns minus these (they will just make the tables based off of these two values). 
+
+IF we wanted to get a specific column only, there's another syntax for that
+df.groupby('letter_grade')['grade'].mean() #this will get the letter grade and the mean of the grade for each grade type. It will omit all the other columns.
+

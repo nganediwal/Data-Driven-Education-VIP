@@ -1,0 +1,8 @@
+We finished making the lists for A, B, C grade students
+
+Also relearned how to access the AWS server in order to run mergeWrapper and test out what I am implementing as well as re-accessing student active days as it was not on the mongo server for some reason.
+
+We will run mergeWrapper using the following: 
+python mergeWrapper.py ISYE6501 postgresql://<username>:<password>@<hostname>:5432/gatechmoocs ~/isye6501.csv
+
+Now we have to average out the tables to get the average of each table and its columns so that we can create graphs and show the students on the dashboard.
