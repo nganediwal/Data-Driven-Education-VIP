@@ -8,7 +8,7 @@ import sys
 NANOSECONDS_PER_WEEK = 1000_000_000*60*60*24*7
 
 
-def sql_dataframes(course_name, connect_string):
+def sql_dataframes(course_name):
     # create the engine using the connect string
     sql_engine = connect.sql_engine()
 
@@ -20,16 +20,17 @@ def sql_dataframes(course_name, connect_string):
 
     # Read SQL queries
     df1 = pd.read_sql_query(query1, sql_engine)
+    df2 = pd.read_sql_query(query2, sql_engine)
     df3 = pd.read_sql_query(query3, sql_engine)
     df4 = pd.read_sql_query(query4, sql_engine)
 
-    return df1, df3, df4
+    return df1, df2, df3, df4
 
 
-def mongo_dataframe():
+def mongo_dataframe(df3):
     # Get Forum Data From MongoDb, and correct the week calculation
-    db = connect.get_db('forum')
-    post_counts = get_comments(db)
+    collection = connect.get_db().forum
+    post_counts = get_comments(collection)
     forum_output = aggregate_posts(post_counts)
 
     forums_with_start_ts = pd.merge(forum_output, df3,
@@ -47,7 +48,7 @@ def mongo_dataframe():
     return forums
 
 
-def merge_dataframes(df1, df2, df3, forums):
+def merge_dataframes(df1, df3, df4, forums):
     # Perform Merge
     sql_merge = pd.merge(
         df1, df4,
@@ -73,7 +74,7 @@ def process_dataframe(df):
     )
 
     # Sort
-    df = df.sort_values(by=['course_id','user_id','week'])
+    df = df.sort_values(by=['course_id', 'user_id', 'week'])
 
     # Define columns to average
     ignore_columns = ['user_id', 'week', 'final_grade', 'course_id']
@@ -93,10 +94,10 @@ def process_dataframe(df):
     return df
 
 
-def collect_data(course_name, connect_string):
-    df1, df3, df4 = sql_dataframes(course_name, connect_string)
+def collect_data(course_name):
+    df1, df2, df3, df4 = sql_dataframes(course_name)
     print("\nSQL DATA COLLECTED\n")
-    forums = mongo_dataframe()
+    forums = mongo_dataframe(df3)
     print("\nMONGODB DATA COLLECTED\n")
     df = merge_dataframes(df1, df3, df4, forums)
     print("\nDATA MERGED\n")
@@ -106,11 +107,9 @@ def collect_data(course_name, connect_string):
 
 
 def main():
-    course_name = sys.argv[1]
-    connect_string = sys.argv[2]
-    path = sys.argv[3]
-    df = collect_data(course_name, connect_string)
-    df.to_csv(path)
+    course_name = 'ISYE6501'
+    df = collect_data(course_name)
+    df.to_csv("test.csv")
 
 
 if __name__ == "__main__":
