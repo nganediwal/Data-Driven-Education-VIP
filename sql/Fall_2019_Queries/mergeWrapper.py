@@ -285,6 +285,7 @@ def main():
 	connect_string = sys.argv[2]
 	path = sys.argv[3]
 	df = collect_data(course_name, connect_string)
+<<<<<<< HEAD
 	print("DF")
 	print(df)
 	dfGroups = df
@@ -294,6 +295,31 @@ def main():
 	print(dfGroups)
 
 	#df.to_csv(path)
+=======
+
+	dfA = df.loc[(df['final_grade'] >= 90)]
+	dfB = df.loc[(df['final_grade'] >= 80) & (df['final_grade'] < 90)]
+	dfC = df.loc[(df['final_grade'] >= 70) & (df['final_grade'] < 80)]
+
+	ListA = np.array([dfA.loc[(df['week'] == 1)], dfA.loc[(df['week'] == 2)], dfA.loc[(df['week'] == 3)], dfA.loc[(df['week'] == 4)], 
+		dfA.loc[(df['week'] == 5)], dfA.loc[(df['week'] == 6)], dfA.loc[(df['week'] == 7)], dfA.loc[(df['week'] == 8)],
+		dfA.loc[(df['week'] == 9)], dfA.loc[(df['week'] == 10)], dfA.loc[(df['week'] == 11)], dfA.loc[(df['week'] == 12)], 
+		dfA.loc[(df['week'] == 13)], dfA.loc[(df['week'] == 14)], dfA.loc[(df['week'] == 15)], dfA.loc[(df['week'] == 16)]])
+
+	ListB = np.array([dfB.loc[(df['week'] == 1)], dfB.loc[(df['week'] == 2)], dfB.loc[(df['week'] == 3)], dfB.loc[(df['week'] == 4)], 
+		dfB.loc[(df['week'] == 5)], dfB.loc[(df['week'] == 6)], dfB.loc[(df['week'] == 7)], dfB.loc[(df['week'] == 8)],
+		dfB.loc[(df['week'] == 9)], dfB.loc[(df['week'] == 10)], dfB.loc[(df['week'] == 11)], dfB.loc[(df['week'] == 12)], 
+		dfB.loc[(df['week'] == 13)], dfB.loc[(df['week'] == 14)], dfB.loc[(df['week'] == 15)], dfB.loc[(df['week'] == 16)]])
+	
+	ListC = np.array([dfC.loc[(df['week'] == 1)], dfC.loc[(df['week'] == 2)], dfC.loc[(df['week'] == 3)], dfC.loc[(df['week'] == 4)], 
+		dfC.loc[(df['week'] == 5)], dfC.loc[(df['week'] == 6)], dfC.loc[(df['week'] == 7)], dfC.loc[(df['week'] == 8)],
+		dfC.loc[(df['week'] == 9)], dfC.loc[(df['week'] == 10)], dfC.loc[(df['week'] == 11)], dfC.loc[(df['week'] == 12)], 
+		dfC.loc[(df['week'] == 13)], dfC.loc[(df['week'] == 14)], dfC.loc[(df['week'] == 15)], dfC.loc[(df['week'] == 16)]])
+		
+
+
+	df.to_csv(path)
+>>>>>>> 28f4eee9220c0b97d9563a79f02819b073800f64
 
 
 if __name__== "__main__":
