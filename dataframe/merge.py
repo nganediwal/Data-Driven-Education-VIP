@@ -14,23 +14,23 @@ def sql_dataframes(course_name):
 
     # To Do: Name queries based on what they're doing
     query1 = open('sql/query1.sql').read().format(course_name)
-    query2 = open('sql/query2.sql').read().format(course_name)
+    # query2 = open('sql/query2.sql').read().format(course_name)
     query3 = open('sql/query3.sql').read()
     query4 = open('sql/query4.sql').read().format(course_name)
 
     # Read SQL queries
     df1 = pd.read_sql_query(query1, sql_engine)
-    df2 = pd.read_sql_query(query2, sql_engine)
+    # df2 = pd.read_sql_query(query2, sql_engine)
     df3 = pd.read_sql_query(query3, sql_engine)
-    df4 = pd.read_sql_query(query4, sql_engine)
+    homeworks = pd.read_sql_query(query4, sql_engine)
 
-    return df1, df2, df3, df4
+    return df1, df3, homeworks
 
 
 def mongo_dataframe(df3):
     # Get Forum Data From MongoDb, and correct the week calculation
-    collection = connect.get_db().forum
-    post_counts = get_comments(collection)
+    db = connect.get_db()
+    post_counts = get_comments(db)
     forum_output = aggregate_posts(post_counts)
 
     forums_with_start_ts = pd.merge(forum_output, df3,
@@ -78,7 +78,7 @@ def process_dataframe(df):
 
     # Define columns to average
     ignore_columns = ['user_id', 'week', 'final_grade', 'course_id']
-    avg_columns = list(set(sql_mongo_merge.columns) - set(ignore_columns))
+    avg_columns = list(set(df.columns) - set(ignore_columns))
 
     # Find the cumulative average by finding the cumulative sum of the sorted
     # dataframe and then dividing by the week number plus 1
@@ -86,16 +86,16 @@ def process_dataframe(df):
     avg_df = df \
         .groupby(['course_id', 'user_id'])[avg_columns] \
         .cumsum() \
-        .div(sql_mongo_merge.week+1, axis=0)
+        .div(df.week+1, axis=0)
     # append _avg to each column
     avg_df.columns = [col + '_avg' for col in avg_df.columns]
     # add the averaged columns to original dataframe
-    df = sql_mongo_merge.join(avg_df)
+    df = df.join(avg_df)
     return df
 
 
 def collect_data(course_name):
-    df1, df2, df3, df4 = sql_dataframes(course_name)
+    df1, df3, df4 = sql_dataframes(course_name)
     print("\nSQL DATA COLLECTED\n")
     forums = mongo_dataframe(df3)
     print("\nMONGODB DATA COLLECTED\n")
@@ -109,7 +109,10 @@ def collect_data(course_name):
 def main():
     course_name = 'ISYE6501'
     df = collect_data(course_name)
-    df.to_csv("test.csv")
+    sql_engine = connect.sql_engine()
+    with sql_engine.begin() as conn:
+        df.to_sql("dataframe", conn, schema='jiti', if_exists='replace', index_label='id')
+        conn.execute("GRANT ALL PRIVILEGES ON TABLE jiti.dataframe TO edx_student")
 
 
 if __name__ == "__main__":

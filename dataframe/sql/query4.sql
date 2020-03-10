@@ -15,7 +15,7 @@ join edx.student_anonymoususerid id
 join edx.student_type st
 	on st.course_id = c.course_id
 	and st.user_id = id.user_id
-	and st.learner_type = 'Verified'
+	and st.learner_type = 'verified'
 left join edx.submissions_studentitem si
 	on si.course_id = c.course_id
 	and c.id = si.item_id
