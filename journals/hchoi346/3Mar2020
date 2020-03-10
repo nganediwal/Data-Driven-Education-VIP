@@ -1,0 +1,11 @@
+Steps for MongoDB:
+    Docker -> 'sbin/ddestart.sh' in the folder that holds the sbin folder
+    -> 'awsconfigure' -> put in credentials (server is us-east-1)
+    -> './ec2_start.sh' -> you're in!
+
+Worked on grouping the data into A, B, C, D, F labels in order to stop using dummy data.
+
+Found out the variable we were trying to use 'df'  wasn't actually the variable of the data frame and that's why we kept getting empty DF's.
+Realized a lot of the dataframes in MErge Wrapper are actually irrelevant; they are empty. Worked on fixing these df's.
+
+Stopped/stuck on index, row for the for loop
