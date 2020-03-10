@@ -103,12 +103,27 @@ def collect_data(course_name):
     print("\nDATA MERGED\n")
     df = process_dataframe(df)
     print("\nAGGREGATED DATA\n")
-    return df
+    df['letter_grade'] = df['final_grade'].apply(labeler)#apply the letter grade labeler to final_grade
+    avgDF = df.groupby('letter_grade')['final_grade'].mean() #get the mean
+    return df, avgDF
 
+def labeler(x):
+    """
+    labels by letter grade
+    """
+    if x >= .9:
+        return 'A'
+    elif x >= .8:
+        return 'B'
+    elif x >= .7:
+        return 'C'
+    elif x >= .6:
+        return 'D'
+    return 'F'
 
-def main():
+def main(): #df is the dataframe, avgDF is the averages for each letter grade.
     course_name = 'ISYE6501'
-    df = collect_data(course_name)
+    df, avgDF = collect_data(course_name)
     sql_engine = connect.sql_engine()
     with sql_engine.begin() as conn:
         df.to_sql("dataframe", conn, schema='jiti', if_exists='replace', index_label='id')
