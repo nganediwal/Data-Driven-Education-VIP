@@ -8,7 +8,7 @@ import numpy as np
 import data
 
 # test imports
-import dash_flexbox_grid as dfx
+import dash_bootstrap_components as dbc
 
 print(dcc.__version__) # 0.6.0 or above is required
 
@@ -20,7 +20,7 @@ test_df = data.test_df
 ######## PANDAS TEST DATA ABOVE #############
 
 # initializing the app
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # Dictionary
 colors = {
@@ -36,69 +36,53 @@ app.layout = html.Div([
     html.Div(id = 'page-content'),
 ])
 
-# old index_page
-# index_page = html.Div([
-#     html.Img(src='/assets/strengths-and-weaknesses.jpg', 
-#                 style = {
-#                     'max-width': '30%',
-#                     'height': 'auto'
-#                 }
-#             ),
-#     dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data'),
-#     html.Br(), # make a line space
-#     dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time'),
-#     html.Br(), # make a line space
-#     dcc.Link(html.Button('Resources'), href = '/resources'),
-# ])
-
-index_page = dfx.Grid(id = 'grid', fluid = True, children = [
-    dfx.Row(children = [
-        dfx.Col(children = [
-            html.Img(src='/assets/strengths-and-weaknesses.jpg', 
-                style = {
-                    'max-width': '15%',
-                    'height': 'auto',
-                    'margin': '25px'
-                }
-            ),
-
-        ]),
-        
-        dfx.Col(children = [
-            html.Img(src='/assets/clock.jpg', 
-                style = {
-                    'max-width': '15%',
-                    'height': 'auto',
-                    'margin': '25px'
-                }
-            ),
-        ]),        
-        
-        dfx.Col(children = [
-            html.Img(src='/assets/books.jpg', 
-                style = {
-                    'max-width': '15%',
-                    'height': 'auto',
-                    'margin' : '25px'
-                }
-            ),
-
-        ]),
-    ],
-    around = 'xs',
-        
+index_page = html.Div([
+    dbc.Row(
+        [
+            dbc.Col(html.Div("One of three columns")),
+            dbc.Col(html.Div("One of three columns")),
+            dbc.Col(html.Div("One of three columns")),
+        ]
     ),
 
-    dfx.Row(children = [
+    dbc.Row(children = [
+        dbc.Col( children = [
+            html.Img(src='/assets/strengths-and-weaknesses.jpg', 
+            style = {
+                'max-width': '15%',
+                'height': 'auto',
+            }
+        ),
+            dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data'),
+        ]),
+
+        html.Img(src='/assets/clock.jpg', 
+            style = {
+                'max-width': '15%',
+                'height': 'auto',
+            }
+        ),
+
+        html.Img(src='/assets/books.jpg', 
+            style = {
+                'max-width': '15%',
+                'height': 'auto',
+            }
+        ),
+    ]),
+
+    dbc.Row(children = [
         dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data'),
-        html.Br(), # make a line space
         dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time'),
-        html.Br(), # make a line space
         dcc.Link(html.Button('Resources'), href = '/resources'),
-    ],
-    around = 'md',
-    )
+
+    ])
+
 ])
+
+
+
+
 
 # table data
 page_1_layout = html.Div(
