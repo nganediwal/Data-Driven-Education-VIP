@@ -37,47 +37,85 @@ app.layout = html.Div([
 ])
 
 index_page = html.Div([
-    dbc.Row(
-        [
-            dbc.Col(html.Div("One of three columns")),
-            dbc.Col(html.Div("One of three columns")),
-            dbc.Col(html.Div("One of three columns")),
-        ]
+    html.Div(
+        html.H1(
+            "Welcome, Beta_Tester!"
+        ),  
+        style = {
+            'margin-bottom' : '100px'
+        }
     ),
 
-    dbc.Row(children = [
-        dbc.Col( children = [
-            html.Img(src='/assets/strengths-and-weaknesses.jpg', 
-            style = {
-                'max-width': '15%',
-                'height': 'auto',
-            }
-        ),
-            dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data'),
-        ]),
-
-        html.Img(src='/assets/clock.jpg', 
-            style = {
-                'max-width': '15%',
-                'height': 'auto',
-            }
-        ),
-
-        html.Img(src='/assets/books.jpg', 
-            style = {
-                'max-width': '15%',
-                'height': 'auto',
-            }
-        ),
-    ]),
+    # Example
+    # dbc.Row(
+    #     [
+    #         dbc.Col(html.Div("One of three columns")),
+    #         dbc.Col(html.Div("One of three columns")),
+    #         dbc.Col(html.Div("One of three columns")),
+    #     ]
+    # ),
 
     dbc.Row(children = [
-        dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data'),
-        dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time'),
-        dcc.Link(html.Button('Resources'), href = '/resources'),
+        
+        dbc.Col(children = [
+            dbc.Row(
+                html.Img(src='/assets/strengths-and-weaknesses.jpg', 
+                    style = {
+                        'max-height': '200px',
+                        'margin' : 'auto',
+                        'margin-bottom': '25px'
+                    }
+                ),
+            ),
+            dbc.Row(
+                dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data',
+                    style = {
+                        'margin' : 'auto',
+                    }
+                ),
+            ),
+        ], 
+            width={"size": 3, "offset" : 1},
+        ),
+        dbc.Col(children = [
+            dbc.Row(
+                html.Img(src='/assets/clock.jpg', 
+                    style = {
+                        'max-height': '200px',
+                        'margin' : 'auto',
+                        'margin-bottom': '25px'
+                    }
+                ),
+            ),
+            dbc.Row(
+                dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time',
+                    style = {
+                        'margin' : 'auto',
+                    }
+                ),
+            ),
+        ], width={"size": 3}),
 
-    ])
+        dbc.Col(children = [
+            dbc.Row(
+                html.Img(src='/assets/books.jpg', 
+                    style = {
+                        'max-height': '200px',
+                        'margin' : 'auto',
+                        'margin-bottom': '25px'
+                    }
+                ),
+            ),
+            dbc.Row(
+                dcc.Link(html.Button('Resources'), href = '/resources',
+                style = {
+                    'margin' : 'auto',
+                }),
+            ),
+        ], width={"size": 3},),
+        
 
+    ], align = "center", justify = "around"),
 ])
 
 
@@ -89,11 +127,23 @@ page_1_layout = html.Div(
     [
     dcc.Link('Home', href='/'),
     html.H1('Strengths and Weaknesses'),
-    dash_table.DataTable(
-        id='table',
-        columns=[{"name": i, "id": i} for i in test_df.columns],
-        data=test_df.to_dict('records'),
-    ),
+    html.Div(
+        dash_table.DataTable(
+            id='table',
+            columns=[{"name": i, "id": i} for i in test_df.columns],
+            data=test_df.to_dict('records'),
+            style_table = {'overflowX' : 'scoll'},
+            style_cell={
+                'height': '30',
+                'width': '70px',
+            }
+        ),
+        style = {
+            'margin-left': '200px',
+            'margin-right': '200px'
+        }
+    )
+    
     ]
 )
 

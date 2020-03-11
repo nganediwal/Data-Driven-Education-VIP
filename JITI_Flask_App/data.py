@@ -46,11 +46,16 @@ letter_grades = ['You', 'A', 'B', 'C']
 grades = np.random.normal(80, 10, size = 4)
 click_count = np.random.normal(2000, 100, size = 4)
 view_count = np.random.normal(10, 3, size = 4)
+homework_grades = [73, 94, 87, 70]
+daily_visits = [3.2, 2.6, 3.3, 2.6]
+
 df = pd.DataFrame({
     'Letter_Grade': letter_grades,
     'Numerical_Grade': grades,
     'Click_Count' : click_count,
     'View_Count' : view_count,
+    'Homework_Grade': homework_grades,
+    'Daily_Visits': daily_visits
 })
 
 test_df = df
