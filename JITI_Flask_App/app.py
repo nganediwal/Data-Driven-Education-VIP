@@ -10,14 +10,14 @@ import data
 print(dcc.__version__) # 0.6.0 or above is required
 
 # Need custom style sheet
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 ######## PANDAS TEST DATA BELOW #############
 test_df = data.test_df
 ######## PANDAS TEST DATA ABOVE #############
 
 # initializing the app
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__)
 
 # Dictionary
 colors = {
@@ -34,15 +34,22 @@ app.layout = html.Div([
 ])
 
 index_page = html.Div([
-    dcc.Link('Strengths and Weaknesses', href = '/table-data'),
+    # dcc.Link('Strengths and Weaknesses', href = '/table-data',    
+    #     style={
+    #         'textAlign': 'center',
+    #         'color': 'red',
+    #     }
+    # ),
+    dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data'),
     html.Br(), # make a line space
-    dcc.Link('Progress Over Time', href = '/progress-over-time'),
+    dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time'),
     html.Br(), # make a line space
-    dcc.Link('Resources', href = '/resources'),
+    dcc.Link(html.Button('Resources'), href = '/resources'),
 ])
 
 # table data
-page_1_layout = html.Div([
+page_1_layout = html.Div(
+    [
     dcc.Link('Home', href='/'),
     html.H1('Strengths and Weaknesses'),
     dash_table.DataTable(
@@ -50,7 +57,8 @@ page_1_layout = html.Div([
         columns=[{"name": i, "id": i} for i in test_df.columns],
         data=test_df.to_dict('records'),
     ),
-])
+    ]
+)
 
 # Progress over time
 page_2_layout = html.Div([
