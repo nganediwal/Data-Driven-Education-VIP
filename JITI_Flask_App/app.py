@@ -7,6 +7,9 @@ import pandas as pd
 import numpy as np
 import data
 
+# test imports
+import dash_flexbox_grid as dfx
+
 print(dcc.__version__) # 0.6.0 or above is required
 
 # Need custom style sheet
@@ -33,18 +36,68 @@ app.layout = html.Div([
     html.Div(id = 'page-content'),
 ])
 
-index_page = html.Div([
-    # dcc.Link('Strengths and Weaknesses', href = '/table-data',    
-    #     style={
-    #         'textAlign': 'center',
-    #         'color': 'red',
-    #     }
-    # ),
-    dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data'),
-    html.Br(), # make a line space
-    dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time'),
-    html.Br(), # make a line space
-    dcc.Link(html.Button('Resources'), href = '/resources'),
+# old index_page
+# index_page = html.Div([
+#     html.Img(src='/assets/strengths-and-weaknesses.jpg', 
+#                 style = {
+#                     'max-width': '30%',
+#                     'height': 'auto'
+#                 }
+#             ),
+#     dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data'),
+#     html.Br(), # make a line space
+#     dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time'),
+#     html.Br(), # make a line space
+#     dcc.Link(html.Button('Resources'), href = '/resources'),
+# ])
+
+index_page = dfx.Grid(id = 'grid', fluid = True, children = [
+    dfx.Row(children = [
+        dfx.Col(children = [
+            html.Img(src='/assets/strengths-and-weaknesses.jpg', 
+                style = {
+                    'max-width': '15%',
+                    'height': 'auto',
+                    'margin': '25px'
+                }
+            ),
+
+        ]),
+        
+        dfx.Col(children = [
+            html.Img(src='/assets/clock.jpg', 
+                style = {
+                    'max-width': '15%',
+                    'height': 'auto',
+                    'margin': '25px'
+                }
+            ),
+        ]),        
+        
+        dfx.Col(children = [
+            html.Img(src='/assets/books.jpg', 
+                style = {
+                    'max-width': '15%',
+                    'height': 'auto',
+                    'margin' : '25px'
+                }
+            ),
+
+        ]),
+    ],
+    around = 'xs',
+        
+    ),
+
+    dfx.Row(children = [
+        dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data'),
+        html.Br(), # make a line space
+        dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time'),
+        html.Br(), # make a line space
+        dcc.Link(html.Button('Resources'), href = '/resources'),
+    ],
+    around = 'md',
+    )
 ])
 
 # table data
