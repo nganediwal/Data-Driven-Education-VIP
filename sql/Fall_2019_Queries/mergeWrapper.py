@@ -188,14 +188,13 @@ def collect_data(course_name, connect_string):
 
 	# Read SQL queries
 	df1 = pd.read_sql_query(query1, sql_engine)
-	print(df1)
 	# df2 = pd.read_sql_query(query2, sql_engine)
 	df3 = pd.read_sql_query(query3, sql_engine)
-	print(df3)
-	df4 = pd.read_sql_query(query4, sql_engine)
-	print(df4)
+	#df4 = pd.read_sql_query(query4, sql_engine)
+	#print("DF4")
+	#print(df4)
 
-	print("\nSQL DATA COLLECTED\n")
+	#print("\nSQL DATA COLLECTED\n")
 
 	# Get Forum Data From MongoDb, and correct the week calculation
 	db = connect.get_db('forum')
@@ -208,16 +207,26 @@ def collect_data(course_name, connect_string):
 	forums_with_start_ts['week'] = forums_with_start_ts['week'] // NANOSECONDS_PER_WEEK
 	forums = forums_with_start_ts
 	forums = forums.astype({'user_id': 'int32'}).drop(columns=['ts', 'start_ts'])
+	print("FORUMS")
 	print(forums)
 
 	print("\nMONGODB DATA COLLECTED\n")
 
 	# Perform Merge
-	sql_merge = pd.merge(df1, df4, left_on=['user_id', 'course_id', 'week'], right_on=['user_id', 'course_id','week'])
-	sql_mongo_merge = pd.merge(sql_merge, forums, left_on=['user_id', 'week', 'course_id'], right_on=['user_id', 'week', 'course_id'], how='left').drop(columns=['student_id'])
-	print(sql_mongo_merge)
+	#sql_merge = pd.merge(df1, df4, left_on=['user_id', 'course_id', 'week'], right_on=['user_id', 'course_id','week'])
+	#sql_mongo_merge = pd.merge(sql_merge, forums, left_on=['user_id', 'week', 'course_id'], right_on=['user_id', 'week', 'course_id'], how='left').drop(columns=['student_id'])
+	
+	#df1 = df1.set_index(['user_id', 'course_id', 'week'])
+	#df4 = df4.set_index(['user_id', 'course_id', 'week'])
+	#df1n4 = df1.join(df4)
+	#print("DF1N4")
+	#print(df1n4)
 
-	print("\nDATA MERGED\n")
+	sql_mongo_merge = df1.set_index(['user_id', 'week', 'course_id']).join(forums.set_index(['user_id', 'week', 'course_id']))
+
+	print("DATA MERGED")
+	print(sql_mongo_merge)
+	print(sql_mongo_merge.columns)
 
 	# Impute
 	sql_mongo_merge = sql_mongo_merge.fillna({'time_diff':0, 'Comment':0, 'CommentThread':0})
@@ -232,9 +241,13 @@ def collect_data(course_name, connect_string):
 	for col in avg_columns:
 		avg_rows[col] = []
 
+	sql_mongo_merge.set_index(['student_id'])
+
 	for index, row in sql_mongo_merge.iterrows():
-		if (index % 100 == 0):
-			print(str(index))
+		print("\nI\n")
+		print(index)
+		print("\nR\n")
+		print(row)
 		for col in avg_columns:
 			avg_rows[col].append(sql_mongo_merge.loc[(sql_mongo_merge['week'] <= row['week']) & (sql_mongo_merge['user_id'] == row['user_id']) & (sql_mongo_merge['course_id'] == row['course_id']), col].mean())
 
@@ -247,39 +260,40 @@ def collect_data(course_name, connect_string):
 
 	print("\nAGGREGATED DATA\n")
 
+	print("SQL MERGE")
 	print(sql_mongo_merge)
 	print(sql_mongo_merge.columns)
 
 	return sql_mongo_merge
+
+def labeler(x):
+    """
+    Labels grades with grade numbers.
+    """
+    if x >= .9:
+        return 'A'
+    elif (x < .9) and (x >= .8):
+        return 'B'
+    elif (x < .8) and (x >= .7):
+        return 'C'
+    elif (x < .7) and (x >= .6):
+        return 'D'
+    return 'F'
 
 def main():
 	course_name = sys.argv[1]
 	connect_string = sys.argv[2]
 	path = sys.argv[3]
 	df = collect_data(course_name, connect_string)
+	print("DF")
+	print(df)
+	dfGroups = df
+	dfGroups['letter'] = dfGroups.final_grade.apply(labeler)
+	dfGroups = dfGroups.groupby('letter').mean()
+	print("Hello")
+	print(dfGroups)
 
-	dfA = df.loc[(df['final_grade'] >= 90)]
-	dfB = df.loc[(df['final_grade'] >= 80) & (df['final_grade'] < 90)]
-	dfC = df.loc[(df['final_grade'] >= 70) & (df['final_grade'] < 80)]
-
-	ListA = np.array([dfA.loc[(df['week'] == 1)], dfA.loc[(df['week'] == 2)], dfA.loc[(df['week'] == 3)], dfA.loc[(df['week'] == 4)], 
-		dfA.loc[(df['week'] == 5)], dfA.loc[(df['week'] == 6)], dfA.loc[(df['week'] == 7)], dfA.loc[(df['week'] == 8)],
-		dfA.loc[(df['week'] == 9)], dfA.loc[(df['week'] == 10)], dfA.loc[(df['week'] == 11)], dfA.loc[(df['week'] == 12)], 
-		dfA.loc[(df['week'] == 13)], dfA.loc[(df['week'] == 14)], dfA.loc[(df['week'] == 15)], dfA.loc[(df['week'] == 16)]])
-
-	ListB = np.array([dfB.loc[(df['week'] == 1)], dfB.loc[(df['week'] == 2)], dfB.loc[(df['week'] == 3)], dfB.loc[(df['week'] == 4)], 
-		dfB.loc[(df['week'] == 5)], dfB.loc[(df['week'] == 6)], dfB.loc[(df['week'] == 7)], dfB.loc[(df['week'] == 8)],
-		dfB.loc[(df['week'] == 9)], dfB.loc[(df['week'] == 10)], dfB.loc[(df['week'] == 11)], dfB.loc[(df['week'] == 12)], 
-		dfB.loc[(df['week'] == 13)], dfB.loc[(df['week'] == 14)], dfB.loc[(df['week'] == 15)], dfB.loc[(df['week'] == 16)]])
-	
-	ListC = np.array([dfC.loc[(df['week'] == 1)], dfC.loc[(df['week'] == 2)], dfC.loc[(df['week'] == 3)], dfC.loc[(df['week'] == 4)], 
-		dfC.loc[(df['week'] == 5)], dfC.loc[(df['week'] == 6)], dfC.loc[(df['week'] == 7)], dfC.loc[(df['week'] == 8)],
-		dfC.loc[(df['week'] == 9)], dfC.loc[(df['week'] == 10)], dfC.loc[(df['week'] == 11)], dfC.loc[(df['week'] == 12)], 
-		dfC.loc[(df['week'] == 13)], dfC.loc[(df['week'] == 14)], dfC.loc[(df['week'] == 15)], dfC.loc[(df['week'] == 16)]])
-		
-
-
-	df.to_csv(path)
+	#df.to_csv(path)
 
 
 if __name__== "__main__":
