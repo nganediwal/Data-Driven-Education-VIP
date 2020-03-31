@@ -7,7 +7,8 @@ import sys
 
 NANOSECONDS_PER_WEEK = 1000_000_000*60*60*24*7
 
-
+#updated version of mergewrapper since mergewrapper was incomprehensible and didn't work
+#Put the SQL queries into seperate files so that the file wasn't that clogged
 def sql_dataframes(course_name):
     # create the engine using the connect string
     sql_engine = connect.sql_engine()
@@ -93,7 +94,7 @@ def process_dataframe(df):
     df = df.join(avg_df)
     return df
 
-
+    #gets all the data together and applies the labeler below
 def collect_data(course_name):
     df1, df3, df4 = sql_dataframes(course_name)
     print("\nSQL DATA COLLECTED\n")
@@ -109,7 +110,7 @@ def collect_data(course_name):
 
 def labeler(x):
     """
-    labels by letter grade
+    labels final grade by letter grade
     """
     if x >= .9:
         return 'A'
