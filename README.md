@@ -2,6 +2,13 @@
 
 Last semester this subteam replicated the analysis of [Gardner and Brooks, 2018](https://learning-analytics.info/journals/index.php/JLA/article/view/5814). Weekly success was predicted for individual students who took ISYE6501 during the Fall of 2018 using a variety of different data and models including grade information and clickstream data.
 
+# Spring 2020 current goals
+* Start the web app to display our information and suggestions to students and teachers
+	* what kind of data do we need?
+	* what would be helpful/encouraging?
+* Learn python and begin drafting a web frame for our app
+* Manipulate the data a little more to get more points and more useful/insightful points of data
+
 # Fall 2019 Deliverables
 * Revise models to improve results
     * Longer training time
