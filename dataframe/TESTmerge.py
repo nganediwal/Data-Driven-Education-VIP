@@ -10,8 +10,8 @@ NANOSECONDS_PER_WEEK = 1000_000_000*60*60*24*7
 ### I (HOSUK CHOI) BELIEVE THIS SHOULD WORK, BUT REMEMBER TO TEST IT OUT!
 
 
-#updated version of mergewrapper since mergewrapper was incomprehensible and didn't work
-#Put the SQL queries into seperate files so that the file wasn't that clogged
+# updated version of mergewrapper since mergewrapper was incomprehensible and didn't work
+# Put the SQL queries into seperate files so that the file wasn't that clogged
 def sql_dataframes(course_name):
     # create the engine using the connect string
     sql_engine = connect.sql_engine()
@@ -73,9 +73,11 @@ def process_dataframe(df):
     Imputes data and computes the cumulative average numerical columns.
     """
     # Impute
-    df = df.fillna(
-        {'time_diff': 0, 'Comment': 0, 'CommentThread': 0}
-    )
+    df = df.fillna({
+        'time_diff': pd.Timedelta(seconds=0),
+        'Comment': 0,
+        'CommentThread': 0
+    })
 
     # Sort
     df = df.sort_values(by=['course_id', 'user_id', 'week'])
@@ -95,10 +97,13 @@ def process_dataframe(df):
     avg_df.columns = [col + '_avg' for col in avg_df.columns]
     # add the averaged columns to original dataframe
     df = df.join(avg_df)
+    # apply the letter grade labeler to final_grade
+    df['letter_grade'] = df['final_grade'].apply(labeler)
     return df
 
-    #gets all the data together and applies the labeler below
+
 def collect_data(course_name):
+    """gets all the data together and applies the labeler"""
     df1, df3, df4 = sql_dataframes(course_name)
     print("\nSQL DATA COLLECTED\n")
     forums = mongo_dataframe(df3)
@@ -107,9 +112,13 @@ def collect_data(course_name):
     print("\nDATA MERGED\n")
     df = process_dataframe(df)
     print("\nAGGREGATED DATA\n")
-    df['letter_grade'] = df['final_grade'].apply(labeler)#apply the letter grade labeler to final_grade
-    avgDF = df.groupby('letter_grade','week')['final_grade'].mean() #get the mean
-    return df, avgDF
+    return df
+
+
+def process_avgDF(df):
+    avgDF = df.groupby(['letter_grade', 'week'])['final_grade'].mean()
+    return avgDF
+
 
 def labeler(x):
     """
@@ -125,13 +134,20 @@ def labeler(x):
         return 'D'
     return 'F'
 
-def main(): #df is the dataframe, avgDF is the averages for each letter grade.
+
+def main():
+    """df is the dataframe, avgDF is the averages for each letter grade."""
     course_name = 'ISYE6501'
-    df, avgDF = collect_data(course_name)
+    df = collect_data(course_name)
+    avgDF = process_avgDF(df)
     sql_engine = connect.sql_engine()
     with sql_engine.begin() as conn:
-        df.to_sql("dataframe", conn, schema='jiti', if_exists='replace', index_label='id')
+        df.to_sql("dataframe", conn, schema='jiti', if_exists='replace',
+                  index_label='id')
         conn.execute("GRANT ALL PRIVILEGES ON TABLE jiti.dataframe TO edx_student")
+        avgDF.reset_index().to_sql("average_dataframe", conn, schema='jiti',
+                                   if_exists='replace', index_label='id')
+        conn.execute("GRANT ALL PRIVILEGES ON TABLE jiti.average_dataframe TO edx_student")
 
 
 if __name__ == "__main__":
