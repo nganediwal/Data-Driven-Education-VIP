@@ -1,0 +1,4 @@
+Worked on weekly averages with the file TESTmerge.py in dataframe directory.
+    should average out weekly
+
+Also worked on presentation and slides
