@@ -148,9 +148,21 @@ page_1_layout = html.Div(
 )
 
 # Progress over time
+# Update: Add a dropdown manu
 page_2_layout = html.Div([
     dcc.Link('Home', href = '/'),
     html.H1('Progress Over Time'),
+    dcc.Dropdown(
+        id='demo-dropdown',
+        options=[
+            {'label': 'Letter Grade', 'value': 'Letter_Grade'},
+            {'label': 'Numerical Grade', 'value': 'Numerical_Grade'},
+            {'label': 'Event Click Counts', 'value': 'Click_Count'},
+            {'label': 'View Count', 'value': 'View_Count'}
+        ],
+        value='letter_grade'
+    ),
+    html.Div(id='student_summary'),
     dcc.Graph(
         figure=dict(
             data=[
@@ -187,6 +199,8 @@ page_2_layout = html.Div([
         id='my-graph'
     ),  
 ])
+    
+#Need a call back for displaying plot based on the dropdown selection
 
 # Resources
 page_3_layout = html.Div([
