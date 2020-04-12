@@ -197,7 +197,7 @@ def plot_summary(option= None):
                 ),
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(80, 10, size = 10),
+                    y = np.random.normal(80, 5, size = 10),
                     name='You',
                     marker=dict(
                         color='rgb(26, 118, 255)'
