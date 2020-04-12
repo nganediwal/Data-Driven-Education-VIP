@@ -6,6 +6,7 @@ import dash_table
 import pandas as pd
 import numpy as np
 import data
+import plotly.graph_objs as go
 
 # test imports
 import dash_bootstrap_components as dbc
@@ -13,7 +14,7 @@ import dash_bootstrap_components as dbc
 print(dcc.__version__) # 0.6.0 or above is required
 
 # Need custom style sheet
-# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 ######## PANDAS TEST DATA BELOW #############
 test_df = data.test_df
@@ -211,9 +212,10 @@ def plot_summary(option= None):
                     y=1.0
                 ),
                 margin=dict(l=40, r=0, t=40, b=30),
-                xaxis_title = 'week',
-                yaxis_title = 'grade'
-            )
+                xaxis=dict(title='Week'),
+                yaxis=dict(title='Grade')
+            ),
+            
         )
     else:
         figure=dict(
@@ -258,8 +260,8 @@ def plot_summary(option= None):
                     y=1.0
                 ),
                 margin=dict(l=40, r=0, t=40, b=30),
-                xaxis_title = 'week',
-                yaxis_title = 'grade'
+                xaxis=dict(title='Week'),
+                yaxis=dict(title='View Counts')
             )
         )
     return (figure)
