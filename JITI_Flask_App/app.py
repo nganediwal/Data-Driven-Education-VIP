@@ -148,34 +148,38 @@ page_1_layout = html.Div(
 )
 
 # Progress over time
-# Update: Add a dropdown manu
+# Update: dropdown menu, callback
+# still need: show x and y axis on the layout
+
 page_2_layout = html.Div([
     dcc.Link('Home', href = '/'),
     html.H1('Progress Over Time'),
     dcc.Dropdown(
-        id='demo-dropdown',
+        id='page_2_dropdown',
         options=[
-            {'label': 'Letter Grade', 'value': 'Letter_Grade'},
-            {'label': 'Numerical Grade', 'value': 'Numerical_Grade'},
-            {'label': 'Event Click Counts', 'value': 'Click_Count'},
-            {'label': 'View Count', 'value': 'View_Count'}
+            {'label': 'Numerical Grade', 'value': 'Numerical Grade'},
+            {'label': 'View Counts', 'value': 'View Counts'}
         ],
-        value='letter_grade'
+        value='Numerical_grade'
     ),
-    html.Div(id='student_summary'),
-    dcc.Graph(
+    dcc.Graph(id = 'page_2_graph',
+            style={'height': 300})
+])
+
+def plot_summary(option= None):
+    if option == 'Numerical Grade':
         figure=dict(
             data=[
                 dict(
-                    x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     y = np.random.normal(95, 2, size = 10),
-                    name='A student',
+                    name='A Student',
                     marker=dict(
                         color='rgb(55, 83, 109)'
                     )
                 ),
                 dict(
-                    x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     y = np.random.normal(80, 10, size = 10),
                     name='You',
                     marker=dict(
@@ -184,7 +188,7 @@ page_2_layout = html.Div([
                 )
             ],
             layout=dict(
-                title='Progress Over Time',
+                title = 'Numerical Grade',
                 showlegend=True,
                 legend=dict(
                     x=0,
@@ -194,13 +198,50 @@ page_2_layout = html.Div([
                 xaxis_title = 'week',
                 yaxis_title = 'grade'
             )
-        ),
-        style={'height': 300},
-        id='my-graph'
-    ),  
-])
-    
-#Need a call back for displaying plot based on the dropdown selection
+        )
+    else:
+        figure=dict(
+            data=[
+                dict(
+                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    y = np.random.normal(10, 2, size = 10),
+                    name='A Student',
+                    marker=dict(
+                        color='rgb(55, 83, 109)'
+                    )
+                ),
+                dict(
+                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    y = np.random.normal(6, 2, size = 10),
+                    name='You',
+                    marker=dict(
+                        color='rgb(26, 118, 255)'
+                    )
+                )
+            ],
+            layout=dict(title = "View Counts",
+                showlegend=True,
+                legend=dict(
+                    x=0,
+                    y=1.0
+                ),
+                margin=dict(l=40, r=0, t=40, b=30),
+                xaxis_title = 'week',
+                yaxis_title = 'grade'
+            )
+        )
+    return (figure)
+
+#page_2_callback
+
+@app.callback(
+    dash.dependencies.Output('page_2_graph', 'figure'),
+    [dash.dependencies.Input('page_2_dropdown', 'value') ] )
+
+def make_graph(page_2_dropdown):
+    fig = plot_summary(option = page_2_dropdown)
+    return fig
+
 
 # Resources
 page_3_layout = html.Div([
