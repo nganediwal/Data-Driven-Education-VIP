@@ -175,7 +175,23 @@ def plot_summary(option= None):
                     y = np.random.normal(95, 2, size = 10),
                     name='A Student',
                     marker=dict(
-                        color='rgb(55, 83, 109)'
+                        color='rgb(249, 197, 5)'
+                    )
+                ),
+                dict(
+                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    y = np.random.normal(85, 2, size = 10),
+                    name='B Student',
+                    marker=dict(
+                        color='rgb(220, 104, 34)'
+                    )
+                ),
+                dict(
+                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    y = np.random.normal(75, 2, size = 10),
+                    name='C Student',
+                    marker=dict(
+                        color='rgb(45, 133, 116)'
                     )
                 ),
                 dict(
@@ -204,15 +220,31 @@ def plot_summary(option= None):
             data=[
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(10, 2, size = 10),
+                    y = np.random.normal(8, 2, size = 10),
                     name='A Student',
                     marker=dict(
-                        color='rgb(55, 83, 109)'
+                        color='rgb(249, 197, 5)'
                     )
                 ),
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     y = np.random.normal(6, 2, size = 10),
+                    name='B Student',
+                    marker=dict(
+                        color='rgb(220, 104, 34)'
+                    )
+                ),
+                dict(
+                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    y = np.random.normal(4, 2, size = 10),
+                    name='C Student',
+                    marker=dict(
+                        color='rgb(45, 133, 116)'
+                    )
+                ),
+                dict(
+                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    y = np.random.normal(5, 2, size = 10),
                     name='You',
                     marker=dict(
                         color='rgb(26, 118, 255)'
