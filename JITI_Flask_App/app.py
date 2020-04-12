@@ -149,8 +149,10 @@ page_1_layout = html.Div(
 )
 
 # Progress over time
-# Updated: dropdown menu, callback, and A, B, C student grade, view counts
+# Updated: dropdown menu, callback, and average A, B, C student grade, view counts
 # Updated: x-axis and y-axis title on the layout
+# Error: The code runs perfectly and gives right graph but shows a error on the webpage 'ID not found in layout'
+# Please check it out
 
 page_2_layout = html.Div([
     dcc.Link('Home', href = '/'),
@@ -174,7 +176,7 @@ def plot_summary(option= None):
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     y = np.random.normal(95, 2, size = 10),
-                    name='A Student',
+                    name='A',
                     marker=dict(
                         color='rgb(249, 197, 5)'
                     )
@@ -182,7 +184,7 @@ def plot_summary(option= None):
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     y = np.random.normal(85, 2, size = 10),
-                    name='B Student',
+                    name='B',
                     marker=dict(
                         color='rgb(220, 104, 34)'
                     )
@@ -190,7 +192,7 @@ def plot_summary(option= None):
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     y = np.random.normal(75, 2, size = 10),
-                    name='C Student',
+                    name='C',
                     marker=dict(
                         color='rgb(45, 133, 116)'
                     )
@@ -238,7 +240,7 @@ def plot_summary(option= None):
                 ),
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(4, 2, size = 10),
+                    y = np.random.normal(3, 2, size = 10),
                     name='C Student',
                     marker=dict(
                         color='rgb(45, 133, 116)'
