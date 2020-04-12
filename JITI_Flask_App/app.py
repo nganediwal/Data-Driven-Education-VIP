@@ -149,8 +149,8 @@ page_1_layout = html.Div(
 )
 
 # Progress over time
-# Update: dropdown menu, callback
-# still need: show x and y axis on the layout
+# Updated: dropdown menu, callback, and A, B, C student grade
+# Updated: x-axis and y-axis title on the layout
 
 page_2_layout = html.Div([
     dcc.Link('Home', href = '/'),
