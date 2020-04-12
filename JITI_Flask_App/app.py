@@ -149,7 +149,7 @@ page_1_layout = html.Div(
 )
 
 # Progress over time
-# Updated: dropdown menu, callback, and A, B, C student grade
+# Updated: dropdown menu, callback, and A, B, C student grade, view counts
 # Updated: x-axis and y-axis title on the layout
 
 page_2_layout = html.Div([
