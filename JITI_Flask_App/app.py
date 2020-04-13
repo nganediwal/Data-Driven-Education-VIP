@@ -157,6 +157,8 @@ page_1_layout = html.Div(
 page_2_layout = html.Div([
     dcc.Link('Home', href = '/'),
     html.H1('Progress Over Time'),
+    
+    #Dropdown menu for different graphs
     dcc.Dropdown(
         id='page_2_dropdown',
         options=[
