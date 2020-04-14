@@ -176,53 +176,53 @@ page_2_layout = html.Div([
 ])
 
 def plot_summary(option= None):
+
+    #set common variables
+
+    index = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    ColorA = dict(color='rgb(249, 197, 5)')
+    ColorB = dict(color='rgb(220, 104, 34)')
+    ColorC = dict(color='rgb(45, 133, 116)')
+    ColorU = dict(color='rgb(26, 118, 255)')
+    Layout_legend= dict(x=0,y=1.0)
+    Layout_margin = dict(l=40, r=0, t=40, b=30)
     
     #Graph for Numberical Grade
+
     
     if option == 'Numerical Grade':
         figure=dict(
             data=[
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(95, 2, size = 10),
                     name='A',
-                    marker=dict(
-                        color='rgb(249, 197, 5)'
-                    )
+                    marker= ColorA
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(85, 2, size = 10),
                     name='B',
-                    marker=dict(
-                        color='rgb(220, 104, 34)'
-                    )
-                ),
+                    marker= ColorB
+                ), 
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(75, 2, size = 10),
                     name='C',
-                    marker=dict(
-                        color='rgb(45, 133, 116)'
-                    )
+                    marker= ColorC                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(80, 2, size = 10),
                     name='Your Grade',
-                    marker=dict(
-                        color='rgb(26, 118, 255)'
-                    )
+                    marker= ColorU
                 )
             ],
             layout=dict(
                 title = 'Numerical Grades Over Time',
                 showlegend=True,
-                legend=dict(
-                    x=0,
-                    y=1.0
-                ),
-                margin=dict(l=40, r=0, t=40, b=30),
+                legend=Layout_legend,
+                margin=Layout_margin,
                 xaxis=dict(title='Week'),
                 yaxis=dict(title='Grade')
             ),
@@ -233,46 +233,34 @@ def plot_summary(option= None):
         figure=dict(
             data=[
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(10, 1, size = 10),
                     name='A Views',
-                    marker=dict(
-                        color='rgb(249, 197, 5)'
-                    )
+                    marker=ColorA
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(8, 1, size = 10),
                     name='B Views',
-                    marker=dict(
-                        color='rgb(220, 104, 34)'
-                    )
+                    marker=ColorB
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(5, 1, size = 10),
                     name='C Views',
-                    marker=dict(
-                        color='rgb(45, 133, 116)'
-                    )
+                    marker=ColorC
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(7, 1, size = 10),
                     name='Your Views',
-                    marker=dict(
-                        color='rgb(26, 118, 255)'
-                    )
+                    marker=ColorU
                 )
             ],
             layout=dict(title = "View Counts Over Time",
                 showlegend=True,
-                legend=dict(
-                    x=0,
-                    y=1.0
-                ),
-                margin=dict(l=40, r=0, t=40, b=30),
-                xaxis=dict(title='Week'),
+                legend=Layout_legend,
+                margin=Layout_margin,
                 yaxis=dict(title='View Counts')
             )
         )
@@ -281,46 +269,34 @@ def plot_summary(option= None):
         figure=dict(
             data=[
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(3000, 100, size = 10),
                     name='A Clicks',
-                    marker=dict(
-                        color='rgb(249, 197, 5)'
-                    )
+                    marker=ColorA
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(2000, 100, size = 10),
                     name='B Clicks',
-                    marker=dict(
-                        color='rgb(220, 104, 34)'
-                    )
+                    marker=ColorB
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(1000, 100, size = 10),
                     name='C Clicks',
-                    marker=dict(
-                        color='rgb(45, 133, 116)'
-                    )
+                    marker=ColorC
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(1952, 100, size = 10),
                     name='Your Clicks',
-                    marker=dict(
-                        color='rgb(26, 118, 255)'
-                    )
+                    marker=ColorU
                 )
             ],
             layout=dict(title = "Click Counts Over Time",
                 showlegend=True,
-                legend=dict(
-                    x=0,
-                    y=1.0
-                ),
-                margin=dict(l=40, r=0, t=40, b=30),
-                xaxis=dict(title='Week'),
+                legend=Layout_legend,
+                margin=Layout_margin,
                 yaxis=dict(title='Click Counts')
             )
         )
@@ -329,45 +305,34 @@ def plot_summary(option= None):
         figure=dict(
             data=[
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(92, 2, size = 10),
                     name='A',
-                    marker=dict(
-                        color='rgb(249, 197, 5)'
-                    )
+                    marker=ColorA
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(85, 2, size = 10),
                     name='B',
-                    marker=dict(
-                        color='rgb(220, 104, 34)'
-                    )
+                    marker=ColorB
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(75, 2, size = 10),
                     name='C',
-                    marker=dict(
-                        color='rgb(45, 133, 116)'
-                    )
+                    marker=ColorC
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(80, 2, size = 10),
                     name='Your Grade',
-                    marker=dict(
-                        color='rgb(26, 118, 255)'
-                    )
+                    marker=ColorU
                 )
             ],
             layout=dict(title = "Homework Grades Over Time",
                 showlegend=True,
-                legend=dict(
-                    x=0,
-                    y=1.0
-                ),
-                margin=dict(l=40, r=0, t=40, b=30),
+                legend=Layout_legend,
+                margin=Layout_margin,
                 xaxis=dict(title='Week'),
                 yaxis=dict(title='View Counts')
             )
@@ -377,51 +342,41 @@ def plot_summary(option= None):
         figure=dict(
             data=[
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(4, 0.5, size = 10),
                     name='A daily visits',
-                    marker=dict(
-                        color='rgb(249, 197, 5)'
-                    )
+                    marker=ColorA
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(3, 0.3, size = 10),
                     name='B daily visits',
-                    marker=dict(
-                        color='rgb(220, 104, 34)'
-                    )
+                    marker=ColorB
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(2, 0.4, size = 10),
                     name='C daily visits',
-                    marker=dict(
-                        color='rgb(45, 133, 116)'
-                    )
+                    marker=ColorC
                 ),
                 dict(
-                    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    x = index,
                     y = np.random.normal(3, 0.2, size = 10),
                     name='Your daily visits',
-                    marker=dict(
-                        color='rgb(26, 118, 255)'
-                    )
+                    marker=ColorU
                 )
             ],
             layout=dict(title = "Daily Visits Over Time",
                 showlegend=True,
-                legend=dict(
-                    x=0,
-                    y=1.0
-                ),
-                margin=dict(l=40, r=0, t=40, b=30),
+                legend=Layout_legend,
+                margin=Layout_margin,
                 xaxis=dict(title='Week'),
                 yaxis=dict(title='Daily Visits')
             )
         )
     
     return (figure)
+
 
 #page_2_callback
 
