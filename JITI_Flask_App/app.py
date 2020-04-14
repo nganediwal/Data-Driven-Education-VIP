@@ -330,7 +330,7 @@ def plot_summary(option= None):
             data=[
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(92, 5, size = 10),
+                    y = np.random.normal(92, 2, size = 10),
                     name='A',
                     marker=dict(
                         color='rgb(249, 197, 5)'
@@ -338,7 +338,7 @@ def plot_summary(option= None):
                 ),
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(85, 5, size = 10),
+                    y = np.random.normal(85, 2, size = 10),
                     name='B',
                     marker=dict(
                         color='rgb(220, 104, 34)'
@@ -346,7 +346,7 @@ def plot_summary(option= None):
                 ),
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(75, 5, size = 10),
+                    y = np.random.normal(75, 2, size = 10),
                     name='C',
                     marker=dict(
                         color='rgb(45, 133, 116)'
@@ -354,7 +354,7 @@ def plot_summary(option= None):
                 ),
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(80, 5, size = 10),
+                    y = np.random.normal(80, 2, size = 10),
                     name='Your Grade',
                     marker=dict(
                         color='rgb(26, 118, 255)'
