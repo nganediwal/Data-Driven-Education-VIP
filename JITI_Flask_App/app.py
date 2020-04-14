@@ -2,6 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
 import dash_table
 import pandas as pd
 import numpy as np
@@ -160,7 +161,7 @@ page_2_layout = html.Div([
     
     #Dropdown menu for different graphs
     dcc.Dropdown(
-        id='page_2_dropdown',
+        id='yaxis',
         options=[
             {'label': 'Numerical Grade', 'value': 'Numerical Grade'},
             {'label': 'View Counts', 'value': 'View Counts'},
@@ -170,7 +171,7 @@ page_2_layout = html.Div([
         ],
         value='Numerical_grade'
     ),
-    dcc.Graph(id = 'page_2_graph',
+    dcc.Graph(id = 'feature-graphic',
             style={'height': 500})
 ])
 
@@ -329,7 +330,7 @@ def plot_summary(option= None):
             data=[
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(92, 2, size = 10),
+                    y = np.random.normal(92, 5, size = 10),
                     name='A',
                     marker=dict(
                         color='rgb(249, 197, 5)'
@@ -337,7 +338,7 @@ def plot_summary(option= None):
                 ),
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(85, 2, size = 10),
+                    y = np.random.normal(85, 5, size = 10),
                     name='B',
                     marker=dict(
                         color='rgb(220, 104, 34)'
@@ -345,7 +346,7 @@ def plot_summary(option= None):
                 ),
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(75, 2, size = 10),
+                    y = np.random.normal(75, 5, size = 10),
                     name='C',
                     marker=dict(
                         color='rgb(45, 133, 116)'
@@ -353,7 +354,7 @@ def plot_summary(option= None):
                 ),
                 dict(
                     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    y = np.random.normal(80, 2, size = 10),
+                    y = np.random.normal(80, 5, size = 10),
                     name='Your Grade',
                     marker=dict(
                         color='rgb(26, 118, 255)'
@@ -424,9 +425,8 @@ def plot_summary(option= None):
 
 #page_2_callback
 
-@app.callback(
-    dash.dependencies.Output('page_2_graph', 'figure'),
-    [dash.dependencies.Input('page_2_dropdown', 'value') ] )
+@app.callback(Output('feature-graphic', 'figure'),
+             [Input('yaxis', 'value') ] )
 
 def make_graph(page_2_dropdown):
     fig = plot_summary(option = page_2_dropdown)
@@ -456,4 +456,4 @@ def display_page(pathname):
     # else : 404 PAGE (not implemented)
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server()
