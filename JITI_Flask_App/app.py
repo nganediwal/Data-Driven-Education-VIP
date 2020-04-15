@@ -161,7 +161,7 @@ page_2_layout = html.Div([
     
     #Dropdown menu for different graphs
     dcc.Dropdown(
-        id='yaxis',
+        id='yaxis',#set id enable call back
         options=[
             {'label': 'Numerical Grade', 'value': 'Numerical Grade'},
             {'label': 'View Counts', 'value': 'View Counts'},
@@ -169,16 +169,18 @@ page_2_layout = html.Div([
             {'label': 'Homework Grade', 'value': 'Homework Grade'},
             {'label': 'Daily Visits', 'value': 'Daily Visits'}
         ],
-        value='Numerical_grade'
+        value='Numerical_grade'#set initial value
     ),
     dcc.Graph(id = 'feature-graphic',
             style={'height': 500})
 ])
 
+#The function will create graphs based on the factors in the dropdown menu
+#Each Graph contains 4 sets of data that can show the average for A, B, C students, and individual student's record
+
 def plot_summary(option= None):
 
     #set common variables
-
     index = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     ColorA = dict(color='rgb(249, 197, 5)')
     ColorB = dict(color='rgb(220, 104, 34)')
@@ -186,10 +188,8 @@ def plot_summary(option= None):
     ColorU = dict(color='rgb(26, 118, 255)')
     Layout_legend= dict(x=0,y=1.0)
     Layout_margin = dict(l=40, r=0, t=40, b=30)
-    
+   
     #Graph for Numberical Grade
-
-    
     if option == 'Numerical Grade':
         figure=dict(
             data=[
@@ -383,6 +383,7 @@ def plot_summary(option= None):
 @app.callback(Output('feature-graphic', 'figure'),
              [Input('yaxis', 'value') ] )
 
+#recall the function above
 def make_graph(page_2_dropdown):
     fig = plot_summary(option = page_2_dropdown)
     return fig
