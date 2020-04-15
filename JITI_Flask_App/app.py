@@ -475,4 +475,4 @@ def display_page(pathname):
     # else : 404 PAGE (not implemented)
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(debug=True)
