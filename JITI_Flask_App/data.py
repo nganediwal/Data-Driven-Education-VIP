@@ -60,6 +60,14 @@ df = pd.DataFrame({
 
 test_df = df
 
+# Dummy data for score prediction
+model_theta = np.array([.5, .3/20, 0, .1, .1*30]).T
+student_data = {}
+student_predicted_grade = {}
+
+student_data[2000] = np.array([95, 2200, 0, 94, 3.2])
+student_data[2001] = np.array([87, 1933, 0, 84, 2.6])
+
 
 
 # test_df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')

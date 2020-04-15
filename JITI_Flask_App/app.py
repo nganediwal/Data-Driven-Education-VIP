@@ -19,10 +19,16 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 ######## PANDAS TEST DATA BELOW #############
 test_df = data.test_df
+student_data = data.student_data
+model_theta = data.model_theta
+# print(student_predicted_grade)
 ######## PANDAS TEST DATA ABOVE #############
 
 # initializing the app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+#To fix callback exceptions, need to include ids in the INITIAL state
+app.config['suppress_callback_exceptions'] = True
 
 # Dictionary
 colors = {
@@ -44,7 +50,7 @@ index_page = html.Div([
             "Welcome, Beta_Tester!"
         ),  
         style = {
-            'margin-bottom' : '100px'
+            'margin-bottom' : '100px',
         }
     ),
 
@@ -121,6 +127,8 @@ index_page = html.Div([
 ])
 
 
+## TODO: 
+
 # table data
 page_1_layout = html.Div(
     [
@@ -142,12 +150,57 @@ page_1_layout = html.Div(
         ),
         style = {
             'margin-left': '200px',
-            'margin-right': '200px'
+            'margin-right': '200px',
+            'margin-bottom': '100px'
         }
-    )
-    
+    ),
+
+    # Take user input for prediction
+    html.Div([
+        
+        html.H1(
+            "Enter student ID for prediction below"
+        ),  
+        dcc.Input(
+            id='student_id',
+            placeholder = 'Enter ID here',
+            type='number',
+            value='',
+            style = {
+                'margin-bottom': '25px'
+            }
+        ),
+        html.H1(id='predicted_score', 
+             # Margin after the score
+            style = {
+                'margin-bottom' : '100px'
+            }
+        ),
+        html.H1(id='weaknesses',
+
+        ),
+        
+    ]),
     ]
 )
+
+## STRENGTHS AND WEAKNESSES CALLBACKS for student ID
+# Predicted Grade / Predicted Score
+@app.callback(
+    Output(component_id ='predicted_score', component_property='children'),
+    [Input(component_id='student_id', component_property='value')]
+)
+def update_predicted_score(student_id):
+    return "Your score is: {}".format(student_data[student_id].dot(model_theta))
+
+# Weaknesses
+@app.callback(
+    Output(component_id ='weaknesses', component_property='children'),
+    [Input(component_id='student_id', component_property='value')]
+)
+def update_weaknesses(student_id):
+    id_data = student_data[student_id]
+    return str(id_data)
 
 # Progress over time
 # Updated: dropdown menu, callback, and average A, B, C student grade, view counts
