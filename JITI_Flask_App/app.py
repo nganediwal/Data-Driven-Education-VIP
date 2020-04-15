@@ -121,9 +121,6 @@ index_page = html.Div([
 ])
 
 
-
-
-
 # table data
 page_1_layout = html.Div(
     [
@@ -132,8 +129,11 @@ page_1_layout = html.Div(
     html.Div(
         dash_table.DataTable(
             id='table',
-            columns=[{"name": i, "id": i} for i in test_df.columns],
+            # Allows us to delete columns
+            columns=[{"name": i, "id": i, "deletable": True} for i in test_df.columns],
             data=test_df.to_dict('records'),
+            # Allows us to filter rows
+            filter_action="native",
             style_table = {'overflowX' : 'scoll'},
             style_cell={
                 'height': '30',
