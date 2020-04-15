@@ -179,7 +179,7 @@ def plot_summary(option= None):
 
     #set common variables
 
-    index = [0, 2, 3, 4, 5, 6, 7, 8, 9]
+    index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     ColorA = dict(color='rgb(249, 197, 5)')
     ColorB = dict(color='rgb(220, 104, 34)')
     ColorC = dict(color='rgb(45, 133, 116)')
