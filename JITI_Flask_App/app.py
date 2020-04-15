@@ -127,7 +127,11 @@ index_page = html.Div([
 ])
 
 
-## TODO: 
+## TODO: Put all the attributes into a list, iterate through and display student values
+## Basically, display their stats and make it look nicer
+
+## TODO: Iterate through student attributes in callback, update the "weakness" message 
+# depending on what's below average
 
 # table data
 page_1_layout = html.Div(
@@ -151,7 +155,8 @@ page_1_layout = html.Div(
         style = {
             'margin-left': '200px',
             'margin-right': '200px',
-            'margin-bottom': '100px'
+            'margin-bottom': '25px',
+            'margin-top': '25px'
         }
     ),
 
@@ -159,7 +164,7 @@ page_1_layout = html.Div(
     html.Div([
         
         html.H1(
-            "Enter student ID for prediction below"
+            "Enter ID"
         ),  
         dcc.Input(
             id='student_id',
@@ -172,16 +177,18 @@ page_1_layout = html.Div(
         ),
         html.H1(id='predicted_score', 
              # Margin after the score
-            style = {
-                'margin-bottom' : '100px'
-            }
+
         ),
         html.H1(id='weaknesses',
 
         ),
         
     ]),
-    ]
+
+    ],
+    style = {
+        'margin-left': '100px',
+    }
 )
 
 ## STRENGTHS AND WEAKNESSES CALLBACKS for student ID
@@ -191,7 +198,7 @@ page_1_layout = html.Div(
     [Input(component_id='student_id', component_property='value')]
 )
 def update_predicted_score(student_id):
-    return "Your score is: {}".format(student_data[student_id].dot(model_theta))
+    return "Your predicted grade is: {:.2f}".format(student_data[student_id].dot(model_theta))
 
 # Weaknesses
 @app.callback(
@@ -200,6 +207,9 @@ def update_predicted_score(student_id):
 )
 def update_weaknesses(student_id):
     id_data = student_data[student_id]
+    ## hard coded, need to replace with loop checking for stats that are below average
+    if (student_id == 2001):
+        return "You need to watch more videos! " + "Your stats:" + str(id_data)
     return str(id_data)
 
 # Progress over time
