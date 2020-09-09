@@ -18,7 +18,7 @@ print(dcc.__version__) # 0.6.0 or above is required
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 ######## PANDAS TEST DATA BELOW #############
-test_df = data.test_df
+test_df = data.testModelDF
 student_data = data.student_data
 model_theta = data.model_theta
 # print(student_predicted_grade)
@@ -49,19 +49,11 @@ index_page = html.Div([
         html.H1(
             "Welcome, Beta_Tester!"
         ),  
+
         style = {
             'margin-bottom' : '100px',
         }
     ),
-
-    # Example
-    # dbc.Row(
-    #     [
-    #         dbc.Col(html.Div("One of three columns")),
-    #         dbc.Col(html.Div("One of three columns")),
-    #         dbc.Col(html.Div("One of three columns")),
-    #     ]
-    # ),
 
     dbc.Row(children = [
         
@@ -75,6 +67,7 @@ index_page = html.Div([
                     }
                 ),
             ),
+
             dbc.Row(
                 dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data',
                     style = {
@@ -95,6 +88,7 @@ index_page = html.Div([
                     }
                 ),
             ),
+
             dbc.Row(
                 dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time',
                     style = {
@@ -114,6 +108,7 @@ index_page = html.Div([
                     }
                 ),
             ),
+
             dbc.Row(
                 dcc.Link(html.Button('Resources'), href = '/resources',
                 style = {
@@ -126,6 +121,32 @@ index_page = html.Div([
     ], align = "center", justify = "around"),
 ])
 
+# Generating data table 
+# if negative param display all data (up to 10 rows)
+# else display the one student's data
+def generate_table(studentID = -1):
+    if (studentID == -1):
+        return html.Table([
+            html.Thead(
+                html.Tr([html.Th(col) for col in student_data.columns])
+            ),
+            html.Tbody([
+                html.Tr([
+                    html.Td(student_data.iloc[i][col]) for col in student_data.columns
+                ]) for i in range(min(len(student_data), 10))
+            ])
+        ])
+    else:
+        return html.Table([
+            html.Thead(
+                html.Tr([html.Th(col) for col in student_data.columns])
+            ),
+            html.Tbody([
+                html.Tr([
+                    html.Td(student_data.iloc[studentID][col]) for col in student_data.columns
+                ])
+            ])
+        ])
 
 ## TODO: Put all the attributes into a list, iterate through and display student values
 ## Basically, display their stats and make it look nicer
@@ -137,7 +158,9 @@ index_page = html.Div([
 page_1_layout = html.Div(
     [
     dcc.Link('Home', href='/'),
+
     html.H1('Strengths and Weaknesses'),
+
     html.Div(
         dash_table.DataTable(
             id='table',
@@ -161,28 +184,22 @@ page_1_layout = html.Div(
     ),
 
     # Take user input for prediction
+    # displays current stats and not weaknesses (not implemented)
+
     html.Div([
         
         html.H1(
             "Enter ID"
         ),  
-        dcc.Input(
-            id='student_id',
-            placeholder = 'Enter ID here',
-            type='number',
-            value='',
-            style = {
-                'margin-bottom': '25px'
-            }
-        ),
+        html.Div([
+        html.Div(dcc.Input(id='student_id', type='number'))
+        ]),
+
         html.H1(id='predicted_score', 
              # Margin after the score
 
         ),
-        html.H1(id='weaknesses',
-
-        ),
-        
+        html.H1(id='current_stats'),
     ]),
 
     ],
@@ -197,20 +214,47 @@ page_1_layout = html.Div(
     Output(component_id ='predicted_score', component_property='children'),
     [Input(component_id='student_id', component_property='value')]
 )
-def update_predicted_score(student_id):
-    return "Your predicted grade is: {:.2f}".format(student_data[student_id].dot(model_theta))
 
-# Weaknesses
+# Fake model used to predict 3 students' scores 
+# Those ID's can be 0, 1, 2 (respectively A, B, C students)
+def update_predicted_score(student_id):
+    try:
+
+        if (student_id == None):
+            return "Grade cannot be predicted with no ID"
+            
+        if(student_id < 0):
+            return "id cannot be negative"
+
+        else:
+            test = student_data.to_numpy()[student_id, 1:]
+            test = test.dot(model_theta)
+            return "Your predicted grade is: {:.2f}".format(test)
+
+    except:
+        return "Grade cannot be predicted with invalid ID"
+
+# Current stats 
+# outputs table of selected student
+# or if negative # outputs entire table
 @app.callback(
-    Output(component_id ='weaknesses', component_property='children'),
-    [Input(component_id='student_id', component_property='value')]
+    dash.dependencies.Output('current_stats', 'children'),
+    [dash.dependencies.Input('student_id', 'value')]
 )
-def update_weaknesses(student_id):
-    id_data = student_data[student_id]
-    ## hard coded, need to replace with loop checking for stats that are below average
-    if (student_id == 2001):
-        return "You need to watch more videos! " + "Your stats:" + str(id_data)
-    return str(id_data)
+def update_current_stats(value):
+    try:
+        if (value == None):
+            return "stats cannot be shown with no ID"
+
+        if (value < 0):
+            return generate_table(-1)
+
+        else:
+            test = np.array2string(student_data.to_numpy()[value, 1:])
+            return generate_table(int(value))
+
+    except:
+        return "Grade cannot be shown with invalid ID"
 
 # Progress over time
 # Updated: dropdown menu, callback, and average A, B, C student grade, view counts

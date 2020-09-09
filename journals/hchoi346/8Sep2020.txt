@@ -1,0 +1,10 @@
+Talked about data and status of things
+
+Then separated into our two respective teams to make actionable items.
+
+talked about tasks for front-end / back-end 
+
+front end will be making displays of dummy student data (fake connecting to back-end) 
+	as well as accessing student predicted grade, and displaying that on page. Possibly through a simple ID like 1, 2, 3...
+
+What I did this week: Got familiar with the code base and made sure I understood what was going on.

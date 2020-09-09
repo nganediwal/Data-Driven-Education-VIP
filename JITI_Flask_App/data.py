@@ -19,7 +19,6 @@ def labeler(x):
         return 'D'
     return 'F'
 
-
 ## Shawn's aggregation stuff BELOW
 np.random.seed(110)
 grades = np.random.normal(0.8, 0.2, size=10)
@@ -42,32 +41,46 @@ agg_df.columns = ['average grade']
 
 ### Dummy data for table page
 ## Need to get data into a dataframe to pass into dash
-letter_grades = ['You', 'A', 'B', 'C']
-grades = np.random.normal(80, 10, size = 4)
-click_count = np.random.normal(2000, 100, size = 4)
-view_count = np.random.normal(10, 3, size = 4)
-homework_grades = [73, 94, 87, 70]
-daily_visits = [3.2, 2.6, 3.3, 2.6]
+letter_grades = ['A', 'B', 'C']
+grades = np.random.normal(80, 10, size = 3)
+click_count = np.random.normal(2000, 100, size = 3)
+view_count = np.random.normal(10, 3, size = 3)
+homework_grades = [94, 87, 70]
+daily_visits = [2.6, 3.3, 2.6]
 
 df = pd.DataFrame({
-    'Letter_Grade': letter_grades,
-    'Numerical_Grade': grades,
-    'Click_Count' : click_count,
-    'View_Count' : view_count,
-    'Homework_Grade': homework_grades,
-    'Daily_Visits': daily_visits
+    'Letter Grade': letter_grades,
+    'Numerical Grade': grades,
+    'Click Count' : click_count,
+    'View Count' : view_count,
+    'Homework Grade': homework_grades,
+    'Daily Visits': daily_visits
 })
 
-test_df = df
+testModelDF = df
 
 # Dummy data for score prediction
 model_theta = np.array([.5, .3/20, .1, 0, .1*30]).T
 student_data = {}
 student_predicted_grade = {}
 
-student_data[2000] = np.array([95, 2200, 10, 94, 3.2])
-student_data[2001] = np.array([87, 1933, 4, 84, 2.8])
+student_data[2000] = np.array([93.1, 95, 2200, 10, 94, 3.2])
+student_data[2001] = np.array([85, 87, 1933, 4, 84, 2.8])
 
+letter_grades = ['A', 'B', 'C']
+grades = [93.1, 85, 77]
+click_count = [2200, 1933, 1600]
+view_count = [10, 4, 1]
+homework_grades = [94, 87, 70]
+daily_visits = [3.2, 3.3, 2.6]
 
+student_data = pd.DataFrame({
+    'Letter Grade': letter_grades,
+    'Numerical Grade': grades,
+    'Click Count' : click_count,
+    'View Count' : view_count,
+    'Homework Grade': homework_grades,
+    'Daily Visits': daily_visits
+})
 
 # test_df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
