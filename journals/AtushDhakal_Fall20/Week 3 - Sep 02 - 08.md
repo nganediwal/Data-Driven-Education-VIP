@@ -1,5 +1,5 @@
 # 09/02/2020 - 09/16/2020
-# Week 3 + 4
+# Week 3
 # JITI Sub-team
 
 ## Team Meeting:
