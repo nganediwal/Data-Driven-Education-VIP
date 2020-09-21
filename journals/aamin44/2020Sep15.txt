@@ -1,0 +1,16 @@
+What I have done this week:
+*Created a basic SQL file to easily insert dummy data to SQL DBs
+*Created a PostgreSQL Database with ElephantSQL.
+*Created a Cloud Mongo Database.
+*Uploaded fake student data to both databases.
+*Created a python file that connects to both databases.  Within this file, there are two functions to get a full row/document of data of a student given their student_id
+
+What I still need to do:
+*Create a local dummy model and have a function query data to put through the model in Python
+
+What to do before next meeting:
+*Work on PPT presentation (what have we done/what will we do for the backend)
+*Create local dummy model (need to talk to model team to figure out a basic framework)
+*Create a function within the Python file I worked on that puts student data through the local dummy model
+*Make sure to communicate with Attush more!!
+*Talk to Matthew about if I should push my python files to git or not
