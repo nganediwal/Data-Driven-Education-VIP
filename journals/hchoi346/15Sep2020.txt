@@ -1,0 +1,12 @@
+What I did this week:
+	Cleaned up the display for the student ID as well as removing the errors by implementing try/catch. 
+	Took some time since new to Dash.
+	Also implemented ID specific data tables as well as removing displaying entire table if the id is negative.
+	Switched weakness component to current stats since weakness has not been implemented yet.
+
+What we talked about this week:
+	Making slides for next week
+	What was done this week (ElephantSQL, setting up fake data, front-end improvements)
+	What to do for next week (improvements to front-end or connecting to fake data from back-end now)
+
+How are we managing this repo?

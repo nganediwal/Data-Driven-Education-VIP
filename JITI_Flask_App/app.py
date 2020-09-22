@@ -157,8 +157,6 @@ def generate_table(studentID = -1):
 # table data
 page_1_layout = html.Div(
     [
-    dcc.Link('Home', href='/'),
-
     html.H1('Strengths and Weaknesses'),
 
     html.Div(
@@ -202,6 +200,14 @@ page_1_layout = html.Div(
         html.H1(id='current_stats'),
     ]),
 
+    dcc.Link(html.Button('Home Page'), href = '/',
+        style = {
+            'margin' : 'auto',
+            'position' : 'fixed',
+            'bottom' : '10px',
+            'left' : '10px',
+        }
+    )
     ],
     style = {
         'margin-left': '100px',
@@ -263,7 +269,6 @@ def update_current_stats(value):
 # Please check it out
 
 page_2_layout = html.Div([
-    dcc.Link('Home', href = '/'),
     html.H1('Progress Over Time'),
     
     #Dropdown menu for different graphs
@@ -278,8 +283,18 @@ page_2_layout = html.Div([
         ],
         value='Numerical_grade'#set initial value
     ),
+
     dcc.Graph(id = 'feature-graphic',
-            style={'height': 500})
+            style={'height': 500}),
+
+    dcc.Link(html.Button('Home Page'), href = '/',
+        style = {
+            'margin' : 'auto',
+            'position' : 'fixed',
+            'bottom' : '10px',
+            'left' : '10px',
+        }
+    )
 ])
 
 #The function will create graphs based on the factors in the dropdown menu
@@ -498,8 +513,89 @@ def make_graph(page_2_dropdown):
 
 # Resources
 page_3_layout = html.Div([
-    dcc.Link('Home', href = '/'),
-    html.H1('Resources'),
+    html.Div(
+        html.H1(
+            "Welcome to your resources. Feel free to reach out and look for help!"
+        ),  
+
+        style = {
+            'margin-bottom' : '100px',
+        }
+    ),
+
+    dbc.Row(children = [
+        
+        dbc.Col(children = [
+            dbc.Row(
+                html.Img(src='/assets/tutoring.png', 
+                    style = {
+                        'max-height': '200px',
+                        'margin' : 'auto',
+                        'margin-bottom': '25px'
+                    }
+                ),
+            ),
+
+            dbc.Row(
+                html.A(html.Button('Tutoring'), 
+                href = 'http://success.gatech.edu/tutoring-0',
+                style = {
+                    'margin' : 'auto',
+                }),
+             ),
+        ], 
+            width={"size": 3, "offset" : 1},
+        ),
+        dbc.Col(children = [
+            dbc.Row(
+                html.Img(src='/assets/gtlogo.jpg', 
+                    style = {
+                        'max-height': '200px',
+                        'margin' : 'auto',
+                        'margin-bottom': '25px'
+                    }
+                ),
+            ),
+
+            dbc.Row(
+                html.A(html.Button('Professor Directory'), 
+                href = 'https://www.gatech.edu/offices-and-departments/',
+                style = {
+                    'margin' : 'auto',
+                }),
+             ),
+        ], width={"size": 3}),
+
+        dbc.Col(children = [
+            dbc.Row(
+                html.Img(src='/assets/advisor.png', 
+                    style = {
+                        'max-height': '200px',
+                        'margin' : 'auto',
+                        'margin-bottom': '25px'
+                    }
+                ),
+            ),
+
+            dbc.Row(
+                html.A(html.Button('Advisor'), href = 'https://advisor.gatech.edu/',
+                style = {
+                    'margin' : 'auto',
+                }),
+             ),
+        ], width={"size": 3},),
+        
+
+    ], align = "center", justify = "around"),
+
+    dcc.Link(html.Button('Home Page'), href = '/',
+        style = {
+            'margin' : 'auto',
+            'position' : 'fixed',
+            'bottom' : '10px',
+            'left' : '10px',
+        }
+    )
 ])
 
 # Update the URL, needed to render different pages
@@ -516,7 +612,6 @@ def display_page(pathname):
         return page_2_layout
     elif pathname == '/resources':
         return page_3_layout
-    # else : 404 PAGE (not implemented)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
