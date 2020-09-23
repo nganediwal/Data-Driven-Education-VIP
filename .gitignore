@@ -1,6 +1,7 @@
 creds.zip
 creds.py
 .aws/
+JITI_Flask_App/config.py
 
 # Ignore your credential files!
 creds/
