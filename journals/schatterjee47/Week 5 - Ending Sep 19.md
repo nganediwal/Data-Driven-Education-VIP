@@ -19,11 +19,11 @@
   - Call for participation
 
 
-
 ## TODO Tasks:
   - Explore the new data provided by the insturctors.
   - Work on slides for first sub-team presentation.
   - Update Trello Board based on the change of plan because of the new data set.
+  - Respond to Call for participation for Digital Credentials Consortium Research
   
 ## Sub-team meeting(15th Sep):'
   - Presented a Slide on existing data mapping and got understanding of it from experienced team members
@@ -31,11 +31,6 @@
   - Discussed on the slide/topic distribution of sub team presentation
   - Explained data team members on their task responsibilities going forward and how that can be translated in the slide deck
   - Instructors discussed details about the new data set and how it is different from the existing dataset.
-
-## TODO Tasks:
-  - Explore the new data provided by instructors
-  - Prepare slides for sub-team presentation
-  - Respond to Call for participation for Digital Credentials Consortium Research
 
 ## Work Completed
   - Explores the new data provided by instructors and used Weka to get an understanding of feature importance and models
