@@ -57,6 +57,12 @@ def feature_explortion(data):
     print("Data size: " + str(data.shape))
     print(data.isnull().sum().sort_values(ascending=False))
     corr_matrix = data.corr()
+    fig, ax = plt.subplots(figsize=(18,18)) 
+    sns_plot = sns.heatmap(corr_matrix, 
+            xticklabels=corr_matrix.columns.values,
+            yticklabels=corr_matrix.columns.values,
+            ax=ax)
+    sns_plot.figure.savefig("./plots/correlation.png")
     cm=corr_matrix[output_variable].sort_values(ascending=False)
     features = cm.index[1:6].tolist()
     data[np.array(features)].hist(bins=200,figsize=(16,8))
@@ -95,7 +101,7 @@ def main():
         Ridge(alpha=.1),
         LassoLars(alpha=.1),
         DecisionTreeRegressor(),
-        RandomForestRegressor(),
+        RandomForestRegressor(n_estimators=100),
         AdaBoostRegressor(),
         GradientBoostingRegressor()
     ]
