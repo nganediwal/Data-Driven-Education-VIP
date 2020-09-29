@@ -126,3 +126,6 @@ venv.bak/
 
 # VS
 .vs/
+
+# JITI DBs
+JITI_Flask_App/config.py
