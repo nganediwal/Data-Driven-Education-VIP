@@ -30,6 +30,7 @@ mycur = mycol.find({})
 # for doc in mycur:
 #     print(doc)
 
+
 #################################################################
 def get_student_data_PSQL(student_id):
     postgreSQL_select_Query = "select * from info where user_id = " + str(student_id)
@@ -41,12 +42,19 @@ def get_student_data_PSQL(student_id):
         return ()
     return temp[0]
 
+def get_column_names_PSQL():
+    cursor.execute("Select * from info LIMIT 0")
+    colnames = [desc[0] for desc in cursor.description]
+    return colnames
+
 def get_student_data_mongoDB(student_id):
     mycur = mycol.find({"student_id": student_id})
     if mycol.count_documents({"student_id": student_id}) == 0:
         print("No student with that ID was found.")
         return {}
     return mycur[0]
+    
+COLUMNNAMES = get_column_names_PSQL()
 
 # print(get_student_data_PSQL(35087))
 # print(get_student_data_mongoDB(58294))
