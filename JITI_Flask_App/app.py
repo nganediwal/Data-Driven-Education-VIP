@@ -7,12 +7,16 @@ import dash_table
 import pandas as pd
 import numpy as np
 import data
+import studentdata
 import plotly.graph_objs as go
 
 # test imports
 import dash_bootstrap_components as dbc
 
 print(dcc.__version__) # 0.6.0 or above is required
+
+#get column names from studentdata.py
+COLUMNNAMES = studentdata.COLUMNNAMES
 
 # Need custom style sheet
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -198,6 +202,11 @@ page_1_layout = html.Div(
 
         ),
         html.H1(id='current_stats'),
+        
+        # For testing the new data and for when we get the actual data
+        # testing output; comment out if not testing new data
+        html.H1(id='data_testing'),
+
     ]),
 
     dcc.Link(html.Button('Home Page'), href = '/',
@@ -261,6 +270,20 @@ def update_current_stats(value):
 
     except:
         return "Grade cannot be shown with invalid ID"
+        
+#for testing data. Can comment out when not testing with new data inputs.
+@app.callback(
+    dash.dependencies.Output('data_testing', 'children'),
+    [dash.dependencies.Input('student_id', 'value')]
+)
+def update_current_stats(value):
+    try:
+        #print(studentdata.get_student_data_PSQL(35087))
+        #print(studentdata.get_student_data_mongoDB(58294))
+        print(COLUMNNAMES)
+        return studentdata.get_student_data_PSQL(35087)
+    except:
+        return "Error has occurred with data testing"
 
 # Progress over time
 # Updated: dropdown menu, callback, and average A, B, C student grade, view counts

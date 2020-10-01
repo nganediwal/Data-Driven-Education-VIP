@@ -42,6 +42,7 @@ mongo_cursor = mongo_collection.find({})
 # for doc in mycur:
 #     print(doc)
 
+
 #################################################################
 
 alchemyEngine = create_engine("postgres+psycopg2://%s:%s@%s:%s/%s" % (config.elephantsql_user, config.elephantsql_password, config.elephantsql_host, config.elephantsql_port, config.elephantsql_db))
@@ -61,7 +62,14 @@ def get_student_data_PSQL(id):
         return ()
     return returned_data[0]
 
+
 # TODO: make this function return as tuple rather than dict (to match postgres)
+def get_column_names_PSQL():
+    cursor.execute("Select * from info LIMIT 0")
+    colnames = [desc[0] for desc in cursor.description]
+    return colnames
+
+
 def get_student_data_mongoDB(student_id):
     if mongo_collection.count_documents({"student_id": student_id}) == 0:
         print("No student with that ID was found.")
@@ -82,7 +90,9 @@ def dummy_model_postgres(file_name, id):
     with open('./temp_model/dummy_weights.csv') as weightsfile:
         weights = [float(s) for line in weightsfile.readlines() for s in line[:-1].split(',')]
     return np.dot(student_data, weights)
-
+    return mycur[0]
+    
+COLUMNNAMES = get_column_names_PSQL()
 
 # print(get_student_data_PSQL(18))
 # print(get_student_data_mongoDB(58294))
