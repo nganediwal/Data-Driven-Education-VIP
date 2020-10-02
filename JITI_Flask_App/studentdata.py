@@ -45,6 +45,7 @@ mongo_cursor = mongo_collection.find({})
 
 #################################################################
 
+# simplify taking data from a table in psql and turn it into df using sqlalchemy
 alchemyEngine = create_engine("postgres+psycopg2://%s:%s@%s:%s/%s" % (config.elephantsql_user, config.elephantsql_password, config.elephantsql_host, config.elephantsql_port, config.elephantsql_db))
 
 postgres_pandas_connection = alchemyEngine.connect()
@@ -52,6 +53,7 @@ postgres_pandas_connection = alchemyEngine.connect()
 # dbConnection.close()
 
 #################################################################
+# this function takes in id and returns a tuple for the row that has that id
 def get_student_data_PSQL(id):
     postgreSQL_select_Query = "select * from info where id = " + str(id)
     postgres_cursor.execute(postgreSQL_select_Query)
@@ -63,13 +65,13 @@ def get_student_data_PSQL(id):
     return returned_data[0]
 
 
-# TODO: make this function return as tuple rather than dict (to match postgres)
 def get_column_names_PSQL():
-    cursor.execute("Select * from info LIMIT 0")
-    colnames = [desc[0] for desc in cursor.description]
+    postgres_cursor.execute("Select * from info LIMIT 0")
+    colnames = [desc[0] for desc in postgres_cursor.description]
     return colnames
 
-
+# TODO: make this function return as tuple rather than dict (to match postgres)
+# this function takes in a student_id and returns the dict for the student with that id
 def get_student_data_mongoDB(student_id):
     if mongo_collection.count_documents({"student_id": student_id}) == 0:
         print("No student with that ID was found.")
@@ -84,6 +86,7 @@ def export_data_to_df(table, index_column = None):
     return postgresdf
 
 # TODO: avoid hardcoding file_name, elements of tuple returned by get_student_data_PSQL
+# this function takes in a file_name (String, should be csv and stored in ./temp_model) and id and return the dot product of some of id's fields and the weights
 def dummy_model_postgres(file_name, id):
     student_data = np.asarray(get_student_data_PSQL(id)[4:11])
     weights = []
