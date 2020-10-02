@@ -93,11 +93,10 @@ def dummy_model_postgres(file_name, id):
     with open('./temp_model/dummy_weights.csv') as weightsfile:
         weights = [float(s) for line in weightsfile.readlines() for s in line[:-1].split(',')]
     return np.dot(student_data, weights)
-    return mycur[0]
     
 COLUMNNAMES = get_column_names_PSQL()
 
 # print(get_student_data_PSQL(18))
 # print(get_student_data_mongoDB(58294))
 # print(export_data_to_df('info', 'id')) info is name of table, id is id column from the csv Jonna sent us
-print(dummy_model_postgres(None, 18))
+# print(dummy_model_postgres(None, 18))
