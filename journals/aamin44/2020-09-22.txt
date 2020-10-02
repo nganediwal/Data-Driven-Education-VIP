@@ -1,0 +1,11 @@
+What I have done this week:
+*Worked on PPT with Attush, finished adding backend part of project information
+*Talked to Matthew about pushing my code to the repo
+*Send config files to Hosuk, Attush, and Matt
+
+What to do before next meeting:
+*Change elephantSQL data to be more like the excel sheet
+*The push to branch
+*Begin pull request
+*Local dummy model
+*Change studentdata.py so that pulled data put into df

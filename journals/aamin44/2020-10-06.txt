@@ -1,0 +1,7 @@
+What I have done this week:
+*Create a csv with random numbers for weight
+*Work on a function that can take the data from psql, dot product with weights from csv
+*Refactor code so variables make sense
+*Pushed code to branch, start pr
+
+What to do before next meeting:

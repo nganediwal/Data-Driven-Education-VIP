@@ -1,0 +1,15 @@
+What I have done this week:
+*Change elephantSQL data to be more like the excel sheet
+*The push to branch
+*Begin pull request
+*Change studentdata.py so that pulled data put into df
+
+Questions I have:
+*In fall2020_model, what columns are in the csv used by the model?
+Answer: Don't worry about fall2020 model for now as the data used by model is pretty different than the one shared by Jonna
+
+What to do before next meeting:
+*Create a csv with random numbers for weight
+*Work on a function that can take the data from psql, dot product with weights from csv
+*Refactor code so variables make sense
+*Try to query data and store in temp file so not making multiple calls
