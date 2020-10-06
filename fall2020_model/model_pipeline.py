@@ -50,11 +50,43 @@ def quick_eval(pipeline, X_train, y_train, X_test, y_test, verbose=True):
     
     return pipeline.named_steps['regressor'], train_score, test_score
 
+def plot_feature(data, column, style):
+    data_count=len(data.index)
+    plt.clf()
+    ax=data[column].value_counts(sort=False).sort_index().plot(kind=style)
+    if style == 'barh':
+        for p in ax.patches:
+            ax.annotate(str(round(p.get_width()/data_count * 100,2)) +" %", (p.get_x() + p.get_width(), p.get_y()), xytext=(5, 10), textcoords='offset points')
+    plt.savefig('./plots/' +column + '.png') 
+
+def plot_feature_combo(data, column1, column2, style):
+    data_count=len(data.index)
+    plt.clf()
+    data.plot(x=column1, y=column2, kind=style)
+    plt.savefig('./plots/' +column1 +'_'+ column2 + '.png') 
+
 def feature_explortion(data):
     '''
     Explore features and return a list of features thats needs to be included in the model
     '''
     print("Data size: " + str(data.shape))
+    #English does not have good data, hence removing
+    data= data.drop(columns=['English'])
+    plot_feature(data,'gender','barh')
+    plot_feature(data,'US','barh')
+    plot_feature(data,'level_of_education','barh')
+    plot_feature(data,'percent_progress','line')
+    print(data['percent_progress'].describe())
+    #plot_feature_combo(data,'level_of_education', 'percent_progress','bar')
+	#df.plot(x='col_name_1', y='col_name_2', style='o')
+	#df.groupby('Gender').Age.mean()
+    #data['video_interation'] = data['seek_video_agg_count'] + data['load_video_agg_count'] +  data['play_video_agg_count'] +  data['pause_video_agg_count'] +  data['stop_video_agg_count']
+    #data['problem_interaction'] = data['problem_check_agg_count'] + data['problem_graded_agg_count']
+    #print(data.groupby('US').video_interation.mean())
+    #print(data.groupby('level_of_education').video_interation.mean())
+    #print(data.groupby('level_of_education').problem_interaction.mean())
+    #data= data.drop(columns=['video_interation'])
+    #data= data.drop(columns=['problem_interaction'])
     print(data.isnull().sum().sort_values(ascending=False))
     corr_matrix = data.corr()
     fig, ax = plt.subplots(figsize=(18,18)) 
@@ -64,9 +96,9 @@ def feature_explortion(data):
             ax=ax)
     sns_plot.figure.savefig("./plots/correlation.png")
     cm=corr_matrix[output_variable].sort_values(ascending=False)
-    features = cm.index[1:6].tolist()
+    features = cm.index[1:10].tolist()
     data[np.array(features)].hist(bins=200,figsize=(16,8))
-    plt.savefig('./plots/Figure 1.png') 
+    plt.savefig('./plots/best_features.png') 
     return features
 
 def preprocessor_pipe(features):
@@ -87,12 +119,12 @@ def preprocessor_pipe(features):
 def main():
     data_path = './data/'
     data=read_csv(data_path)
+    xVars = feature_explortion(data)
     X = data.drop([output_variable], axis=1)
     y = data[output_variable]
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, train_size=0.65,test_size=0.35, random_state=2020)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, train_size=0.75,test_size=0.25, random_state=2020)
     train_data = X_train.copy()
     train_data[output_variable] = y_train
-    xVars = feature_explortion(train_data)
     preprocessor = preprocessor_pipe(xVars)
     pca = PCA()
     regressors = [
