@@ -6,7 +6,7 @@
   - Sub-Team presentation on August 23rd
 
 ## Tasks To Complete:
-  - Design UI mock-ups JITI Web App (https://www.figma.com/file/1GJh6SezoXZeVeBxIoJozP/JITI-Web-App?node-id=0%3A1)
+  - [Design UI mock-ups JITI Web App] (https://www.figma.com/file/1GJh6SezoXZeVeBxIoJozP/JITI-Web-App?node-id=0%3A1)
   
   
 ## Sub-team meeting:
