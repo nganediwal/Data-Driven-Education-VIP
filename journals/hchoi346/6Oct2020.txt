@@ -1,0 +1,7 @@
+What I did this week:
+	Read the article, and made a rough summary on my part.
+	Also made the app show the new table from the sql dummy data. 
+
+What we talked about this week:
+	New tasks: need to work on connecting to the new model and then showing that.
+	Also looked at the mock-up.

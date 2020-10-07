@@ -23,7 +23,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 ######## PANDAS TEST DATA BELOW #############
 test_df = data.testModelDF
-student_data = data.student_data
+student_data = studentdata.export_data_to_df('info', 'id')
 model_theta = data.model_theta
 # print(student_predicted_grade)
 ######## PANDAS TEST DATA ABOVE #############
@@ -129,28 +129,16 @@ index_page = html.Div([
 # if negative param display all data (up to 10 rows)
 # else display the one student's data
 def generate_table(studentID = -1):
-    if (studentID == -1):
-        return html.Table([
-            html.Thead(
-                html.Tr([html.Th(col) for col in student_data.columns])
-            ),
-            html.Tbody([
-                html.Tr([
-                    html.Td(student_data.iloc[i][col]) for col in student_data.columns
-                ]) for i in range(min(len(student_data), 10))
+    return html.Table([
+        html.Thead(
+            html.Tr([html.Th(col) for col in COLUMNNAMES])
+        ),
+        html.Tbody([
+            html.Tr([
+                html.Td(student_data.iloc[studentID][col]) for col in student_data.columns
             ])
         ])
-    else:
-        return html.Table([
-            html.Thead(
-                html.Tr([html.Th(col) for col in student_data.columns])
-            ),
-            html.Tbody([
-                html.Tr([
-                    html.Td(student_data.iloc[studentID][col]) for col in student_data.columns
-                ])
-            ])
-        ])
+    ])
 
 ## TODO: Put all the attributes into a list, iterate through and display student values
 ## Basically, display their stats and make it look nicer
@@ -265,7 +253,6 @@ def update_current_stats(value):
             return generate_table(-1)
 
         else:
-            test = np.array2string(student_data.to_numpy()[value, 1:])
             return generate_table(int(value))
 
     except:
@@ -280,8 +267,14 @@ def update_current_stats(value):
     try:
         #print(studentdata.get_student_data_PSQL(35087))
         #print(studentdata.get_student_data_mongoDB(58294))
-        print(COLUMNNAMES)
-        return studentdata.get_student_data_PSQL(35087)
+        #print(COLUMNNAMES)
+        #x =  (studentdata.export_data_to_df('info', 'id'))
+        #list = x.values.tolist()[0]
+        #print(list)
+        #string = "\n".join([str(elem) for elem in list])
+        #student_data = x
+        #return string
+        return ""
     except:
         return "Error has occurred with data testing"
 
