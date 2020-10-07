@@ -65,13 +65,57 @@ def plot_feature_combo(data, column1, column2, style):
     data.plot(x=column1, y=column2, kind=style)
     plt.savefig('./plots/' +column1 +'_'+ column2 + '.png') 
 
+def clean_data(df):
+    del df['English']
+    del df['US']
+    df["level_of_education"]=df["level_of_education"].fillna("Not Specified")
+
+
+    # Temp drop all na value
+    df = df.dropna(axis=0)
+
+    #plot indivisual variable to obsere outlier
+    sns_plot=sns.boxplot(df["year_of_birth"])
+    sns_plot.figure.savefig("./plots/yob_before.png")
+
+    # Create z-score columns of all numerical variables
+    df2 = df
+
+    z_column = list(df.columns)
+    z_column .remove('gender')
+    z_column .remove('level_of_education')
+    print(df2[z_column])
+
+    for col in z_column:
+        col_zscore = col + '_zscore'
+        df2[col_zscore] = (df2[col] - df2[col].mean())/df2[col].std(ddof=0)
+    
+    #drop rows with z-score higher than 3 or lower than -3
+
+    for col in z_column:
+        df2.drop(df2[df2[col] < -3].index, inplace = True)
+        df2.drop(df2[df2[col] > 3].index, inplace = True) 
+
+
+    #plot numerical variable to see if we seccefully removed outliers
+    sns_plot=sns.boxplot(df2["year_of_birth"])
+    sns_plot.figure.savefig("./plots/yob_after.png")
+
+    #create dummy for gender
+
+    df["gender"]=df["gender"].fillna("Not Specified")
+    dummiesgender = pd.get_dummies(df['gender']).rename(columns=lambda x: 'gender_' + str(x))
+    df = pd.concat([df, dummiesgender], axis=1)
+    return df
+
+
 def feature_explortion(data):
     '''
     Explore features and return a list of features thats needs to be included in the model
     '''
     print("Data size: " + str(data.shape))
     #English does not have good data, hence removing
-    data= data.drop(columns=['English'])
+    #data= data.drop(columns=['English'])
     plot_feature(data,'gender','barh')
     plot_feature(data,'US','barh')
     plot_feature(data,'level_of_education','barh')
@@ -119,6 +163,7 @@ def preprocessor_pipe(features):
 def main():
     data_path = './data/'
     data=read_csv(data_path)
+    clean_data(data.copy())
     xVars = feature_explortion(data)
     X = data.drop([output_variable], axis=1)
     y = data[output_variable]
