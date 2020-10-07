@@ -22,5 +22,5 @@
 
 
 ## Completed
-  -pressentation slide
-  -understanding of new data set
+  - pressentation slide
+  - understanding of new data set

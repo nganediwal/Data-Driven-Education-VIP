@@ -19,7 +19,7 @@
 
 
 ## Completed
-  -subteam presentated
+  -subteam presented
   - found 5 columns with null values
     -English - ~93% null, drop column
     -had previously discussed also dropping US column

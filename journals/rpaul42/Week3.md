@@ -7,8 +7,8 @@
   
 ## 9/1 Sub-team meeting:
   - First Sub Team Meeting
-  -will be using Teams
-  -went over work in previous semesters
+  - will be using Teams
+  - went over work in previous semesters
   - discussed plans for this semester
   - divided into webapp and model training subteams
   - talked about making the documentation better

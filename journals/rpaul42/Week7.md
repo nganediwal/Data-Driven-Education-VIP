@@ -19,7 +19,7 @@
       - 5% were “explorer" type
       - females used course navigation features more
       - differences in language background regarding course navigation patterns and learning outcomes
-    -Similar stuff to what JITI is doing
+    - Similar stuff to what JITI is doing
   
 ## 9/29 Sub-team meeting:
   - Plan to use new model in webapp if time permits 
@@ -37,6 +37,6 @@
 
 
 ## Completed
-  -null value removal- after analysis decided to replace NULL values in year of birth with median
-  -Journal Club
-  -tried to clone git repository but had errors
+  - null value removal- after analysis decided to replace NULL values in year of birth with median
+  - Journal Club
+  - tried to clone git repository but had errors
