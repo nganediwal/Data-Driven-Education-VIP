@@ -14,6 +14,7 @@
   - Discuss on how to break up task. Rachel - Null removal, Humin - Outlier removals, Saurabh-Feature Importance
 
 ## Work Completed
-  - Created project structure in git
+  - Created project structure in git https://github.gatech.edu/C21U/vip-research/tree/master/fall2020_model
+  - Generated heatmaps on feature to output correlation
   - Prepared slides for sub-team presentation
   - Updated Trello Board based on the sub team meeting discussion and tasks

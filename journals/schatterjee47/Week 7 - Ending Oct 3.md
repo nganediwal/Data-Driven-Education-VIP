@@ -1,4 +1,4 @@
-# Week 5 Ending 09/26
+# Week 7 Ending 10/3
 
 ## Team Meeting(30th Sep):
   - Learned about Analytics Research Highlights for two seperate reseach project
@@ -36,7 +36,7 @@
   - Build a project structure for data modeling
   - Update Trello Board based on discussion
   
-## Sub-team meeting(22nd Sep):'
+## Sub-team meeting(29th Sep):'
   - Discussed on the plan of using the new data model in the UI if time permits. 
   - Explained the data science team about the new project structure of the data model development
   - Discussed on the findings of Null removal and what Rachel found in the data and the plans to remove it.
@@ -45,6 +45,8 @@
   - As a next step team decided to come up with plots from their individual work that can be presented in the next Sub-Team presentation
 
 ## Work Completed
-  - Add more code to do data analysis and prodeced interesting graphs
+  - Add more code to do data analysis and produced interesting graphs on Demographics distributions
+  - Added plots on feature to output variable relationships
+  - Added code to generate percentile numbers on the output variable
   - Completed Mid Term Peer Evaluation
   - Updated Trello Board based on the sub team meeting discussion and tasks
