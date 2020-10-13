@@ -97,6 +97,15 @@ def dummy_model_postgres(file_name, id):
     
 COLUMNNAMES = get_column_names_PSQL()
 
+def get_dummy_model(file_name, id):
+    weights = []
+    with open('./temp_model/dummy_weights.csv') as weightsfile:
+        weights = [float(s) for line in weightsfile.readlines() for s in line[:-1].split(',')]
+    length = len(weights)
+    ones = np.zeros(length)
+    ones = ones + 1
+    return np.multiply(ones, weights)
+
 # print(get_student_data_PSQL(18))
 # print(get_student_data_mongoDB(58294))
 # print(export_data_to_df('info', 'id')) info is name of table, id is id column from the csv Jonna sent us

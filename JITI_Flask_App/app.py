@@ -24,7 +24,11 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 ######## PANDAS TEST DATA BELOW #############
 test_df = data.testModelDF
 student_data = studentdata.export_data_to_df('info', 'id')
-model_theta = data.model_theta
+a,b = student_data.shape
+#model_theta = studentdata.get_dummy_model(None, 18)
+model_theta = np.random.rand(b)
+norm = np.linalg.norm(model_theta) #Use the top features and dont use all b
+model_theta = model_theta / norm # use Aashay's functoin
 # print(student_predicted_grade)
 ######## PANDAS TEST DATA ABOVE #############
 
@@ -179,17 +183,21 @@ page_1_layout = html.Div(
     html.Div([
         
         html.H1(
-            "Enter ID"
+            "Enter ID",
         ),  
         html.Div([
         html.Div(dcc.Input(id='student_id', type='number'))
         ]),
 
         html.H1(id='predicted_score', 
-             # Margin after the score
 
         ),
-        html.H1(id='current_stats'),
+        html.H1(id='current_stats',
+            style = {
+                'font-size': '25px',
+                'overflow': 'scroll',
+            }
+            ),
         
         # For testing the new data and for when we get the actual data
         # testing output; comment out if not testing new data
@@ -230,9 +238,18 @@ def update_predicted_score(student_id):
             return "id cannot be negative"
 
         else:
-            test = student_data.to_numpy()[student_id, 1:]
-            test = test.dot(model_theta)
-            return "Your predicted grade is: {:.2f}".format(test)
+            test = np.asarray(student_data.iloc[1])
+            print(test)
+            data = np.zeros(b)
+            for x in range(b):
+                if type(test[x]) == str:
+                    data[x] = 0
+                else:
+                    data[x] = test[x]
+
+            print(data)
+            data = np.dot(data, model_theta)
+            return "Your predicted grade is: {:.2f}".format(data)
 
     except:
         return "Grade cannot be predicted with invalid ID"
@@ -274,7 +291,9 @@ def update_current_stats(value):
         #string = "\n".join([str(elem) for elem in list])
         #student_data = x
         #return string
-        return ""
+        #print(model_theta.shape)
+        #print(np.sum(model_theta))
+        return ''
     except:
         return "Error has occurred with data testing"
 
