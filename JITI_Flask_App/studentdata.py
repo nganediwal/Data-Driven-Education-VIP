@@ -55,7 +55,7 @@ postgres_pandas_connection = alchemyEngine.connect()
 #################################################################
 # this function takes in id and returns a tuple for the row that has that id
 def get_student_data_PSQL(id):
-    postgreSQL_select_Query = "select * from info "#where id = " + str(id)
+    postgreSQL_select_Query = "select * from info where id = " + str(id)
     postgres_cursor.execute(postgreSQL_select_Query)
     returned_data = postgres_cursor.fetchall()
     if len(returned_data) == 0:

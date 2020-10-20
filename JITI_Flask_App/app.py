@@ -44,9 +44,47 @@ colors = {
     'text': '#7FDBFF'
 }
 
+SIDEBAR_STYLE = {
+    "position": "fixed",
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "width": "16rem",
+    "padding": "2rem 1rem",
+    "background-color": "#f8f9fa",
+}
+
+CONTENT_STYLE = {
+    "margin-left": "18rem",
+    "margin-right": "2rem",
+    "padding": "2rem 1rem",
+}
+
+sidebar = html.Div(
+    [
+        html.H2("Navigation Hub", className = "display-4"),
+        html.Hr(),
+        html.P("Where do you want to go?", className = "lead"),
+        dbc.Nav(
+            [
+                dbc.NavLink("Home", href ="/", id = "/"),
+                dbc.NavLink("Resources", href ="resources", id = "resources"),
+                dbc.NavLink("Table-data", href ="table-data", id = "table-data"),
+                dbc.NavLink("Progress Over Time", href ="progress-over-time", id = "progress-over-time"),
+            ],
+            vertical = True,
+            pills=True,
+        ),
+    ],
+    style = SIDEBAR_STYLE
+)
+
 app.layout = html.Div([
     # url bar
     dcc.Location(id = 'url', refresh = False),
+
+    #renders sidebar
+    sidebar,
 
     # renders page content
     html.Div(id = 'page-content'),
@@ -127,7 +165,9 @@ index_page = html.Div([
         
 
     ], align = "center", justify = "around"),
-])
+], 
+style = CONTENT_STYLE
+)
 
 # Generating data table 
 # if negative param display all data (up to 10 rows)
@@ -214,9 +254,7 @@ page_1_layout = html.Div(
         }
     )
     ],
-    style = {
-        'margin-left': '100px',
-    }
+    style = CONTENT_STYLE
 )
 
 ## STRENGTHS AND WEAKNESSES CALLBACKS for student ID
@@ -238,18 +276,20 @@ def update_predicted_score(student_id):
             return "id cannot be negative"
 
         else:
-            test = np.asarray(student_data.iloc[1])
-            print(test)
-            data = np.zeros(b)
-            for x in range(b):
-                if type(test[x]) == str:
-                    data[x] = 0
-                else:
-                    data[x] = test[x]
+            pred = studentdata.dummy_model_postgres(None, student_id)
+            return("Your predicted grade is ", pred)
+            #test = np.asarray(student_data.iloc[1])
+            #print(test)
+            #data = np.zeros(b)
+            #for x in range(b):
+            #    if type(test[x]) == str:
+            #        data[x] = 0
+            #    else:
+            #        data[x] = test[x]
 
-            print(data)
-            data = np.dot(data, model_theta)
-            return "Your predicted grade is: {:.2f}".format(data)
+            #print(data)
+            #data = np.dot(data, model_theta)
+            #return "Your predicted grade is: {:.2f}".format(data)
 
     except:
         return "Grade cannot be predicted with invalid ID"
@@ -330,7 +370,8 @@ page_2_layout = html.Div([
             'left' : '10px',
         }
     )
-])
+], 
+style = CONTENT_STYLE)
 
 #The function will create graphs based on the factors in the dropdown menu
 #Each Graph contains 4 sets of data that can show the average for A, B, C students, and individual student's record
@@ -553,9 +594,7 @@ page_3_layout = html.Div([
             "Welcome to your resources. Feel free to reach out and look for help!"
         ),  
 
-        style = {
-            'margin-bottom' : '100px',
-        }
+        style = CONTENT_STYLE,
     ),
 
     dbc.Row(children = [
@@ -631,7 +670,9 @@ page_3_layout = html.Div([
             'left' : '10px',
         }
     )
-])
+], 
+style = CONTENT_STYLE
+)
 
 # Update the URL, needed to render different pages
 
