@@ -18,10 +18,19 @@ print(df.isnull().sum().sort_values(ascending=False))
 #drop English col
 df.drop(columns=['English'], inplace=True)
 
+
 #fill null in education and gender with unspecified
 df['level_of_education'].fillna('not specified', inplace=True)
 df['gender'].fillna('not specified', inplace=True)
 
+ax = df.boxplot(column='year_of_birth')
+ax.figure.savefig("./plots/YOB_boxplot_before.png")
+ax.figure.clf()
+
+df['year_of_birth'].fillna(df['year_of_birth'].median(), inplace=True);
+ax = df.boxplot(column='year_of_birth')
+ax.figure.savefig("./plots/YOB_boxplot_after.png")
+ax.figure.clf()
 
 #create bar graphs of the averages of the output variable and the 6 top input variables as seperated by gender, US, and percent progress
 cols = ['percent_progress', 'hypertext_agg_count', 'load_video_agg_count', 'next_selected_agg_count', 'page_close_agg_count', 'problem_check_agg_count', 'problem_graded_agg_count'];
@@ -34,9 +43,8 @@ for col in cols:
     genderPlot.figure.clf()
     
 
-    temp = df
-    temp['US'].fillna(-1, inplace=True)
-    USplot = (temp.groupby(by='US')[col].mean()).plot.bar()
+
+    USplot = (df.fillna(-1).groupby(by='US')[col].mean()).plot.bar()
     USplot.axhline(df[col].mean(), color='red', linewidth=2)
     USplot.figure.savefig("./plots/US_vs_"+col+".png")
     USplot.figure.clf()
@@ -45,4 +53,3 @@ for col in cols:
     LOEplot.axhline(df[col].mean(), color='red', linewidth=2)
     LOEplot.figure.savefig("./plots/level_of_education_vs_"+col+".png")
     LOEplot.figure.clf()
-

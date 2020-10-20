@@ -15,6 +15,10 @@ from sklearn.metrics import mean_squared_error
 from collections import Counter, OrderedDict
 from ast import literal_eval
 from itertools import chain
+import matplotlib.pyplot as plt
+from pandas import read_excel
+from scipy import stats
+
 
 output_variable = "percent_progress"
 
@@ -65,50 +69,99 @@ def plot_feature_combo(data, column1, column2, style):
     data.plot(x=column1, y=column2, kind=style)
     plt.savefig('./plots/' +column1 +'_'+ column2 + '.png') 
 
-def clean_data(df):
-    del df['English']
-    del df['US']
-    df["level_of_education"]=df["level_of_education"].fillna("Not Specified")
 
 
-    # Temp drop all na value
-    df = df.dropna(axis=0)
+def clean_data_null(df):
+    print(df.isnull().sum().sort_values(ascending=False))
 
-    #plot indivisual variable to obsere outlier
-    sns_plot=sns.boxplot(df["year_of_birth"])
-    sns_plot.figure.savefig("./plots/yob_before.png")
+    #drop English col
+    df.drop(columns=['English'], inplace=True)
 
-    # Create z-score columns of all numerical variables
-    df2 = df
 
-    z_column = list(df.columns)
-    z_column .remove('gender')
-    z_column .remove('level_of_education')
-    print(df2[z_column])
+    #fill null in education and gender with unspecified
+    df['level_of_education'].fillna('not specified', inplace=True)
+    df['gender'].fillna('not specified', inplace=True)
 
-    for col in z_column:
-        col_zscore = col + '_zscore'
-        df2[col_zscore] = (df2[col] - df2[col].mean())/df2[col].std(ddof=0)
+    #Filling in year_of_birth col with median, creating box plot of before and after
+    ax = df.boxplot(column='year_of_birth')
+    ax.figure.savefig("./plots/YOB_boxplot_before.png")
+    ax.figure.clf()
+
+    df['year_of_birth'].fillna(df['year_of_birth'].median(), inplace=True);
+    ax = df.boxplot(column='year_of_birth')
+    ax.figure.savefig("./plots/YOB_boxplot_after.png")
+    ax.figure.clf()
+
+    #create bar graphs of the averages of the output variable and the 6 top input variables as seperated by gender, US, and percent progress
+    cols = ['percent_progress', 'hypertext_agg_count', 'load_video_agg_count', 'next_selected_agg_count', 'page_close_agg_count', 'problem_check_agg_count', 'problem_graded_agg_count'];
+
+    for col in cols:
+
+        genderPlot = (df.groupby('gender')[col].mean()).plot.bar()
+        genderPlot.axhline(df[col].mean(), color='red', linewidth=2)
+        genderPlot.figure.savefig("./plots/gender_vs_"+col+".png")
+        genderPlot.figure.clf()
     
-    #drop rows with z-score higher than 3 or lower than -3
-
-    for col in z_column:
-        df2.drop(df2[df2[col] < -3].index, inplace = True)
-        df2.drop(df2[df2[col] > 3].index, inplace = True) 
 
 
-    #plot numerical variable to see if we seccefully removed outliers
-    sns_plot=sns.boxplot(df2["year_of_birth"])
-    sns_plot.figure.savefig("./plots/yob_after.png")
+        USplot = (df.fillna(-1).groupby(by='US')[col].mean()).plot.bar()
+        USplot.axhline(df[col].mean(), color='red', linewidth=2)
+        USplot.figure.savefig("./plots/US_vs_"+col+".png")
+        USplot.figure.clf()
+    
+        LOEplot = (df.groupby('level_of_education')[col].mean()).plot.bar()
+        LOEplot.axhline(df[col].mean(), color='red', linewidth=2)
+        LOEplot.figure.savefig("./plots/level_of_education_vs_"+col+".png")
+        LOEplot.figure.clf()
 
-    #create dummy for gender
+    return df;
 
-    df["gender"]=df["gender"].fillna("Not Specified")
-    dummiesgender = pd.get_dummies(df['gender']).rename(columns=lambda x: 'gender_' + str(x))
-    df = pd.concat([df, dummiesgender], axis=1)
-    return df
+def clean_data_outlier(df):
+	      
+   df = df.set_index('percent_progress')
+   del df['English']
+   del df['US']
+   #del df['Age']
+   df["level_of_education"]=df["level_of_education"].fillna("Not Specified")
+   # Temp drop all na value
+   df = df.dropna(axis=0)
+   #plot indivisual variable to obsere outlier
+   sns.boxplot(df["year_of_birth"])
+   #This method only remove outlier for numerical independent variable
+   del df ["level_of_education"]
+   del df ["gender"]
+
+   #remove outlier based on z-score
+   #remove outlier
+   z_scores = stats.zscore(df)
+   abs_z_scores = np.abs(z_scores)
+   filtered_entries = (abs_z_scores < 2).all(axis=1)
+   filtered_df = df[filtered_entries]
+   #plot again to see if it works
+   sns.boxplot(filtered_df["year_of_birth"])
+   #create outlier table for outlier analysis
+   for col in df:
+       col_zscore = col + '_zscore'
+       df[col_zscore] = (abs((df[col] - df[col].mean())/df[col].std(ddof=0))>2)*1
+   z_cols = [col for col in df.columns if 'zscore' in col]
+   df_outlier= pd.DataFrame() 
+   for col in z_cols:
+       df_outlier[col]= df[col]
+  
+   #create dummy for gender
+   #df["gender"]=df["gender"].fillna("Not Specified")
+   #dummiesgender = pd.get_dummies(df['gender']).rename(columns=lambda x: 'gender_' + str(x))
+   #df = pd.concat([df, dummiesgender], axis=1)
+   #df = df.drop(['gender'], inplace=True, axis=1)
+   #dummy eudcation
+   #dummieseducation = pd.get_dummies(df['level_of_education']).rename(columns=lambda x: 'level_of_education_' + str(x))
+   #df = pd.concat([df, dummieseducation], axis=1)
+	      #plots are created separately and are available in the plots folder
+   return filtered_df
 
 
+
+	      
 def feature_explortion(data):
     '''
     Explore features and return a list of features thats needs to be included in the model
@@ -163,7 +216,7 @@ def preprocessor_pipe(features):
 def main():
     data_path = './data/'
     data=read_csv(data_path)
-    clean_data(data.copy())
+    clean_data_null(data.copy())
     xVars = feature_explortion(data)
     X = data.drop([output_variable], axis=1)
     y = data[output_variable]
