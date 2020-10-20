@@ -147,16 +147,16 @@ def clean_data_outlier(df):
    df_outlier= pd.DataFrame() 
    for col in z_cols:
        df_outlier[col]= df[col]
-   #for the non-numerical factors, My plan is to create dummy variables, run the regression model 
-   #and plot cook's distance to observe and remove outlier >1 but I don't know how to do it in Python... 
-   #So I worked in R, I would keep learning how to do it in python and update this script later this weekend
-   #for now,I would post the plots of numerical factors in the plot folder
-
+  
    #create dummy for gender
    #df["gender"]=df["gender"].fillna("Not Specified")
    #dummiesgender = pd.get_dummies(df['gender']).rename(columns=lambda x: 'gender_' + str(x))
    #df = pd.concat([df, dummiesgender], axis=1)
    #df = df.drop(['gender'], inplace=True, axis=1)
+   #dummy eudcation
+   #dummieseducation = pd.get_dummies(df['level_of_education']).rename(columns=lambda x: 'level_of_education_' + str(x))
+   #df = pd.concat([df, dummieseducation], axis=1)
+	      #plots are created separately and are available in the plots folder
    return filtered_df
 
 
