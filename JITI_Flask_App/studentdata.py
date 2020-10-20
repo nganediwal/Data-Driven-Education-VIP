@@ -55,7 +55,7 @@ postgres_pandas_connection = alchemyEngine.connect()
 #################################################################
 # this function takes in id and returns a tuple for the row that has that id
 def get_student_data_PSQL(id):
-    postgreSQL_select_Query = "select * from info where id = " + str(id)
+    postgreSQL_select_Query = "select * from info where user_id = " + str(id)
     postgres_cursor.execute(postgreSQL_select_Query)
     returned_data = postgres_cursor.fetchall()
     if len(returned_data) == 0:
@@ -94,7 +94,7 @@ def dummy_model_postgres(file_name, id):
     with open('./temp_model/dummy_weights.csv') as weightsfile:
         weights = [float(s) for line in weightsfile.readlines() for s in line[:-1].split(',')]
     return np.dot(student_data, weights)
-    
+
 COLUMNNAMES = get_column_names_PSQL()
 
 def get_dummy_model(file_name, id):

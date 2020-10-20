@@ -13,6 +13,10 @@ import plotly.graph_objs as go
 # test imports
 import dash_bootstrap_components as dbc
 
+# Set pandas display limit
+pd.options.display.max_rows =999
+pd.options.display.max_columns =999
+
 print(dcc.__version__) # 0.6.0 or above is required
 
 #get column names from studentdata.py
@@ -23,7 +27,10 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 ######## PANDAS TEST DATA BELOW #############
 test_df = data.testModelDF
-student_data = studentdata.export_data_to_df('info', 'id')
+student_data = studentdata.export_data_to_df('info')
+student_data = student_data.drop(columns = ['id'])
+print(student_data)
+
 a,b = student_data.shape
 #model_theta = studentdata.get_dummy_model(None, 18)
 model_theta = np.random.rand(b)
@@ -179,7 +186,7 @@ def generate_table(studentID = -1):
         ),
         html.Tbody([
             html.Tr([
-                html.Td(student_data.iloc[studentID][col]) for col in student_data.columns
+                html.Td(student_data.loc[student_data['user_id'] == studentID][col]) for col in student_data.columns
             ])
         ])
     ])
