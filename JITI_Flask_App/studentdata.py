@@ -96,7 +96,8 @@ def get_student_data_mongoDB(student_id):
 # Function: Returns all the data within a table as a dataframe
 # Parameter: table (String) - table that holds the data to be put in a dataframe
 #            schema (String) - schema that has the table
-#            index_column (String) - column that is to be set as the index column in the dataframe
+#            index_column (String) - column from psql that is to be set as the index column
+#                                    in the dataframe (not really needed)
 # Return: A dataframe with all the data from the table
 def export_data_to_df(table, schema = 'jiti', index_column = None):
     postgresdf = pd.read_sql("SELECT * FROM %s.%s" % (schema, table), postgres_pandas_connection, index_col=index_column)
@@ -104,7 +105,7 @@ def export_data_to_df(table, schema = 'jiti', index_column = None):
 
 # Function: Applies weights to certain columns of a row of data (to act like a data model)
 # Parameter: file_name (String) - csv file that holds the weights of the data.  The csv file should be
-#                                 in the temp_model folder, which is the same directory as this file.  
+#                                 in the temp_model folder, which is the same directory as this studentdata.py file.  
 #                                 file_name should end with '.csv'
 #            value - for a row of data, the column_name of that row needs to equal value
 #            column_name (String) - column that is being used to find the correct row(s) of data
@@ -119,7 +120,6 @@ def dummy_model_postgres(file_name, value, column_name, table, schema = 'jiti'):
     with open('./temp_model/' + file_name) as weightsfile:
         weights = [float(s) for line in weightsfile.readlines() for s in line[:-1].split(',')]
     return np.dot(student_data, weights)
-
 #################################################################
 
 # Example of how to properly call functions:
@@ -129,5 +129,5 @@ COLUMNNAMES = get_column_names_PSQL('dataframe')
 
 # print(get_student_data_PSQL(3013850, 'user_id', 'dataframe'))
 # print(get_student_data_mongoDB(58294))
-# print(export_data_to_df('dataframe')
+# print(export_data_to_df('dataframe'))
 # print(dummy_model_postgres('dummy_weights.csv', 3013850, 'user_id', 'dataframe'))
