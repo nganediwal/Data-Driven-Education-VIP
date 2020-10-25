@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import sklearn.model_selection as model_selection
+from sklearn import preprocessing
 from sklearn.compose import ColumnTransformer
 from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
@@ -12,6 +13,9 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error
+from sklearn.metrics import silhouette_score
+from sklearn.cluster import KMeans, DBSCAN
+from sklearn.preprocessing import MinMaxScaler	
 from collections import Counter, OrderedDict
 from ast import literal_eval
 from itertools import chain
@@ -67,7 +71,7 @@ def plot_feature_combo(data, column1, column2, style):
 
 def clean_data(df):
     del df['English']
-    del df['US']
+    #del df['US']
     df["level_of_education"]=df["level_of_education"].fillna("Not Specified")
 
 
@@ -79,7 +83,7 @@ def clean_data(df):
     sns_plot.figure.savefig("./plots/yob_before.png")
 
     # Create z-score columns of all numerical variables
-    df2 = df
+    df2 = df.copy()
 
     z_column = list(df.columns)
     z_column .remove('gender')
@@ -103,11 +107,74 @@ def clean_data(df):
 
     #create dummy for gender
 
-    df["gender"]=df["gender"].fillna("Not Specified")
-    dummiesgender = pd.get_dummies(df['gender']).rename(columns=lambda x: 'gender_' + str(x))
+    df2["gender"]=df2["gender"].fillna("Not Specified")
+    dummiesgender = pd.get_dummies(df2['gender']).rename(columns=lambda x: 'gender_' + str(x))
     df = pd.concat([df, dummiesgender], axis=1)
     return df
 
+def explore_unsupervised(data):
+    del data['English']
+    # Temp drop all na value
+    data = data.dropna(axis=0)
+   
+    others_categorical = ['gender','year_of_birth','level_of_education','US']
+    for i in others_categorical:
+        data = data.join(pd.get_dummies(data[i], prefix=i))
+    data.drop(others_categorical, axis=1, inplace=True)
+
+    #plot_income = sns.distplot(normalized_vectors["percent_progress"])
+    #plot_spend = sns.distplot(normalized_vectors["load_video_agg_count"])
+    #plt.xlabel('percent_progress / load_video_agg_count')
+    #plt.savefig('./plots/curves.png') 
+    #plt.clf()
+    unsupervised_df = data.drop(["percent_progress"], 1, inplace=False)
+    normalized_vectors = preprocessing.normalize(unsupervised_df)
+    scores = [KMeans(n_clusters=i+2).fit(unsupervised_df).inertia_ for i in range(10)]
+    sns.lineplot(np.arange(2, 12), scores)
+    plt.xlabel('Number of clusters')
+    plt.ylabel("Inertia")
+    plt.title("Inertia of k-Means versus number of clusters")
+    plt.savefig('./plots/kmeans.png') 
+    plt.clf()
+    #normalized_vectors = preprocessing.normalize(unsupervised_df)
+    scores = [KMeans(n_clusters=i+2).fit(normalized_vectors).inertia_ for i in range(10)]
+    sns.lineplot(np.arange(2, 12), scores)
+    plt.xlabel('Number of clusters')
+    plt.ylabel("Inertia")
+    plt.title("Inertia of Cosine k-Means versus number of clusters")
+    plt.savefig('./plots/kmeans_cosine.png') 
+    kmeans = KMeans(n_clusters=4).fit(unsupervised_df)
+
+    #normalized_vectors = preprocessing.normalize(df)
+    normalized_kmeans = KMeans(n_clusters=4).fit(normalized_vectors)
+
+    min_samples = unsupervised_df.shape[1]+1
+    dbscan = DBSCAN(eps=3.5, min_samples=min_samples).fit(unsupervised_df)
+    print('kmeans: {}'.format(silhouette_score(unsupervised_df, kmeans.labels_, metric='euclidean')))
+    print('Cosine kmeans: {}'.format(silhouette_score(normalized_vectors, normalized_kmeans.labels_, metric='cosine')))
+    print('DBSCAN: {}'.format(silhouette_score(unsupervised_df, dbscan.labels_, metric='cosine')))
+    scaler = MinMaxScaler()
+    df_scaled = pd.DataFrame(scaler.fit_transform(unsupervised_df))
+    df_scaled.columns = unsupervised_df.columns
+    df_scaled['dbscan'] = dbscan.labels_
+    df_scaled['percent_progress'] = unsupervised_df["percent_progress"]
+    print(df_scaled)
+
+    # Calculate variables with largest differences (by standard deviation)
+    # The higher the standard deviation in a variable based on average values for each cluster
+    # The more likely that the variable is important when creating the cluster
+    df_mean = df_scaled.loc[df_scaled.dbscan!=-1, :].groupby('dbscan').mean().reset_index()
+    results = pd.DataFrame(columns=['Variable', 'Std'])
+    for column in df_mean.columns[1:]:
+        results.loc[len(results), :] = [column, np.std(df_mean[column])]
+    selected_columns = list(results.sort_values('Std', ascending=False).head(7).Variable.values) + ['dbscan']
+
+    # Plot data
+    tidy = df_scaled[selected_columns].melt(id_vars='dbscan')
+    fig, ax = plt.subplots(figsize=(15, 5))
+    sns.barplot(x='dbscan', y='value', hue='variable', data=tidy, palette='Set3')
+    plt.legend(loc='upper right')
+    plt.savefig("./plots/dbscan_results.png")
 
 def feature_explortion(data):
     '''
@@ -121,7 +188,24 @@ def feature_explortion(data):
     plot_feature(data,'level_of_education','barh')
     plot_feature(data,'percent_progress','line')
     print(data['percent_progress'].describe())
-    #plot_feature_combo(data,'level_of_education', 'percent_progress','bar')
+	
+
+    #plot_feature_combo(plotting_data,'level_of_education', 'percent_progress','bar')
+    #plot_feature_combo(plotting_data,'gender', 'percent_progress','bar')
+    #print("--------------------play_video---------------")
+    #print(data.groupby('level_of_education').play_video_agg_count.mean())
+    #print(data.groupby('US').play_video_agg_count.mean())
+    #print(data.groupby('gender').play_video_agg_count.mean())
+
+    #print("--------------------problem_graded---------------")
+    #print(data.groupby('level_of_education').problem_graded_agg_count.mean())
+    #print(data.groupby('US').problem_graded_agg_count.mean())
+    #print(data.groupby('gender').problem_graded_agg_count.mean())
+
+    #print("--------------------percent_progress---------------")
+    #print(data.groupby('level_of_education').percent_progress.mean())
+    #print(data.groupby('US').percent_progress.mean())
+    #print(data.groupby('gender').percent_progress.mean())
 	#df.plot(x='col_name_1', y='col_name_2', style='o')
 	#df.groupby('Gender').Age.mean()
     #data['video_interation'] = data['seek_video_agg_count'] + data['load_video_agg_count'] +  data['play_video_agg_count'] +  data['pause_video_agg_count'] +  data['stop_video_agg_count']
@@ -131,7 +215,7 @@ def feature_explortion(data):
     #print(data.groupby('level_of_education').problem_interaction.mean())
     #data= data.drop(columns=['video_interation'])
     #data= data.drop(columns=['problem_interaction'])
-    print(data.isnull().sum().sort_values(ascending=False))
+    #print(data.isnull().sum().sort_values(ascending=False))
     corr_matrix = data.corr()
     fig, ax = plt.subplots(figsize=(18,18)) 
     sns_plot = sns.heatmap(corr_matrix, 
@@ -140,7 +224,7 @@ def feature_explortion(data):
             ax=ax)
     sns_plot.figure.savefig("./plots/correlation.png")
     cm=corr_matrix[output_variable].sort_values(ascending=False)
-    features = cm.index[1:10].tolist()
+    features = cm.index[1:2].tolist()
     data[np.array(features)].hist(bins=200,figsize=(16,8))
     plt.savefig('./plots/best_features.png') 
     return features
@@ -163,7 +247,8 @@ def preprocessor_pipe(features):
 def main():
     data_path = './data/'
     data=read_csv(data_path)
-    clean_data(data.copy())
+    #explore_unsupervised(data.copy())
+    #data=clean_data(data.copy())
     xVars = feature_explortion(data)
     X = data.drop([output_variable], axis=1)
     y = data[output_variable]
