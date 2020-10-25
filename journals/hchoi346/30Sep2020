@@ -1,0 +1,10 @@
+What did I do this week:
+	Merged/reviewed Aashay's PR.
+	Looked into getting that data from the new fake data onto the site.
+	Made a way to get the column names from the sql table.
+	Added a function to get column names from studentdata.py
+
+What we talked about this week:
+	Talked about what we are doing this week
+	Focusing on redesigning the front-end and making it look better
+	all made figma accounts to start working on a mock

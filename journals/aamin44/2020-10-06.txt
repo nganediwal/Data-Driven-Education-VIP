@@ -2,6 +2,10 @@ What I have done this week:
 *Create a csv with random numbers for weight
 *Work on a function that can take the data from psql, dot product with weights from csv
 *Refactor code so variables make sense
+*Added comments to make what I am doing clear
 *Pushed code to branch, start pr
 
 What to do before next meeting:
+*There are a lot of things that are kind of hardcoded within studentdata.py.  Somehow abstract that out?
+*Look into replacing dating.py with studentdata.py
+*Ask Jonna about PSQL is set up (is there a single database with multiple tables? Mulitple databases?).  This way, I know when exactly I need to abstract out things.

@@ -13,6 +13,10 @@ import plotly.graph_objs as go
 # test imports
 import dash_bootstrap_components as dbc
 
+# Set pandas display limit
+pd.options.display.max_rows =999
+pd.options.display.max_columns =999
+
 print(dcc.__version__) # 0.6.0 or above is required
 
 #get column names from studentdata.py
@@ -23,8 +27,15 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 ######## PANDAS TEST DATA BELOW #############
 test_df = data.testModelDF
-student_data = data.student_data
-model_theta = data.model_theta
+student_data = studentdata.export_data_to_df('info')
+student_data = student_data.drop(columns = ['id'])
+print(student_data)
+
+a,b = student_data.shape
+#model_theta = studentdata.get_dummy_model(None, 18)
+model_theta = np.random.rand(b)
+norm = np.linalg.norm(model_theta) #Use the top features and dont use all b
+model_theta = model_theta / norm # use Aashay's functoin
 # print(student_predicted_grade)
 ######## PANDAS TEST DATA ABOVE #############
 
@@ -40,9 +51,47 @@ colors = {
     'text': '#7FDBFF'
 }
 
+SIDEBAR_STYLE = {
+    "position": "fixed",
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "width": "16rem",
+    "padding": "2rem 1rem",
+    "background-color": "#f8f9fa",
+}
+
+CONTENT_STYLE = {
+    "margin-left": "18rem",
+    "margin-right": "2rem",
+    "padding": "2rem 1rem",
+}
+
+sidebar = html.Div(
+    [
+        html.H2("Navigation Hub", className = "display-4"),
+        html.Hr(),
+        html.P("Where do you want to go?", className = "lead"),
+        dbc.Nav(
+            [
+                dbc.NavLink("Home", href ="/", id = "/"),
+                dbc.NavLink("Resources", href ="resources", id = "resources"),
+                dbc.NavLink("Table-data", href ="table-data", id = "table-data"),
+                dbc.NavLink("Progress Over Time", href ="progress-over-time", id = "progress-over-time"),
+            ],
+            vertical = True,
+            pills=True,
+        ),
+    ],
+    style = SIDEBAR_STYLE
+)
+
 app.layout = html.Div([
     # url bar
     dcc.Location(id = 'url', refresh = False),
+
+    #renders sidebar
+    sidebar,
 
     # renders page content
     html.Div(id = 'page-content'),
@@ -123,34 +172,24 @@ index_page = html.Div([
         
 
     ], align = "center", justify = "around"),
-])
+], 
+style = CONTENT_STYLE
+)
 
 # Generating data table 
 # if negative param display all data (up to 10 rows)
 # else display the one student's data
 def generate_table(studentID = -1):
-    if (studentID == -1):
-        return html.Table([
-            html.Thead(
-                html.Tr([html.Th(col) for col in student_data.columns])
-            ),
-            html.Tbody([
-                html.Tr([
-                    html.Td(student_data.iloc[i][col]) for col in student_data.columns
-                ]) for i in range(min(len(student_data), 10))
+    return html.Table([
+        html.Thead(
+            html.Tr([html.Th(col) for col in COLUMNNAMES])
+        ),
+        html.Tbody([
+            html.Tr([
+                html.Td(student_data.loc[student_data['user_id'] == studentID][col]) for col in student_data.columns
             ])
         ])
-    else:
-        return html.Table([
-            html.Thead(
-                html.Tr([html.Th(col) for col in student_data.columns])
-            ),
-            html.Tbody([
-                html.Tr([
-                    html.Td(student_data.iloc[studentID][col]) for col in student_data.columns
-                ])
-            ])
-        ])
+    ])
 
 ## TODO: Put all the attributes into a list, iterate through and display student values
 ## Basically, display their stats and make it look nicer
@@ -191,17 +230,21 @@ page_1_layout = html.Div(
     html.Div([
         
         html.H1(
-            "Enter ID"
+            "Enter ID",
         ),  
         html.Div([
         html.Div(dcc.Input(id='student_id', type='number'))
         ]),
 
         html.H1(id='predicted_score', 
-             # Margin after the score
 
         ),
-        html.H1(id='current_stats'),
+        html.H1(id='current_stats',
+            style = {
+                'font-size': '25px',
+                'overflow': 'scroll',
+            }
+            ),
         
         # For testing the new data and for when we get the actual data
         # testing output; comment out if not testing new data
@@ -218,9 +261,7 @@ page_1_layout = html.Div(
         }
     )
     ],
-    style = {
-        'margin-left': '100px',
-    }
+    style = CONTENT_STYLE
 )
 
 ## STRENGTHS AND WEAKNESSES CALLBACKS for student ID
@@ -242,9 +283,20 @@ def update_predicted_score(student_id):
             return "id cannot be negative"
 
         else:
-            test = student_data.to_numpy()[student_id, 1:]
-            test = test.dot(model_theta)
-            return "Your predicted grade is: {:.2f}".format(test)
+            pred = studentdata.dummy_model_postgres(None, student_id)
+            return("Your predicted grade is ", pred)
+            #test = np.asarray(student_data.iloc[1])
+            #print(test)
+            #data = np.zeros(b)
+            #for x in range(b):
+            #    if type(test[x]) == str:
+            #        data[x] = 0
+            #    else:
+            #        data[x] = test[x]
+
+            #print(data)
+            #data = np.dot(data, model_theta)
+            #return "Your predicted grade is: {:.2f}".format(data)
 
     except:
         return "Grade cannot be predicted with invalid ID"
@@ -265,7 +317,6 @@ def update_current_stats(value):
             return generate_table(-1)
 
         else:
-            test = np.array2string(student_data.to_numpy()[value, 1:])
             return generate_table(int(value))
 
     except:
@@ -280,8 +331,16 @@ def update_current_stats(value):
     try:
         #print(studentdata.get_student_data_PSQL(35087))
         #print(studentdata.get_student_data_mongoDB(58294))
-        print(COLUMNNAMES)
-        return studentdata.get_student_data_PSQL(35087)
+        #print(COLUMNNAMES)
+        #x =  (studentdata.export_data_to_df('info', 'id'))
+        #list = x.values.tolist()[0]
+        #print(list)
+        #string = "\n".join([str(elem) for elem in list])
+        #student_data = x
+        #return string
+        #print(model_theta.shape)
+        #print(np.sum(model_theta))
+        return ''
     except:
         return "Error has occurred with data testing"
 
@@ -318,7 +377,8 @@ page_2_layout = html.Div([
             'left' : '10px',
         }
     )
-])
+], 
+style = CONTENT_STYLE)
 
 #The function will create graphs based on the factors in the dropdown menu
 #Each Graph contains 4 sets of data that can show the average for A, B, C students, and individual student's record
@@ -541,9 +601,7 @@ page_3_layout = html.Div([
             "Welcome to your resources. Feel free to reach out and look for help!"
         ),  
 
-        style = {
-            'margin-bottom' : '100px',
-        }
+        style = CONTENT_STYLE,
     ),
 
     dbc.Row(children = [
@@ -619,7 +677,9 @@ page_3_layout = html.Div([
             'left' : '10px',
         }
     )
-])
+], 
+style = CONTENT_STYLE
+)
 
 # Update the URL, needed to render different pages
 

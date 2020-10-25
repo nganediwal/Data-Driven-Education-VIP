@@ -1,0 +1,13 @@
+What I did this week:
+	made a fake dummy model with random #'s
+	made scroll wheel for table
+	made grade predicter show with fake dummy model
+	It's super inaccurate and wonky. Had to deal with string types within a numpy array of floats. Have to work on easing out the model
+
+What we talked about:
+	ML side did a presentation on what they did
+	talked about pngs and using the graphs and plots that they've made onto our UI
+	aiming to make milestones for web-app.
+
+	View for png's and new button
+	Use Aashay's function in studentdata.py
