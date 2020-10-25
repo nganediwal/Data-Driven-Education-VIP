@@ -105,6 +105,17 @@ def clean_data_null(df):
         genderPlot.axhline(df[col].mean(), color='red', linewidth=2)
         genderPlot.figure.savefig("./plots/gender_vs_"+col+".png")
         genderPlot.figure.clf()
+        USplot = (df.fillna(-1).groupby(by='US')[col].mean()).plot.bar()
+        USplot.axhline(df[col].mean(), color='red', linewidth=2)
+        USplot.figure.savefig("./plots/US_vs_"+col+".png")
+        USplot.figure.clf()
+        
+        LOEplot = (df.groupby('level_of_education')[col].mean()).plot.bar()
+        LOEplot.axhline(df[col].mean(), color='red', linewidth=2)
+        LOEplot.figure.savefig("./plots/level_of_education_vs_"+col+".png")
+        LOEplot.figure.clf()
+
+    return df;
     
 
 def explore_unsupervised(data):
@@ -170,18 +181,6 @@ def explore_unsupervised(data):
     sns.barplot(x='dbscan', y='value', hue='variable', data=tidy, palette='Set3')
     plt.legend(loc='upper right')
     plt.savefig("./plots/dbscan_results.png")
-
-        USplot = (df.fillna(-1).groupby(by='US')[col].mean()).plot.bar()
-        USplot.axhline(df[col].mean(), color='red', linewidth=2)
-        USplot.figure.savefig("./plots/US_vs_"+col+".png")
-        USplot.figure.clf()
-    
-        LOEplot = (df.groupby('level_of_education')[col].mean()).plot.bar()
-        LOEplot.axhline(df[col].mean(), color='red', linewidth=2)
-        LOEplot.figure.savefig("./plots/level_of_education_vs_"+col+".png")
-        LOEplot.figure.clf()
-
-    return df;
 
 def clean_data_outlier(df):
 	      
