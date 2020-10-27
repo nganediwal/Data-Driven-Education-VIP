@@ -136,7 +136,6 @@ def clean_data_null(df):
         LOEplot.axhline(df[col].mean(), color='red', linewidth=2)
         LOEplot.figure.savefig("./plots/level_of_education_vs_"+col+".png")
         LOEplot.figure.clf()
-
     return df;
     
 
@@ -347,18 +346,12 @@ def main():
             }
 		}
     ]
-    rows = []
     for r in regressors:
         pipe = Pipeline(steps = [
            ('preprocessor', preprocessor),
            ('regressor', r['estimator'])
         ])
         train_score, test_score = quick_eval(pipe, X_train, y_train, X_test, y_test, r['params'])
-        rows.append([r['estimator'].__class__.__name__, train_score, test_score])
-    output = pd.DataFrame(rows, columns=["Algorithm", "Train RMSE", "Test RMSE"])
-    output = output.set_index("Algorithm")
-    print(output)
-    fig = output.plot(kind='barh',  figsize=(20, 16), fontsize=26).get_figure()
-    fig.savefig('./plots/model_plots/algorithms.png')
+
 if __name__ == "__main__":
     main()
