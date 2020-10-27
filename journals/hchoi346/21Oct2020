@@ -1,6 +1,11 @@
 What I worked on this week:
 	Got model to show on the page (predicted grade)
 	Got sidebar onto the page with links to all pages
+	Worked on slide and preparing for presentation.
+	Fixed orientation of user_id and studentid
 
 What we talked about this week:
-	
+	Presentation and next steps for web-appteam:
+		integrate new plots from model training team
+		real model prediction
+		redesign
