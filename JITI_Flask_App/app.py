@@ -27,15 +27,10 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 ######## PANDAS TEST DATA BELOW #############
 test_df = data.testModelDF
-student_data = studentdata.export_data_to_df('info')
+student_data = studentdata.export_data_to_df('dataframe')
 student_data = student_data.drop(columns = ['id'])
-print(student_data)
 
-a,b = student_data.shape
-#model_theta = studentdata.get_dummy_model(None, 18)
-model_theta = np.random.rand(b)
-norm = np.linalg.norm(model_theta) #Use the top features and dont use all b
-model_theta = model_theta / norm # use Aashay's functoin
+model_theta = studentdata.dummy_model_postgres('dummy_weights.csv', 3013850, 'user_id', 'dataframe')
 # print(student_predicted_grade)
 ######## PANDAS TEST DATA ABOVE #############
 
@@ -180,13 +175,14 @@ style = CONTENT_STYLE
 # if negative param display all data (up to 10 rows)
 # else display the one student's data
 def generate_table(studentID = -1):
+    data = student_data.loc[student_data['user_id'] == studentID]
     return html.Table([
         html.Thead(
             html.Tr([html.Th(col) for col in COLUMNNAMES])
         ),
         html.Tbody([
             html.Tr([
-                html.Td(student_data.loc[student_data['user_id'] == studentID][col]) for col in student_data.columns
+                html.Td(data.loc[student_data['week'] == 1][col]) for col in student_data.columns
             ])
         ])
     ])
@@ -283,8 +279,8 @@ def update_predicted_score(student_id):
             return "id cannot be negative"
 
         else:
-            pred = studentdata.dummy_model_postgres(None, student_id)
-            return("Your predicted grade is ", pred)
+            model_theta = studentdata.dummy_model_postgres('dummy_weights.csv', student_id, 'user_id', 'dataframe')
+            return("Your predicted grade is ", model_theta)
             #test = np.asarray(student_data.iloc[1])
             #print(test)
             #data = np.zeros(b)
@@ -681,6 +677,68 @@ page_3_layout = html.Div([
 style = CONTENT_STYLE
 )
 
+page_4_layout = html.Div([
+    html.Div(
+        html.H1(
+            "Welcome to our displays of graphs and plots from our data modeling team!"
+        ),  
+
+        style = CONTENT_STYLE,
+    ),
+
+    dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/best_features.png', 
+                style = {
+                    'max-height': '1000px',
+                    'margin' : 'auto',
+                    'display' : 'block'
+                }
+            ),),
+            html.Br(),
+            dbc.Row(html.Button('best features',
+                            style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+            )]),
+
+    dcc.Link(html.Button('Home Page'), href = '/',
+        style = {
+            'margin' : 'auto',
+            'position' : 'fixed',
+            'bottom' : '10px',
+            'left' : '10px',
+        }
+    ),
+    dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/correlation.png', 
+                style = {
+                    'max-height': '2000px',
+                    'margin' : 'auto',
+                    'display' : 'block'
+                }
+            ),),
+            html.Br(),
+            dbc.Row(html.Button('Correlation',
+                            style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+            )]),
+
+    dcc.Link(html.Button('Home Page'), href = '/',
+        style = {
+            'margin' : 'auto',
+            'position' : 'fixed',
+            'bottom' : '10px',
+            'left' : '10px',
+        }
+    )
+
+], 
+style = CONTENT_STYLE
+)
+
 # Update the URL, needed to render different pages
 
 @app.callback(dash.dependencies.Output('page-content', 'children'),
@@ -695,6 +753,8 @@ def display_page(pathname):
         return page_2_layout
     elif pathname == '/resources':
         return page_3_layout
+    elif pathname == '/plots':
+        return page_4_layout
 
 if __name__ == '__main__':
     app.run_server(debug=True)

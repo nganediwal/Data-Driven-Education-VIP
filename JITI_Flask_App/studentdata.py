@@ -125,9 +125,10 @@ def dummy_model_postgres(file_name, value, column_name, table, schema = 'jiti'):
 # Example of how to properly call functions:
 
 COLUMNNAMES = get_column_names_PSQL('dataframe')
-# print(COLUMNNAMES)
+#print(COLUMNNAMES)
 
 # print(get_student_data_PSQL(3013850, 'user_id', 'dataframe'))
 # print(get_student_data_mongoDB(58294))
 # print(export_data_to_df('dataframe'))
 # print(dummy_model_postgres('dummy_weights.csv', 3013850, 'user_id', 'dataframe'))
+# Possible user ids: 12174
