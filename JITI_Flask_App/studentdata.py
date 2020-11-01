@@ -58,10 +58,14 @@ postgres_pandas_connection = alchemyEngine.connect()
 # Parameter: value - for a row of data, the column_name of that row needs to equal value
 #            column_name (String) - column that is being used to find the correct row(s) of data
 #            table (String) - table that holds the data that the model acts on
-#            schema (String) - schema within the database that has the table
+#            schema (String) - [OPTIONAL] schema within the database that has the table
+#            columns (String) - [OPTIONAL] csv string of names of columns wanted from table
 # Return: An array of arrays where each array is a row from the table that fits the query
-def get_student_data_PSQL(value, column_name, table, schema = 'jiti'):
-    psql_select_query = "SELECT * FROM %s.%s WHERE %s = %s" % (schema, table, column_name, value)
+def get_student_data_PSQL(value, column_name, table, schema = 'jiti', columns = None):
+    if (columns == None):
+        psql_select_query = "SELECT * FROM %s.%s WHERE %s = %s" % (schema, table, column_name, value)
+    else:
+        psql_select_query = "SELECT %s FROM %s.%s WHERE %s = %s" % (columns, schema, table, column_name, value)
     postgres_cursor.execute(psql_select_query)
     returned_data = postgres_cursor.fetchall()
     if len(returned_data) == 0:
@@ -114,18 +118,20 @@ def export_data_to_df(table, schema = 'jiti', index_column = None):
 # Return: A single value that is the dot product between the attributes of data and their respective weights
 def dummy_model_postgres(file_name, value, column_name, table, schema = 'jiti'):
     # TODO: student_data needs to be aggregated properly instead of getting the 0 index of the returned array
-    # TODO: take in a parameter of array of column names to apply weights to
-    student_data = np.asarray(get_student_data_PSQL(value, column_name, table, schema)[0][4:11])
+    # NOTE: this TODO might not be necessary.  Model team mentioned the data they are using has 1 row per student
+    student_data = []
     weights = []
     with open('./temp_model/' + file_name) as weightsfile:
-        weights = [float(s) for line in weightsfile.readlines() for s in line[:-1].split(',')]
+        columns = weightsfile.readline()
+        student_data = np.asarray(get_student_data_PSQL(value, column_name, table, schema, columns)[0])
+        weights = [float(s) for s in weightsfile.readline().split(',')]
     return np.dot(student_data, weights)
 #################################################################
 
 # Example of how to properly call functions:
 
 COLUMNNAMES = get_column_names_PSQL('dataframe')
-#print(COLUMNNAMES)
+# print(COLUMNNAMES)
 
 # print(get_student_data_PSQL(3013850, 'user_id', 'dataframe'))
 # print(get_student_data_mongoDB(58294))
