@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import sklearn.model_selection as model_selection
+from sklearn.feature_selection import SelectKBest,f_regression
 from sklearn import preprocessing
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
@@ -26,6 +27,7 @@ from itertools import chain
 import matplotlib.pyplot as plt
 from pandas import read_excel
 from scipy import stats
+from sklearn.externals import joblib
 
 
 output_variable = "percent_progress"
@@ -48,7 +50,7 @@ def quick_eval(pipeline, X_train, y_train, X_test, y_test, params, verbose=True)
     Quickly trains modeling pipeline and evaluates on test data.      Returns original model, training RMSE, and testing
     RMSE as a tuple.
     """
-    CV = GridSearchCV(pipeline, params, scoring = 'neg_mean_absolute_error', n_jobs= 2, cv=5)
+    CV = GridSearchCV(pipeline, params, scoring = 'neg_mean_absolute_error', n_jobs= 6, cv=10)
     CV.fit(X_train, y_train)
     #if the estimator has an option to provide best features, plot it
     #if(hasattr(CV.best_estimator_.named_steps['regressor'], 'feature_importances_')):
@@ -77,7 +79,7 @@ def quick_eval(pipeline, X_train, y_train, X_test, y_test, params, verbose=True)
         print(f"Train RMSE: {train_score}")
         print(f"Test RMSE: {test_score}")
     
-    return train_score, test_score
+    return CV.best_estimator_, train_score, test_score
 
 def plot_feature(data, column, style):
     data_count=len(data.index)
@@ -253,7 +255,7 @@ def feature_explortion(data):
             ax=ax)
     sns_plot.figure.savefig("./plots/correlation.png")
     cm=corr_matrix[output_variable].sort_values(ascending=False)
-    features = cm.index[1:10].tolist()
+    features = cm.index[1:5].tolist()
     data[np.array(features)].hist(bins=200,figsize=(16,8))
     plt.savefig('./plots/best_features.png') 
     return features
@@ -295,7 +297,7 @@ def main():
     train_data = X_train.copy()
     train_data[output_variable] = y_train
     if(filter_best_correlated):
-	    preprocessor = preprocessor_pipe(xVars)
+	    preprocessor = preprocessor_best_features(xVars)
     else:
         preprocessor = preprocessor_categorical()
     regressors = [
@@ -305,23 +307,22 @@ def main():
         # @Mia
         #DecisionTreeRegressor(),
         #RandomForestRegressor(n_estimators=100),
-
         {
             'estimator':BaggingRegressor(DecisionTreeRegressor(), random_state=2020), 
 		    'params':{
-                'regressor__base_estimator__max_depth':(2,3,4),
-                'regressor__base_estimator__min_samples_leaf':(1,5,10),
-                'regressor__n_estimators':(50, 100,200)
+                'regressor__base_estimator__max_depth':np.arange(4, 6),
+                'regressor__base_estimator__min_samples_leaf':np.arange(5, 15),
+                'regressor__n_estimators':(100, 200)
              }
         },
         {
             'estimator':AdaBoostRegressor(DecisionTreeRegressor(), random_state=2020), 
             'params':{
-                'regressor__base_estimator__max_depth':(2,3,4),  
-                'regressor__base_estimator__min_samples_leaf':(1,5,10), 
+                'regressor__base_estimator__max_depth':np.arange(4, 6),  
+                'regressor__base_estimator__min_samples_leaf':np.arange(15, 20), 
                 'regressor__loss':('linear', 'square', 'exponential'),
-                'regressor__n_estimators':(50, 100,200), 
-                'regressor__learning_rate':(0.01, 0.05, 0.1, 0.5)
+                'regressor__n_estimators':(100, 200), 
+                'regressor__learning_rate':(0.01, 0.05)
              }
         },
         {
@@ -334,31 +335,36 @@ def main():
             } 
         },
         {
-            'estimator':KNeighborsRegressor(n_neighbors=5),  
-            'params':{'regressor__n_neighbors':(2,5,10,20)}
+            'estimator':KNeighborsRegressor(),  
+            'params':{'regressor__n_neighbors':np.arange(1, 15)}
         },
 		{
             'estimator':GradientBoostingRegressor(), 
             'params':{
-                'regressor__max_depth':(3,4,5), 
-                'regressor__min_samples_leaf':(1,5,10),
-                'regressor__n_estimators':(100,200), 
-                'regressor__learning_rate':(0.1,0.5,0.9)
+                'regressor__max_depth':np.arange(4, 6), 
+                'regressor__min_samples_leaf':np.arange(1, 5),
+                'regressor__n_estimators':(100,300), 
+                'regressor__learning_rate':(0.1, 0.5)
             }
 		}
     ]
     rows = []
+    max_score=100;
     for r in regressors:
         pipe = Pipeline(steps = [
            ('preprocessor', preprocessor),
            ('regressor', r['estimator'])
         ])
-        train_score, test_score = quick_eval(pipe, X_train, y_train, X_test, y_test, r['params'])
+        best_model, train_score, test_score = quick_eval(pipe, X_train, y_train, X_test, y_test, r['params'])
+        if(train_score<max_score):
+            max_score=train_score
+            final_model=best_model    
         rows.append([r['estimator'].__class__.__name__, train_score, test_score])
+    joblib.dump(final_model, './model/best_model.pkl')
     output = pd.DataFrame(rows, columns=["Algorithm", "Train RMSE", "Test RMSE"])
     output = output.set_index("Algorithm")
     print(output)
-    fig = output.plot(kind='barh',  figsize=(20, 16), fontsize=26).get_figure()
-    fig.savefig('./plots/model_plots/algorithms.png')
+    fig = output.plot(kind='barh').get_figure()
+    fig.savefig('./plots/model_plots/algorithms.png',bbox_inches='tight')
 if __name__ == "__main__":
     main()
