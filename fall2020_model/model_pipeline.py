@@ -303,7 +303,22 @@ def main():
     regressors = [
         # @Rachel
         #LinearRegression(),
-        #Lasso(alpha=.5),
+        {
+            'estimator':LinearRegression(),
+            'params':{
+                'regressor__fit_intercept': (True, False),
+                'regressor__normalize': (True, False),
+			}
+		},
+        #Lasso
+        {
+            'estimator':Lasso(),
+            'params':{
+                'regressor__alpha': (.01, .05, .1, .25, .5),
+                'regressor__fit_intercept': (True, False),
+                'regressor__normalize': (True, False)
+			}
+		},
         # @Mia
         #DecisionTreeRegressor(),
         #RandomForestRegressor(n_estimators=100),
