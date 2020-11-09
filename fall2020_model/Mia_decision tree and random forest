@@ -1,0 +1,44 @@
+library.path <- .libPaths()
+library("randomForest", lib.loc = library.path)
+if (!require(tree)) install.packages("tree")
+library(tree)
+library("readxl")
+library("randomForest")
+library(caret)
+t_c<-read_excel("Desktop/moocdata.xlsx")
+#Problem Graded,Problem Check,Next Seq,Video Load,Stop Video
+set.seed (1)
+train = sample(1:nrow(t_c), nrow(t_c)*.6)
+tree.tc=tree(formula = percent_progress ~ problem_graded_agg_count + problem_check_agg_count + next_selected_agg_count + seek_video_agg_count + stop_video_agg_count, data = t_c ,subset=train)
+summary(tree.tc)
+#Regression tree:
+  #tree(formula = percent_progress ~ problem_graded_agg_count + 
+  #       problem_check_agg_count + next_selected_agg_count + seek_video_agg_count + 
+#stop_video_agg_count, data = t_c, subset = train)
+#Variables actually used in tree construction:
+ # [1] "next_selected_agg_count"  "stop_video_agg_count"     "problem_check_agg_count"  "problem_graded_agg_count"
+#Number of terminal nodes:  7 
+#Residual mean deviance:  0.001394 = 16.82 / 12070 
+#Distribution of residuals:
+ # Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+#-0.171400 -0.023730 -0.007042  0.000000  0.016270  0.336300 
+
+# use the cv.tree() function to see if pruning will improve performance
+cv.tc =cv.tree(tree.tc)
+plot(cv.tc$size,cv.tc$dev,type='b')
+cv.tc
+
+
+#random forest
+
+set.seed(1)
+t_c.rf <- randomForest(percent_progress ~ problem_graded_agg_count + problem_check_agg_count + next_selected_agg_count + seek_video_agg_count + stop_video_agg_count , data=t_c, ntree=1000, keep.forest=FALSE)
+varImpPlot(t_c.rf)
+#Call:
+ # randomForest(formula = percent_progress ~ problem_graded_agg_count +      problem_check_agg_count + next_selected_agg_count + seek_video_agg_count +      stop_video_agg_count, data = t_c, ntree = 1000, keep.forest = FALSE) 
+#Type of random forest: regression
+#Number of trees: 1000
+#No. of variables tried at each split: 1
+
+#Mean of squared residuals: 0.00124229
+#% Var explained: 66.9
