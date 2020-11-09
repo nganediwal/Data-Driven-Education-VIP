@@ -15,6 +15,7 @@ sidebar = html.Div(
                 dbc.NavLink("Resources", href ="resources", id = "resources"),
                 dbc.NavLink("Table-data", href ="table-data", id = "table-data"),
                 dbc.NavLink("Progress Over Time", href ="progress-over-time", id = "progress-over-time"),
+                dbc.NavLink("Plots", href = "plots", id = "Plots"),
             ],
             vertical = True,
             pills=True,
@@ -357,6 +358,142 @@ def plot_summary(option= None):
 def make_graph(page_2_dropdown):
     fig = plot_summary(option = page_2_dropdown)
     return fig
+
+@app.callback(Output('plotButtons', 'children'),
+              [Input('btn1', 'n_clicks'),
+               Input('btn2', 'n_clicks'),
+               Input('btn3', 'n_clicks'),
+               Input('btn4', 'n_clicks'),
+               Input('btn5', 'n_clicks'),
+               Input('btn6', 'n_clicks'),
+               Input('btn7', 'n_clicks'),
+               Input('btn8', 'n_clicks'),
+               Input('btn9', 'n_clicks'),
+               Input('btn10', 'n_clicks'),
+               Input('btn11', 'n_clicks'),
+               Input('btn12', 'n_clicks'),
+               Input('btn13', 'n_clicks'),
+               Input('btn14', 'n_clicks'),
+               Input('btn15', 'n_clicks'),
+               Input('btn16', 'n_clicks'),
+               Input('btn17', 'n_clicks'),
+               Input('btn18', 'n_clicks'),
+               Input('btn19', 'n_clicks'),
+               Input('btn20', 'n_clicks'),
+               Input('btn21', 'n_clicks'),
+               Input('btn22', 'n_clicks'),
+               Input('btn23', 'n_clicks'),
+               Input('btn24', 'n_clicks'),
+               Input('btn25', 'n_clicks'),
+               Input('btn26', 'n_clicks'),
+               Input('btn27', 'n_clicks'),
+               Input('btn28', 'n_clicks'),
+               Input('btn29', 'n_clicks'),
+               Input('btn30', 'n_clicks'),
+               Input('btn21', 'n_clicks'),])
+def displayImage(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, 
+                 btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19,
+                btn20, btn21, btn22, btn23, btn24, btn25, btn26, btn27, btn28, 
+                btn29, btn30, btn31):
+    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+    #print(changed_id)
+    if 'btn1.n_clicks' == changed_id:
+        return modal('/assets/plots/best_features.png')
+    if 'btn2.n_clicks' == changed_id:
+        return modal('/assets/plots/correlation.png')
+    if 'btn3.n_clicks' == changed_id:
+        return modal('/assets/plots/gender.png')
+    if 'btn4.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_hypertext_agg_count.png')
+    if 'btn5.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_load_video_agg_count.png')
+    if 'btn6.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_next_selected_agg_count.png')
+    if 'btn7.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_page_close_agg_count.png')
+    if 'btn8.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_percent_progress.png')
+    if 'btn9.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_problem_check_agg_count.png')
+    if 'btn10.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_problem_graded_agg_count.png')
+    if 'btn11.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education.png')
+    if 'btn12.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_hypertext_agg_count.png')
+    if 'btn13.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_load_video_agg_count.png')
+    if 'btn14.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_next_selected_agg_count.png')
+    if 'btn15.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_page_close_agg_count.png')
+    if 'btn16.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_percent_progress.png')
+    if 'btn17.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_problem_check_agg_count.png')
+    if 'btn18.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_problem_graded_agg_count.png')
+    if 'btn19.n_clicks' == changed_id:
+        return modal('/assets/plots/percent_progress.png')
+    if 'btn20.n_clicks' == changed_id:
+        return modal('/assets/plots/US.png')
+    if 'btn21.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_hypertext_agg_count.png')
+    if 'btn22.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_load_video_agg_count.png')
+    if 'btn23.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_next_selected_agg_count.png')
+    if 'btn24.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_page_close_agg_count.png')
+    if 'btn25.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_percent_progress.png')
+    if 'btn26.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_problem_check_agg_count.png')
+    if 'btn27.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_problem_graded_agg_count.png')
+    if 'btn28.n_clicks' == changed_id:
+        return modal('/assets/plots/yob_after.png')
+    if 'btn29.n_clicks' == changed_id:
+        return modal('/assets/plots/yob_before.png')
+    if 'btn30.n_clicks' == changed_id:
+        return modal('/assets/plots/YOB_boxplot_after.png')
+    if 'btn31.n_clicks' == changed_id:
+        return modal('/assets/plots/YOB_boxplot_before.png')
+
+def modal(path):
+    if (path == ''):
+        return None
+    return html.Dialog(
+        children=[
+            html.Img(src=path,
+                style = {
+                    'maxHeight': '1500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            ),
+            html.Button('Close', id='modal-close-button',
+                        style = {'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+        ],
+        id='modal',
+        className='modal',
+        style={"display": "block",
+               'overflow': 'scroll',
+               'height': '1080px',
+               'width' : '1920px%',},
+    )
+
+@app.callback(Output('modal', 'style'),
+              [Input('modal-close-button', 'n_clicks')])
+def close_modal(n):
+    if (n is not None):
+        return {'display' : 'none'}
+    else:
+        return {'display' : 'block',
+                'overflow': 'scroll'}
 
 
 # Update the URL, needed to render different pages
