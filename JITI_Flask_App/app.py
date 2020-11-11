@@ -1,9 +1,14 @@
- -*- coding: utf-8 -*-
-from pages import index, plots, progress_over_time, resources, table_data
+# -*- coding: utf-8 -*-
+from pages import index, plots, progress_over_time, resources, table_data, completion
 from globalvars import *
 
 print(dcc.__version__) # 0.6.0 or above is required
 
+# Main python file with callbacks for the Dash app.
+
+
+#sidebar of the whole app
+#if adding a new link/page, add a dbc.NavLink like shown
 sidebar = html.Div(
     [
         html.H2("Navigation Hub", className = "display-4"),
@@ -16,6 +21,7 @@ sidebar = html.Div(
                 dbc.NavLink("Table-data", href ="table-data", id = "table-data"),
                 dbc.NavLink("Progress Over Time", href ="progress-over-time", id = "progress-over-time"),
                 dbc.NavLink("Plots", href = "plots", id = "Plots"),
+                dbc.NavLink("Completion Prediction", href = "completion", id = "completion"),
             ],
             vertical = True,
             pills=True,
@@ -38,7 +44,7 @@ app.layout = html.Div([
 
 
 # Generating data table 
-# if negative param display all data (up to 10 rows)
+# if negative param display empty table
 # else display the one student's data
 def generate_table(studentID = -1):
     data = student_data.loc[student_data['user_id'] == studentID]
@@ -57,7 +63,6 @@ def generate_table(studentID = -1):
 
 # Current stats 
 # outputs table of selected student
-# or if negative # outputs entire table
 @app.callback(
     dash.dependencies.Output('current_stats', 'children'),
     [dash.dependencies.Input('student_id', 'value')]
@@ -76,24 +81,13 @@ def update_current_stats(value):
     except:
         return "Grade cannot be shown with invalid ID"
 
-
-
-
-## TODO: Put all the attributes into a list, iterate through and display student values
-## Basically, display their stats and make it look nicer
-
-## TODO: Iterate through student attributes in callback, update the "weakness" message 
-# depending on what's below average
-
-## STRENGTHS AND WEAKNESSES CALLBACKS for student ID
+# STRENGTHS AND WEAKNESSES CALLBACKS for student ID
 # Predicted Grade / Predicted Score
 @app.callback(
     Output(component_id ='predicted_score', component_property='children'),
     [Input(component_id='student_id', component_property='value')]
 )
 
-# Fake model used to predict 3 students' scores 
-# Those ID's can be 0, 1, 2 (respectively A, B, C students)
 def update_predicted_score(student_id):
     try:
 
@@ -106,48 +100,37 @@ def update_predicted_score(student_id):
         else:
             model_theta = studentdata.dummy_model_postgres('dummy_weights.csv', student_id, 'user_id', 'dataframe')
             return("Your predicted grade is ", model_theta)
-            #test = np.asarray(student_data.iloc[1])
-            #print(test)
-            #data = np.zeros(b)
-            #for x in range(b):
-            #    if type(test[x]) == str:
-            #        data[x] = 0
-            #    else:
-            #        data[x] = test[x]
-
-            #print(data)
-            #data = np.dot(data, model_theta)
-            #return "Your predicted grade is: {:.2f}".format(data)
 
     except:
         return "Grade cannot be predicted with invalid ID"
-
-
-
-#for testing data. Can comment out when not testing with new data inputs.
+    
 @app.callback(
-    dash.dependencies.Output('data_testing', 'children'),
-    [dash.dependencies.Input('student_id', 'value')]
+    Output(component_id ='predicted_completion', component_property='children'),
+    [Input(component_id='student_id', component_property='value')]
 )
-def update_current_stats(value):
-    try:
-        #print(studentdata.get_student_data_PSQL(35087))
-        #print(studentdata.get_student_data_mongoDB(58294))
-        #print(COLUMNNAMES)
-        #x =  (studentdata.export_data_to_df('info', 'id'))
-        #list = x.values.tolist()[0]
-        #print(list)
-        #string = "\n".join([str(elem) for elem in list])
-        #student_data = x
-        #return string
-        #print(model_theta.shape)
-        #print(np.sum(model_theta))
-        return ''
-    except:
-        return "Error has occurred with data testing"
 
-#The function will create graphs based on the factors in the dropdown menu
-#Each Graph contains 4 sets of data that can show the average for A, B, C students, and individual student's record
+# Used in completion.py
+# predicts completion %
+# Aashay, replace the function dummy_model_postgrest() with the one you added to studentdata
+
+def update_predicted_completion(student_id):
+    try:
+
+        if (student_id == None):
+            return "Completion cannot be predicted with no ID"
+            
+        if(student_id < 0):
+            return "id cannot be negative"
+
+        else:
+            model_theta = studentdata.dummy_model_postgres('dummy_weights.csv', student_id, 'user_id', 'dataframe')
+            return("Your predicted completion is ", model_theta, "%")
+
+    except:
+        return "Completion cannot be predicted with invalid ID"
+
+# The function will create graphs based on the factors in the dropdown menu
+# Each Graph contains 4 sets of data that can show the average for A, B, C students, and individual student's record
 
 def plot_summary(option= None):
 
@@ -348,16 +331,15 @@ def plot_summary(option= None):
     
     return (figure)
 
-
-#page_2_callback
-
 @app.callback(Output('feature-graphic', 'figure'),
              [Input('yaxis', 'value') ] )
 
-#recall the function above
 def make_graph(page_2_dropdown):
     fig = plot_summary(option = page_2_dropdown)
     return fig
+
+# Callback for Plots page
+# Really messy needed the input of 31 buttons.
 
 @app.callback(Output('plotButtons', 'children'),
               [Input('btn1', 'n_clicks'),
@@ -390,7 +372,10 @@ def make_graph(page_2_dropdown):
                Input('btn28', 'n_clicks'),
                Input('btn29', 'n_clicks'),
                Input('btn30', 'n_clicks'),
-               Input('btn21', 'n_clicks'),])
+               Input('btn31', 'n_clicks'),])
+
+# Function to display the images as modal pop-ups with captions for Plots page
+# Todo: possibly make an array/dict with all descriptions with button string as key/index.
 def displayImage(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, 
                  btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19,
                 btn20, btn21, btn22, btn23, btn24, btn25, btn26, btn27, btn28, 
@@ -398,69 +383,101 @@ def displayImage(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
     #print(changed_id)
     if 'btn1.n_clicks' == changed_id:
-        return modal('/assets/plots/best_features.png')
+        return modal('/assets/plots/best_features.png',
+                     'This is a test text.')
     if 'btn2.n_clicks' == changed_id:
-        return modal('/assets/plots/correlation.png')
+        return modal('/assets/plots/correlation.png',
+                     'This is a test text.')
     if 'btn3.n_clicks' == changed_id:
-        return modal('/assets/plots/gender.png')
+        return modal('/assets/plots/gender.png',
+                     'This is a test text.')
     if 'btn4.n_clicks' == changed_id:
-        return modal('/assets/plots/gender_vs_hypertext_agg_count.png')
+        return modal('/assets/plots/gender_vs_hypertext_agg_count.png',
+                     'This is a test text.')
     if 'btn5.n_clicks' == changed_id:
-        return modal('/assets/plots/gender_vs_load_video_agg_count.png')
+        return modal('/assets/plots/gender_vs_load_video_agg_count.png',
+                     'This is a test text.')
     if 'btn6.n_clicks' == changed_id:
-        return modal('/assets/plots/gender_vs_next_selected_agg_count.png')
+        return modal('/assets/plots/gender_vs_next_selected_agg_count.png',
+                     'This is a test text.')
     if 'btn7.n_clicks' == changed_id:
-        return modal('/assets/plots/gender_vs_page_close_agg_count.png')
+        return modal('/assets/plots/gender_vs_page_close_agg_count.png',
+                     'This is a test text.')
     if 'btn8.n_clicks' == changed_id:
-        return modal('/assets/plots/gender_vs_percent_progress.png')
+        return modal('/assets/plots/gender_vs_percent_progress.png',
+                     'This is a test text.')
     if 'btn9.n_clicks' == changed_id:
-        return modal('/assets/plots/gender_vs_problem_check_agg_count.png')
+        return modal('/assets/plots/gender_vs_problem_check_agg_count.png',
+                     'This is a test text.')
     if 'btn10.n_clicks' == changed_id:
-        return modal('/assets/plots/gender_vs_problem_graded_agg_count.png')
+        return modal('/assets/plots/gender_vs_problem_graded_agg_count.png',
+                     'This is a test text.')
     if 'btn11.n_clicks' == changed_id:
-        return modal('/assets/plots/level_of_education.png')
+        return modal('/assets/plots/level_of_education.png',
+                     'This is a test text.')
     if 'btn12.n_clicks' == changed_id:
-        return modal('/assets/plots/level_of_education_vs_hypertext_agg_count.png')
+        return modal('/assets/plots/level_of_education_vs_hypertext_agg_count.png',
+                     'This is a test text.')
     if 'btn13.n_clicks' == changed_id:
-        return modal('/assets/plots/level_of_education_vs_load_video_agg_count.png')
+        return modal('/assets/plots/level_of_education_vs_load_video_agg_count.png',
+                     'This is a test text.')
     if 'btn14.n_clicks' == changed_id:
-        return modal('/assets/plots/level_of_education_vs_next_selected_agg_count.png')
+        return modal('/assets/plots/level_of_education_vs_next_selected_agg_count.png',
+                     'This is a test text.')
     if 'btn15.n_clicks' == changed_id:
-        return modal('/assets/plots/level_of_education_vs_page_close_agg_count.png')
+        return modal('/assets/plots/level_of_education_vs_page_close_agg_count.png',
+                     'This is a test text.')
     if 'btn16.n_clicks' == changed_id:
-        return modal('/assets/plots/level_of_education_vs_percent_progress.png')
+        return modal('/assets/plots/level_of_education_vs_percent_progress.png',
+                     'This is a test text.')
     if 'btn17.n_clicks' == changed_id:
-        return modal('/assets/plots/level_of_education_vs_problem_check_agg_count.png')
+        return modal('/assets/plots/level_of_education_vs_problem_check_agg_count.png',
+                     'This is a test text.')
     if 'btn18.n_clicks' == changed_id:
-        return modal('/assets/plots/level_of_education_vs_problem_graded_agg_count.png')
+        return modal('/assets/plots/level_of_education_vs_problem_graded_agg_count.png',
+                     'This is a test text.')
     if 'btn19.n_clicks' == changed_id:
-        return modal('/assets/plots/percent_progress.png')
+        return modal('/assets/plots/percent_progress.png',
+                     'This is a test text.')
     if 'btn20.n_clicks' == changed_id:
-        return modal('/assets/plots/US.png')
+        return modal('/assets/plots/US.png',
+                     'This is a test text.')
     if 'btn21.n_clicks' == changed_id:
-        return modal('/assets/plots/US_vs_hypertext_agg_count.png')
+        return modal('/assets/plots/US_vs_hypertext_agg_count.png',
+                     'This is a test text.')
     if 'btn22.n_clicks' == changed_id:
-        return modal('/assets/plots/US_vs_load_video_agg_count.png')
+        return modal('/assets/plots/US_vs_load_video_agg_count.png',
+                     'This is a test text.')
     if 'btn23.n_clicks' == changed_id:
-        return modal('/assets/plots/US_vs_next_selected_agg_count.png')
+        return modal('/assets/plots/US_vs_next_selected_agg_count.png',
+                     'This is a test text.')
     if 'btn24.n_clicks' == changed_id:
-        return modal('/assets/plots/US_vs_page_close_agg_count.png')
+        return modal('/assets/plots/US_vs_page_close_agg_count.png',
+                     'This is a test text.')
     if 'btn25.n_clicks' == changed_id:
-        return modal('/assets/plots/US_vs_percent_progress.png')
+        return modal('/assets/plots/US_vs_percent_progress.png',
+                     'This is a test text.')
     if 'btn26.n_clicks' == changed_id:
-        return modal('/assets/plots/US_vs_problem_check_agg_count.png')
+        return modal('/assets/plots/US_vs_problem_check_agg_count.png',
+                     'This is a test text.')
     if 'btn27.n_clicks' == changed_id:
-        return modal('/assets/plots/US_vs_problem_graded_agg_count.png')
+        return modal('/assets/plots/US_vs_problem_graded_agg_count.png',
+                     'This is a test text.')
     if 'btn28.n_clicks' == changed_id:
-        return modal('/assets/plots/yob_after.png')
+        return modal('/assets/plots/yob_after.png',
+                     'This is a test text.')
     if 'btn29.n_clicks' == changed_id:
-        return modal('/assets/plots/yob_before.png')
+        return modal('/assets/plots/yob_before.png',
+                     'This is a test text.')
     if 'btn30.n_clicks' == changed_id:
-        return modal('/assets/plots/YOB_boxplot_after.png')
+        return modal('/assets/plots/YOB_boxplot_after.png',
+                     'This is a test text.')
     if 'btn31.n_clicks' == changed_id:
-        return modal('/assets/plots/YOB_boxplot_before.png')
+        return modal('/assets/plots/YOB_boxplot_before.png',
+                     'This is a test text.')
 
-def modal(path):
+# Modal for the captioned image plots.
+def modal(path, desc):
     if (path == ''):
         return None
     return html.Dialog(
@@ -472,6 +489,11 @@ def modal(path):
                     'display':'block'
                     }
             ),
+            html.P(desc,
+                   style = {'font-size' : '150%',
+                            'text-align':'center',
+                            'display' : 'block'}
+                   ),
             html.Button('Close', id='modal-close-button',
                         style = {'display':'block',
                                    'width' : '400px', 
@@ -486,8 +508,11 @@ def modal(path):
                'width' : '1920px%',},
     )
 
+# Callback to close the modal for plots page
 @app.callback(Output('modal', 'style'),
               [Input('modal-close-button', 'n_clicks')])
+
+# Function to close the modal (setting css to disappear)
 def close_modal(n):
     if (n is not None):
         return {'display' : 'none'}
@@ -495,10 +520,13 @@ def close_modal(n):
         return {'display' : 'block',
                 'overflow': 'scroll'}
 
-
-# Update the URL, needed to render different pages
+# Callback for page routing/changing
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
+
+# Function for returning certain page contents.
+# if adding a new page add an elif like shown and add the file's layout as it's own 
+# python file under pages directory.
 def display_page(pathname):
     if pathname == '/':
         return index.page_layout
@@ -510,6 +538,8 @@ def display_page(pathname):
         return resources.page_layout
     elif pathname == '/plots':
         return plots.page_layout
+    elif pathname == '/completion':
+        return completion.page_layout
 
 if __name__ == '__main__':
     app.run_server(debug=True)

@@ -7,6 +7,9 @@ import dash_bootstrap_components as dbc
 
 from globalvars import test_df, CONTENT_STYLE, app
 
+# Page for displaying table data of each student.
+# The model is currently a fake one and we do not have access to something better.
+
 page_layout = html.Div(
     [
     html.H1('Strengths and Weaknesses'),
@@ -33,9 +36,6 @@ page_layout = html.Div(
         }
     ),
 
-    # Take user input for prediction
-    # displays current stats and not weaknesses (not implemented)
-
     html.Div([
         
         html.H1(
@@ -54,11 +54,6 @@ page_layout = html.Div(
                 'overflow': 'scroll',
             }
             ),
-        
-        # For testing the new data and for when we get the actual data
-        # testing output; comment out if not testing new data
-        html.H1(id='data_testing'),
-
     ]),
 
     dcc.Link(html.Button('Home Page'), href = '/',

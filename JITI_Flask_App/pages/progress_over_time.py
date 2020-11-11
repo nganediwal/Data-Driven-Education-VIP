@@ -6,8 +6,6 @@ from dash.dependencies import Input, Output
 from globalvars import CONTENT_STYLE
 
 # Progress over time
-# Updated: dropdown menu, callback, and average A, B, C student grade, view counts
-# Updated: x-axis and y-axis title on the layout
 # Error: The code runs perfectly and gives right graph but shows a error on the webpage 'ID not found in layout'
 # Please check it out
 

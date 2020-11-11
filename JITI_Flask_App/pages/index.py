@@ -4,8 +4,12 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-
 from globalvars import CONTENT_STYLE
+
+# Welcome page.
+# Currently links to 3 pages.
+# Going to be changed by Attush this week
+# TODO: please update this, Attush with the new documented comments for the new home page.
 
 page_layout = html.Div([
     html.Div(

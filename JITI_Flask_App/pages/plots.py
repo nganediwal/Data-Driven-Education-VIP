@@ -6,6 +6,11 @@ from dash.dependencies import Input, Output
 
 from globalvars import CONTENT_STYLE
 
+# Plots page from the modeling team.
+# Displaying the plots from the modeling team and allowing for close-up views through a modal.
+# TODO: The images aren't on their own blocks / can cover one another.
+#   *We need to work on getting this page to be responsive to monitor widths and sizes.
+
 page_layout = html.Div([
     html.Div(id='plotButtons', children = []),
     html.Div(

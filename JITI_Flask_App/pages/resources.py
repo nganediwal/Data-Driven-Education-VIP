@@ -6,6 +6,10 @@ from dash.dependencies import Input, Output
 
 from globalvars import CONTENT_STYLE
 
+# This is the resources page (currently has tutoring, teacher directory, and advising).
+# TODO: Update with more resources as they come
+# TODO: Decide what we want to do with the information that we get for each student (emailing them, etc)
+
 page_layout = html.Div([
     html.Div(
         html.H1(
@@ -89,5 +93,6 @@ page_layout = html.Div([
         }
     )
 ], 
+
 style = CONTENT_STYLE
 )
