@@ -53,8 +53,7 @@ SIDEBAR_STYLE = {
     "bottom": 0,
     "width": "16rem",
     "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
-    "z-index" : '5',
+    "background-color": "#363740",
 }
 
 CONTENT_STYLE = {
@@ -66,7 +65,7 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H2("Navigation Hub", className = "display-4"),
+        html.H6("JITI Web App", className="display-8", style={'color': 'white'}),
         html.Hr(),
         html.P("Where do you want to go?", className = "lead"),
         dbc.Nav(
