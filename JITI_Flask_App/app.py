@@ -372,22 +372,41 @@ def make_graph(page_2_dropdown):
                Input('btn28', 'n_clicks'),
                Input('btn29', 'n_clicks'),
                Input('btn30', 'n_clicks'),
-               Input('btn31', 'n_clicks'),])
+               Input('btn31', 'n_clicks'),
+               Input('btn32', 'n_clicks'),
+               Input('btn33', 'n_clicks'),
+               Input('btn34', 'n_clicks'),
+               Input('btn35', 'n_clicks'),
+               Input('btn36', 'n_clicks'),
+               Input('btn37', 'n_clicks'),
+               Input('btn38', 'n_clicks'),
+               Input('btn39', 'n_clicks'),
+               Input('btn40', 'n_clicks'),
+               Input('btn41', 'n_clicks'),
+               Input('btn42', 'n_clicks'),
+               Input('btn43', 'n_clicks'),
+               Input('btn44', 'n_clicks'),
+               Input('btn45', 'n_clicks'),
+               Input('btn46', 'n_clicks'),
+               Input('btn47', 'n_clicks'),
+               
+               ])
 
 # Function to display the images as modal pop-ups with captions for Plots page
 # Todo: possibly make an array/dict with all descriptions with button string as key/index.
 def displayImage(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, 
                  btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19,
                 btn20, btn21, btn22, btn23, btn24, btn25, btn26, btn27, btn28, 
-                btn29, btn30, btn31):
+                btn29, btn30, btn31, btn32, btn33, btn34, btn35, btn36, btn37,
+               btn38, btn39, btn40, btn41, btn42, btn43, btn44, btn45, btn46, btn47):
     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
     #print(changed_id)
     if 'btn1.n_clicks' == changed_id:
         return modal('/assets/plots/best_features.png',
-                     'This is a test text.')
+                     'Shows the data distribution of some top features and how they are left skewed.')
     if 'btn2.n_clicks' == changed_id:
         return modal('/assets/plots/correlation.png',
-                     'This is a test text.')
+                     'Shows the correlation matrix of all the variables in the data. It can be noted that some of the click stream data has higher correlation with the output variable and demographics has a lower covariance.')
     if 'btn3.n_clicks' == changed_id:
         return modal('/assets/plots/gender.png',
                      'This is a test text.')
@@ -405,7 +424,7 @@ def displayImage(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
                      'This is a test text.')
     if 'btn8.n_clicks' == changed_id:
         return modal('/assets/plots/gender_vs_percent_progress.png',
-                     'This is a test text.')
+                     'Shows that students who ignored filling out demographics information has made more progress, indicating they are more curious to get to the course.')
     if 'btn9.n_clicks' == changed_id:
         return modal('/assets/plots/gender_vs_problem_check_agg_count.png',
                      'This is a test text.')
@@ -438,7 +457,7 @@ def displayImage(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
                      'This is a test text.')
     if 'btn19.n_clicks' == changed_id:
         return modal('/assets/plots/percent_progress.png',
-                     'This is a test text.')
+                     'Output Variable Distribution shows 75% students completed less than 15% of the course.')
     if 'btn20.n_clicks' == changed_id:
         return modal('/assets/plots/US.png',
                      'This is a test text.')
@@ -474,6 +493,54 @@ def displayImage(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
                      'This is a test text.')
     if 'btn31.n_clicks' == changed_id:
         return modal('/assets/plots/YOB_boxplot_before.png',
+                     'This is a test text.')
+    if 'btn32.n_clicks' == changed_id:
+        return modal('assets/plots/plots/outlier/num_of_outlier.png',
+                     'Shows the outlier heat map.')
+    if 'btn33.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/gender/gender_education_not_spec.png',
+                     'This is a test text.')
+    if 'btn34.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/gender/gender_ percent_progress.png',
+                     'This is a test text.')
+    if 'btn35.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/education/education_percent_progress.png',
+                     'This is a test text.')
+    if 'btn36.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/education/education_level.png',
+                     'This is a test text.')
+    if 'btn37.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/education/age_vs_not_specified_gender_and_education.png',
+                     'This is a test text.')
+    if 'btn38.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/education/age_level_of_education.png',
+                     'This is a test text.')
+    if 'btn39.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/behavior/stop_vs_next_on_pause.png',
+                     'This is a test text.')
+    if 'btn40.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/behavior/Speed_change_vs_percent_progress.png',
+                     'This is a test text.')
+    if 'btn41.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/behavior/prev_vs_next_vs_percent progress1.png',
+                     'This is a test text.')
+    if 'btn42.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/behavior/pause_on_load.png',
+                     'This is a test text.')
+    if 'btn43.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/behavior/next_pause_vs_gender_and_education_level.png',
+                     'This is a test text.')
+    if 'btn44.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/behavior/next_n_prev_vs_progress_regression1.png',
+                     'This is a test text.')
+    if 'btn45.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/behavior/next_n_prev_vs_progress_regression.png',
+                     'This is a test text.')
+    if 'btn46.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/age/Age_outlier_vs_percent_progress.png',
+                     'This is a test text.')
+    if 'btn47.n_clicks' == changed_id:
+        return modal('/assets/plots/plots/age/Age_distribution_vs_percent_Progress.png',
                      'This is a test text.')
 
 # Modal for the captioned image plots.

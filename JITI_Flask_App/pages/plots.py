@@ -515,6 +515,262 @@ page_layout = html.Div([
                                    'align':'center'})
                 )
             ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/outlier/num_of_outlier.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('num_of_outlier', id='btn32',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        ]
+        ),
+    dbc.Row(children = [
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/gender/gender_education_not_spec.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('gender_education_not_spec', id='btn33',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/gender/gender_ percent_progress.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('gender_ percent_progress', id='btn34',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/education/education_percent_progress.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('education_percent_progress', id='btn35',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        ]
+        ),
+    dbc.Row(children = [
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/education/education_level.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'height' : '500px',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('education_level', id='btn36',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/education/age_vs_not_specified_gender_and_education.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('age_vs_not_specified_gender_and_education', id='btn37',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/education/age_level_of_education.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('age_level_of_education', id='btn38',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        ]
+        ),
+    dbc.Row(children = [
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/behavior/stop_vs_next_on_pause.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('stop_vs_next_on_pause', id='btn39',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/behavior/Speed_change_vs_percent_progress.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('Speed_change_vs_percent_progress', id='btn40',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/behavior/prev_vs_next_vs_percent progress1.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('prev_vs_next_vs_percent progress1', id='btn41',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        ]
+        ),
+    dbc.Row(children = [
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/behavior/pause_on_load.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('pause_on_load', id='btn42',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/behavior/next_pause_vs_gender_and_education_level.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('next_pause_vs_gender_and_education_level', id='btn43',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/behavior/next_n_prev_vs_progress_regression1.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('next_n_prev_vs_progress_regression1', id='btn44',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        ]
+        ),
+    dbc.Row(children = [
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/behavior/next_n_prev_vs_progress_regression.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('next_n_prev_vs_progress_regression', id='btn45',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/age/Age_outlier_vs_percent_progress.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('Age_outlier_vs_percent_progress', id='btn46',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
+        dbc.Col(children = [
+            dbc.Row(html.Img(src='/assets/plots/plots/age/Age_distribution_vs_percent_Progress.png',
+                style = {
+                    'max-height': '500px',
+                    'margin': 'auto',
+                    'display':'block'
+                    }
+            )),
+            dbc.Row(html.Button('Age_distribution_vs_percent_Progress', id='btn47',
+                           style={'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+                )
+            ]),
         ]
         ),
 
