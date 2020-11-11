@@ -18,6 +18,6 @@
   - Team will continue to come up with plots from their individual work that can be presented in the next Sub-Team presentation.
 
 ## Work Completed
-  - Add more code to do data analysis and prodeced interesting graphs
+  - Add more code to do data analysis and produced interesting graphs
   - Completed Journals till 10/7
   - Updated Trello Board based on the sub team meeting discussion and tasks

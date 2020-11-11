@@ -47,27 +47,27 @@ def read_csv(filepath):
 
 def quick_eval(pipeline, X_train, y_train, X_test, y_test, params, verbose=True):
     """
-    Quickly trains modeling pipeline and evaluates on test data.      Returns original model, training RMSE, and testing
+    Trains modeling pipeline using Grid Search on hyper parameters passed and evaluates on train data.      Returns the best model, training RMSE, and testing
     RMSE as a tuple.
     """
     CV = GridSearchCV(pipeline, params, scoring = 'neg_mean_absolute_error', n_jobs= 6, cv=10)
     CV.fit(X_train, y_train)
     #if the estimator has an option to provide best features, plot it
-    #if(hasattr(CV.best_estimator_.named_steps['regressor'], 'feature_importances_')):
-    #    plt.figure(figsize=(18,18))
-    #    feat_imp = pd.Series(CV.best_estimator_.named_steps['regressor'].feature_importances_).sort_values(ascending=False)
-    #    feat_imp.plot(kind='bar', title='Feature Importances')
-    #    plt.clf()
-    #    plt.ylabel('Feature Importance Score')
-    #    importances = pipeline.named_steps['regressor'].feature_importances_
-    #    feature_size=importances.shape[0]
-    #    indices = np.argsort(importances)[::-1]
-    #    plt.figure()
-    #    plt.title("Feature importances")
-    #    plt.bar(range(feature_size), importances[indices],align="center")
-    #    plt.xticks(range(feature_size), indices)
-    #    plt.xlim([-1, feature_size])
-    #    plt.savefig('./plots/model_plots/' +pipeline.named_steps['regressor'].__class__.__name__ + '.png')  
+    if(hasattr(CV.best_estimator_.named_steps['regressor'], 'feature_importances_')):
+        plt.figure(figsize=(18,18))
+        feat_imp = pd.Series(CV.best_estimator_.named_steps['regressor'].feature_importances_).sort_values(ascending=False)
+        feat_imp.plot(kind='bar', title='Feature Importances')
+        plt.clf()
+        plt.ylabel('Feature Importance Score')
+        importances = CV.best_estimator_.named_steps['regressor'].feature_importances_
+        feature_size=importances.shape[0]
+        indices = np.argsort(importances)[::-1]
+        plt.figure()
+        plt.title("Feature importances")
+        plt.bar(range(feature_size), importances[indices],align="center")
+        plt.xticks(range(feature_size), indices)
+        plt.xlim([-1, feature_size])
+        plt.savefig('./plots/model_plots/' +CV.best_estimator_.named_steps['regressor'].__class__.__name__ + '.png')  
     y_train_pred=CV.predict(X_train) 
     y_test_pred=CV.predict(X_test)  
     print(CV.best_params_)     
@@ -147,10 +147,11 @@ def explore_unsupervised(data):
     # Temp drop all na value
     data = data.dropna(axis=0)
    
-    others_categorical = ['gender','year_of_birth','level_of_education','US']
+    others_categorical = ['gender','level_of_education','US']
     for i in others_categorical:
         data = data.join(pd.get_dummies(data[i], prefix=i))
     data.drop(others_categorical, axis=1, inplace=True)
+    otput = data["percent_progress"]
     unsupervised_df = data.drop(["percent_progress"], 1, inplace=False)
     normalized_vectors = preprocessing.normalize(unsupervised_df)
     scores = [KMeans(n_clusters=i+2).fit(unsupervised_df).inertia_ for i in range(10)]
@@ -166,37 +167,37 @@ def explore_unsupervised(data):
     plt.ylabel("Inertia")
     plt.title("Inertia of Cosine k-Means versus number of clusters")
     plt.savefig('./plots/kmeans_cosine.png') 
-    kmeans = KMeans(n_clusters=4).fit(unsupervised_df)
+    kmeans = KMeans(n_clusters=3).fit(unsupervised_df)
 
-    normalized_kmeans = KMeans(n_clusters=4).fit(normalized_vectors)
+    normalized_kmeans = KMeans(n_clusters=3).fit(normalized_vectors)
 
-    min_samples = unsupervised_df.shape[1]+1
-    dbscan = DBSCAN(eps=3.5, min_samples=min_samples).fit(unsupervised_df)
+    #min_samples = unsupervised_df.shape[1]+1
+    #dbscan = DBSCAN(eps=3.5, min_samples=min_samples).fit(unsupervised_df)
     print('kmeans: {}'.format(silhouette_score(unsupervised_df, kmeans.labels_, metric='euclidean')))
     print('Cosine kmeans: {}'.format(silhouette_score(normalized_vectors, normalized_kmeans.labels_, metric='cosine')))
-    print('DBSCAN: {}'.format(silhouette_score(unsupervised_df, dbscan.labels_, metric='cosine')))
+    #print('DBSCAN: {}'.format(silhouette_score(unsupervised_df, dbscan.labels_, metric='cosine')))
     scaler = MinMaxScaler()
     df_scaled = pd.DataFrame(scaler.fit_transform(unsupervised_df))
     df_scaled.columns = unsupervised_df.columns
-    df_scaled['dbscan'] = dbscan.labels_
-    df_scaled['percent_progress'] = unsupervised_df["percent_progress"]
-    print(df_scaled)
+    df_scaled['cluster'] = normalized_kmeans.labels_
+    data['cluster'] = normalized_kmeans.labels_
+    print(data.groupby('cluster')['percent_progress'].mean())
 
     # Calculate variables with largest differences (by standard deviation)
     # The higher the standard deviation in a variable based on average values for each cluster
     # The more likely that the variable is important when creating the cluster
-    df_mean = df_scaled.loc[df_scaled.dbscan!=-1, :].groupby('dbscan').mean().reset_index()
+    df_mean = df_scaled.loc[df_scaled.cluster!=-1, :].groupby('cluster').mean().reset_index()
     results = pd.DataFrame(columns=['Variable', 'Std'])
     for column in df_mean.columns[1:]:
         results.loc[len(results), :] = [column, np.std(df_mean[column])]
-    selected_columns = list(results.sort_values('Std', ascending=False).head(7).Variable.values) + ['dbscan']
+    selected_columns = list(results.sort_values('Std', ascending=False).head(7).Variable.values) + ['cluster']
 
     # Plot data
-    tidy = df_scaled[selected_columns].melt(id_vars='dbscan')
+    tidy = df_scaled[selected_columns].melt(id_vars='cluster')
     fig, ax = plt.subplots(figsize=(15, 5))
-    sns.barplot(x='dbscan', y='value', hue='variable', data=tidy, palette='Set3')
+    sns.barplot(x='cluster', y='value', hue='variable', data=tidy, palette='Set3')
     plt.legend(loc='upper right')
-    plt.savefig("./plots/dbscan_results.png")
+    plt.savefig("./plots/results.png")
 
 def clean_data_outlier(df_in):
    df=df_in.copy()
@@ -303,32 +304,62 @@ def main():
     regressors = [
         # @Rachel
         #LinearRegression(),
-        #Lasso(alpha=.5),
+        {
+            'estimator':LinearRegression(),
+            'params':{
+                'regressor__fit_intercept': (True, False),
+                'regressor__normalize': (True, False),
+			}
+		},
+        #Lasso
+        {
+            'estimator':Lasso(),
+            'params':{
+                'regressor__alpha': (.01, .05, .1, .25, .5),
+                'regressor__fit_intercept': (True, False),
+                'regressor__normalize': (True, False)
+			}
+		},
         # @Mia
         #DecisionTreeRegressor(),
-        #RandomForestRegressor(n_estimators=100),
+        {
+            'estimator':DecisionTreeRegressor(), 
+		    'params':{
+                'regressor__max_depth':np.arange(2, 6),
+                'regressor__min_samples_leaf':np.arange(1,15),
+                #'regressor__max_leaf_nodes':(6,7,8) - R default setting found 7 leaf nodes but looks like there is a better configuration hence adding them for tuning.
+             }
+        },
+        {
+            'estimator':RandomForestRegressor(), 
+		    'params':{
+                'regressor__max_depth':np.arange(4, 5),
+                'regressor__min_samples_leaf':np.arange(14,15),
+                'regressor__n_estimators':(100,200)
+             }
+        },
         {
             'estimator':BaggingRegressor(DecisionTreeRegressor(), random_state=2020), 
 		    'params':{
-                'regressor__base_estimator__max_depth':np.arange(4, 6),
-                'regressor__base_estimator__min_samples_leaf':np.arange(5, 15),
-                'regressor__n_estimators':(100, 200)
+                'regressor__base_estimator__max_depth':np.arange(4, 5),
+                'regressor__base_estimator__min_samples_leaf':np.arange(14,15),
+                'regressor__n_estimators':(50,200)
              }
         },
         {
             'estimator':AdaBoostRegressor(DecisionTreeRegressor(), random_state=2020), 
             'params':{
-                'regressor__base_estimator__max_depth':np.arange(4, 6),  
-                'regressor__base_estimator__min_samples_leaf':np.arange(15, 20), 
+                'regressor__base_estimator__max_depth':np.arange(4, 5),  
+                'regressor__base_estimator__min_samples_leaf':np.arange(19, 20), 
                 'regressor__loss':('linear', 'square', 'exponential'),
-                'regressor__n_estimators':(100, 200), 
-                'regressor__learning_rate':(0.01, 0.05)
+                'regressor__n_estimators':(50, 100), 
+                'regressor__learning_rate':(0.01,0.05)
              }
         },
         {
             'estimator':MLPRegressor(random_state=2020),  
             'params':{
-                'regressor__hidden_layer_sizes':np.arange(10, 15), 
+                'regressor__hidden_layer_sizes':np.arange(9, 10), 
                 'regressor__activation':('tanh', 'relu'), 
                 'regressor__solver':('sgd', 'adam'),
                 'regressor__max_iter':(100,200)
@@ -336,15 +367,15 @@ def main():
         },
         {
             'estimator':KNeighborsRegressor(),  
-            'params':{'regressor__n_neighbors':np.arange(1, 15)}
+            'params':{'regressor__n_neighbors':np.arange(10, 15)}
         },
 		{
             'estimator':GradientBoostingRegressor(), 
             'params':{
-                'regressor__max_depth':np.arange(4, 6), 
-                'regressor__min_samples_leaf':np.arange(1, 5),
-                'regressor__n_estimators':(100,300), 
-                'regressor__learning_rate':(0.1, 0.5)
+                'regressor__max_depth':np.arange(5, 6), 
+                'regressor__min_samples_leaf':np.arange(1, 2),
+                'regressor__n_estimators':(50,300), 
+                'regressor__learning_rate':(0.05,0.1)
             }
 		}
     ]
@@ -366,5 +397,6 @@ def main():
     print(output)
     fig = output.plot(kind='barh').get_figure()
     fig.savefig('./plots/model_plots/algorithms.png',bbox_inches='tight')
+
 if __name__ == "__main__":
     main()
