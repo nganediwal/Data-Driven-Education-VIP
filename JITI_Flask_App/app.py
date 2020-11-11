@@ -1,72 +1,14 @@
 # -*- coding: utf-8 -*-
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output
-import dash_table
-import pandas as pd
-import numpy as np
-import data
-import studentdata
-import plotly.graph_objs as go
-
-# test imports
-import dash_bootstrap_components as dbc
-
-# Set pandas display limit
-pd.options.display.max_rows =999
-pd.options.display.max_columns =999
+from pages import index, plots, progress_over_time, resources, table_data, completion
+from globalvars import *
 
 print(dcc.__version__) # 0.6.0 or above is required
 
-#get column names from studentdata.py
-COLUMNNAMES = studentdata.COLUMNNAMES
+# Main python file with callbacks for the Dash app.
 
-# Need custom style sheet
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-######## PANDAS TEST DATA BELOW #############
-test_df = data.testModelDF
-student_data = studentdata.export_data_to_df('info')
-student_data = student_data.drop(columns = ['id'])
-print(student_data)
-
-a,b = student_data.shape
-#model_theta = studentdata.get_dummy_model(None, 18)
-model_theta = np.random.rand(b)
-norm = np.linalg.norm(model_theta) #Use the top features and dont use all b
-model_theta = model_theta / norm # use Aashay's functoin
-# print(student_predicted_grade)
-######## PANDAS TEST DATA ABOVE #############
-
-# initializing the app
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-
-#To fix callback exceptions, need to include ids in the INITIAL state
-app.config['suppress_callback_exceptions'] = True
-
-# Dictionary
-colors = {
-    'background': '#111111', #black
-    'text': '#7FDBFF'
-}
-
-SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": 0,
-    "left": 0,
-    "bottom": 0,
-    "width": "16rem",
-    "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
-}
-
-CONTENT_STYLE = {
-    "margin-left": "18rem",
-    "margin-right": "2rem",
-    "padding": "2rem 1rem",
-}
-
+#sidebar of the whole app
+#if adding a new link/page, add a dbc.NavLink like shown
 sidebar = html.Div(
     [
         html.H2("Navigation Hub", className = "display-4"),
@@ -78,6 +20,8 @@ sidebar = html.Div(
                 dbc.NavLink("Resources", href ="resources", id = "resources"),
                 dbc.NavLink("Table-data", href ="table-data", id = "table-data"),
                 dbc.NavLink("Progress Over Time", href ="progress-over-time", id = "progress-over-time"),
+                dbc.NavLink("Plots", href = "plots", id = "Plots"),
+                dbc.NavLink("Completion Prediction", href = "completion", id = "completion"),
             ],
             vertical = True,
             pills=True,
@@ -97,213 +41,28 @@ app.layout = html.Div([
     html.Div(id = 'page-content'),
 ])
 
-index_page = html.Div([
-    html.Div(
-        html.H1(
-            "Welcome, Beta_Tester!"
-        ),  
 
-        style = {
-            'margin-bottom' : '100px',
-        }
-    ),
-
-    dbc.Row(children = [
-        
-        dbc.Col(children = [
-            dbc.Row(
-                html.Img(src='/assets/strengths-and-weaknesses.jpg', 
-                    style = {
-                        'max-height': '200px',
-                        'margin' : 'auto',
-                        'margin-bottom': '25px'
-                    }
-                ),
-            ),
-
-            dbc.Row(
-                dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data',
-                    style = {
-                        'margin' : 'auto',
-                    }
-                ),
-            ),
-        ], 
-            width={"size": 3, "offset" : 1},
-        ),
-        dbc.Col(children = [
-            dbc.Row(
-                html.Img(src='/assets/clock.jpg', 
-                    style = {
-                        'max-height': '200px',
-                        'margin' : 'auto',
-                        'margin-bottom': '25px'
-                    }
-                ),
-            ),
-
-            dbc.Row(
-                dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time',
-                    style = {
-                        'margin' : 'auto',
-                    }
-                ),
-            ),
-        ], width={"size": 3}),
-
-        dbc.Col(children = [
-            dbc.Row(
-                html.Img(src='/assets/books.jpg', 
-                    style = {
-                        'max-height': '200px',
-                        'margin' : 'auto',
-                        'margin-bottom': '25px'
-                    }
-                ),
-            ),
-
-            dbc.Row(
-                dcc.Link(html.Button('Resources'), href = '/resources',
-                style = {
-                    'margin' : 'auto',
-                }),
-            ),
-        ], width={"size": 3},),
-        
-
-    ], align = "center", justify = "around"),
-], 
-style = CONTENT_STYLE
-)
 
 # Generating data table 
-# if negative param display all data (up to 10 rows)
+# if negative param display empty table
 # else display the one student's data
 def generate_table(studentID = -1):
+    data = student_data.loc[student_data['user_id'] == studentID]
     return html.Table([
         html.Thead(
             html.Tr([html.Th(col) for col in COLUMNNAMES])
         ),
         html.Tbody([
             html.Tr([
-                html.Td(student_data.loc[student_data['user_id'] == studentID][col]) for col in student_data.columns
+                html.Td(data.loc[student_data['week'] == 1][col]) for col in student_data.columns
             ])
         ])
     ])
 
-## TODO: Put all the attributes into a list, iterate through and display student values
-## Basically, display their stats and make it look nicer
 
-## TODO: Iterate through student attributes in callback, update the "weakness" message 
-# depending on what's below average
-
-# table data
-page_1_layout = html.Div(
-    [
-    html.H1('Strengths and Weaknesses'),
-
-    html.Div(
-        dash_table.DataTable(
-            id='table',
-            # Allows us to delete columns
-            columns=[{"name": i, "id": i, "deletable": True} for i in test_df.columns],
-            data=test_df.to_dict('records'),
-            # Allows us to filter rows
-            filter_action="native",
-            style_table = {'overflowX' : 'scoll'},
-            style_cell={
-                'height': '30',
-                'width': '70px',
-            }
-        ),
-        style = {
-            'margin-left': '200px',
-            'margin-right': '200px',
-            'margin-bottom': '25px',
-            'margin-top': '25px'
-        }
-    ),
-
-    # Take user input for prediction
-    # displays current stats and not weaknesses (not implemented)
-
-    html.Div([
-        
-        html.H1(
-            "Enter ID",
-        ),  
-        html.Div([
-        html.Div(dcc.Input(id='student_id', type='number'))
-        ]),
-
-        html.H1(id='predicted_score', 
-
-        ),
-        html.H1(id='current_stats',
-            style = {
-                'font-size': '25px',
-                'overflow': 'scroll',
-            }
-            ),
-        
-        # For testing the new data and for when we get the actual data
-        # testing output; comment out if not testing new data
-        html.H1(id='data_testing'),
-
-    ]),
-
-    dcc.Link(html.Button('Home Page'), href = '/',
-        style = {
-            'margin' : 'auto',
-            'position' : 'fixed',
-            'bottom' : '10px',
-            'left' : '10px',
-        }
-    )
-    ],
-    style = CONTENT_STYLE
-)
-
-## STRENGTHS AND WEAKNESSES CALLBACKS for student ID
-# Predicted Grade / Predicted Score
-@app.callback(
-    Output(component_id ='predicted_score', component_property='children'),
-    [Input(component_id='student_id', component_property='value')]
-)
-
-# Fake model used to predict 3 students' scores 
-# Those ID's can be 0, 1, 2 (respectively A, B, C students)
-def update_predicted_score(student_id):
-    try:
-
-        if (student_id == None):
-            return "Grade cannot be predicted with no ID"
-            
-        if(student_id < 0):
-            return "id cannot be negative"
-
-        else:
-            pred = studentdata.dummy_model_postgres(None, student_id)
-            return("Your predicted grade is ", pred)
-            #test = np.asarray(student_data.iloc[1])
-            #print(test)
-            #data = np.zeros(b)
-            #for x in range(b):
-            #    if type(test[x]) == str:
-            #        data[x] = 0
-            #    else:
-            #        data[x] = test[x]
-
-            #print(data)
-            #data = np.dot(data, model_theta)
-            #return "Your predicted grade is: {:.2f}".format(data)
-
-    except:
-        return "Grade cannot be predicted with invalid ID"
 
 # Current stats 
 # outputs table of selected student
-# or if negative # outputs entire table
 @app.callback(
     dash.dependencies.Output('current_stats', 'children'),
     [dash.dependencies.Input('student_id', 'value')]
@@ -321,67 +80,57 @@ def update_current_stats(value):
 
     except:
         return "Grade cannot be shown with invalid ID"
-        
-#for testing data. Can comment out when not testing with new data inputs.
+
+# STRENGTHS AND WEAKNESSES CALLBACKS for student ID
+# Predicted Grade / Predicted Score
 @app.callback(
-    dash.dependencies.Output('data_testing', 'children'),
-    [dash.dependencies.Input('student_id', 'value')]
+    Output(component_id ='predicted_score', component_property='children'),
+    [Input(component_id='student_id', component_property='value')]
 )
-def update_current_stats(value):
+
+def update_predicted_score(student_id):
     try:
-        #print(studentdata.get_student_data_PSQL(35087))
-        #print(studentdata.get_student_data_mongoDB(58294))
-        #print(COLUMNNAMES)
-        #x =  (studentdata.export_data_to_df('info', 'id'))
-        #list = x.values.tolist()[0]
-        #print(list)
-        #string = "\n".join([str(elem) for elem in list])
-        #student_data = x
-        #return string
-        #print(model_theta.shape)
-        #print(np.sum(model_theta))
-        return ''
+
+        if (student_id == None):
+            return "Grade cannot be predicted with no ID"
+            
+        if(student_id < 0):
+            return "id cannot be negative"
+
+        else:
+            model_theta = studentdata.dummy_model_postgres('dummy_weights.csv', student_id, 'user_id', 'dataframe')
+            return("Your predicted grade is ", model_theta)
+
     except:
-        return "Error has occurred with data testing"
-
-# Progress over time
-# Updated: dropdown menu, callback, and average A, B, C student grade, view counts
-# Updated: x-axis and y-axis title on the layout
-# Error: The code runs perfectly and gives right graph but shows a error on the webpage 'ID not found in layout'
-# Please check it out
-
-page_2_layout = html.Div([
-    html.H1('Progress Over Time'),
+        return "Grade cannot be predicted with invalid ID"
     
-    #Dropdown menu for different graphs
-    dcc.Dropdown(
-        id='yaxis',#set id enable call back
-        options=[
-            {'label': 'Numerical Grade', 'value': 'Numerical Grade'},
-            {'label': 'View Counts', 'value': 'View Counts'},
-            {'label': 'Click Counts', 'value': 'Click Counts'},
-            {'label': 'Homework Grade', 'value': 'Homework Grade'},
-            {'label': 'Daily Visits', 'value': 'Daily Visits'}
-        ],
-        value='Numerical_grade'#set initial value
-    ),
+@app.callback(
+    Output(component_id ='predicted_completion', component_property='children'),
+    [Input(component_id='student_id', component_property='value')]
+)
 
-    dcc.Graph(id = 'feature-graphic',
-            style={'height': 500}),
+# Used in completion.py
+# predicts completion %
+# Aashay, replace the function dummy_model_postgrest() with the one you added to studentdata
 
-    dcc.Link(html.Button('Home Page'), href = '/',
-        style = {
-            'margin' : 'auto',
-            'position' : 'fixed',
-            'bottom' : '10px',
-            'left' : '10px',
-        }
-    )
-], 
-style = CONTENT_STYLE)
+def update_predicted_completion(student_id):
+    try:
 
-#The function will create graphs based on the factors in the dropdown menu
-#Each Graph contains 4 sets of data that can show the average for A, B, C students, and individual student's record
+        if (student_id == None):
+            return "Completion cannot be predicted with no ID"
+            
+        if(student_id < 0):
+            return "id cannot be negative"
+
+        else:
+            model_theta = studentdata.dummy_model_postgres('dummy_weights.csv', student_id, 'user_id', 'dataframe')
+            return("Your predicted completion is ", model_theta, "%")
+
+    except:
+        return "Completion cannot be predicted with invalid ID"
+
+# The function will create graphs based on the factors in the dropdown menu
+# Each Graph contains 4 sets of data that can show the average for A, B, C students, and individual student's record
 
 def plot_summary(option= None):
 
@@ -582,119 +331,215 @@ def plot_summary(option= None):
     
     return (figure)
 
-
-#page_2_callback
-
 @app.callback(Output('feature-graphic', 'figure'),
              [Input('yaxis', 'value') ] )
 
-#recall the function above
 def make_graph(page_2_dropdown):
     fig = plot_summary(option = page_2_dropdown)
     return fig
 
+# Callback for Plots page
+# Really messy needed the input of 31 buttons.
 
-# Resources
-page_3_layout = html.Div([
-    html.Div(
-        html.H1(
-            "Welcome to your resources. Feel free to reach out and look for help!"
-        ),  
+@app.callback(Output('plotButtons', 'children'),
+              [Input('btn1', 'n_clicks'),
+               Input('btn2', 'n_clicks'),
+               Input('btn3', 'n_clicks'),
+               Input('btn4', 'n_clicks'),
+               Input('btn5', 'n_clicks'),
+               Input('btn6', 'n_clicks'),
+               Input('btn7', 'n_clicks'),
+               Input('btn8', 'n_clicks'),
+               Input('btn9', 'n_clicks'),
+               Input('btn10', 'n_clicks'),
+               Input('btn11', 'n_clicks'),
+               Input('btn12', 'n_clicks'),
+               Input('btn13', 'n_clicks'),
+               Input('btn14', 'n_clicks'),
+               Input('btn15', 'n_clicks'),
+               Input('btn16', 'n_clicks'),
+               Input('btn17', 'n_clicks'),
+               Input('btn18', 'n_clicks'),
+               Input('btn19', 'n_clicks'),
+               Input('btn20', 'n_clicks'),
+               Input('btn21', 'n_clicks'),
+               Input('btn22', 'n_clicks'),
+               Input('btn23', 'n_clicks'),
+               Input('btn24', 'n_clicks'),
+               Input('btn25', 'n_clicks'),
+               Input('btn26', 'n_clicks'),
+               Input('btn27', 'n_clicks'),
+               Input('btn28', 'n_clicks'),
+               Input('btn29', 'n_clicks'),
+               Input('btn30', 'n_clicks'),
+               Input('btn31', 'n_clicks'),])
 
-        style = CONTENT_STYLE,
-    ),
+# Function to display the images as modal pop-ups with captions for Plots page
+# Todo: possibly make an array/dict with all descriptions with button string as key/index.
+def displayImage(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, 
+                 btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19,
+                btn20, btn21, btn22, btn23, btn24, btn25, btn26, btn27, btn28, 
+                btn29, btn30, btn31):
+    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+    #print(changed_id)
+    if 'btn1.n_clicks' == changed_id:
+        return modal('/assets/plots/best_features.png',
+                     'This is a test text.')
+    if 'btn2.n_clicks' == changed_id:
+        return modal('/assets/plots/correlation.png',
+                     'This is a test text.')
+    if 'btn3.n_clicks' == changed_id:
+        return modal('/assets/plots/gender.png',
+                     'This is a test text.')
+    if 'btn4.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_hypertext_agg_count.png',
+                     'This is a test text.')
+    if 'btn5.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_load_video_agg_count.png',
+                     'This is a test text.')
+    if 'btn6.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_next_selected_agg_count.png',
+                     'This is a test text.')
+    if 'btn7.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_page_close_agg_count.png',
+                     'This is a test text.')
+    if 'btn8.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_percent_progress.png',
+                     'This is a test text.')
+    if 'btn9.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_problem_check_agg_count.png',
+                     'This is a test text.')
+    if 'btn10.n_clicks' == changed_id:
+        return modal('/assets/plots/gender_vs_problem_graded_agg_count.png',
+                     'This is a test text.')
+    if 'btn11.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education.png',
+                     'This is a test text.')
+    if 'btn12.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_hypertext_agg_count.png',
+                     'This is a test text.')
+    if 'btn13.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_load_video_agg_count.png',
+                     'This is a test text.')
+    if 'btn14.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_next_selected_agg_count.png',
+                     'This is a test text.')
+    if 'btn15.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_page_close_agg_count.png',
+                     'This is a test text.')
+    if 'btn16.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_percent_progress.png',
+                     'This is a test text.')
+    if 'btn17.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_problem_check_agg_count.png',
+                     'This is a test text.')
+    if 'btn18.n_clicks' == changed_id:
+        return modal('/assets/plots/level_of_education_vs_problem_graded_agg_count.png',
+                     'This is a test text.')
+    if 'btn19.n_clicks' == changed_id:
+        return modal('/assets/plots/percent_progress.png',
+                     'This is a test text.')
+    if 'btn20.n_clicks' == changed_id:
+        return modal('/assets/plots/US.png',
+                     'This is a test text.')
+    if 'btn21.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_hypertext_agg_count.png',
+                     'This is a test text.')
+    if 'btn22.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_load_video_agg_count.png',
+                     'This is a test text.')
+    if 'btn23.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_next_selected_agg_count.png',
+                     'This is a test text.')
+    if 'btn24.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_page_close_agg_count.png',
+                     'This is a test text.')
+    if 'btn25.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_percent_progress.png',
+                     'This is a test text.')
+    if 'btn26.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_problem_check_agg_count.png',
+                     'This is a test text.')
+    if 'btn27.n_clicks' == changed_id:
+        return modal('/assets/plots/US_vs_problem_graded_agg_count.png',
+                     'This is a test text.')
+    if 'btn28.n_clicks' == changed_id:
+        return modal('/assets/plots/yob_after.png',
+                     'This is a test text.')
+    if 'btn29.n_clicks' == changed_id:
+        return modal('/assets/plots/yob_before.png',
+                     'This is a test text.')
+    if 'btn30.n_clicks' == changed_id:
+        return modal('/assets/plots/YOB_boxplot_after.png',
+                     'This is a test text.')
+    if 'btn31.n_clicks' == changed_id:
+        return modal('/assets/plots/YOB_boxplot_before.png',
+                     'This is a test text.')
 
-    dbc.Row(children = [
-        
-        dbc.Col(children = [
-            dbc.Row(
-                html.Img(src='/assets/tutoring.png', 
-                    style = {
-                        'max-height': '200px',
-                        'margin' : 'auto',
-                        'margin-bottom': '25px'
-                    }
-                ),
-            ),
-
-            dbc.Row(
-                html.A(html.Button('Tutoring'), 
-                href = 'http://success.gatech.edu/tutoring-0',
+# Modal for the captioned image plots.
+def modal(path, desc):
+    if (path == ''):
+        return None
+    return html.Dialog(
+        children=[
+            html.Img(src=path,
                 style = {
-                    'margin' : 'auto',
-                }),
-             ),
-        ], 
-            width={"size": 3, "offset" : 1},
-        ),
-        dbc.Col(children = [
-            dbc.Row(
-                html.Img(src='/assets/gtlogo.jpg', 
-                    style = {
-                        'max-height': '200px',
-                        'margin' : 'auto',
-                        'margin-bottom': '25px'
+                    'maxHeight': '1500px',
+                    'margin': 'auto',
+                    'display':'block'
                     }
-                ),
             ),
-
-            dbc.Row(
-                html.A(html.Button('Professor Directory'), 
-                href = 'https://www.gatech.edu/offices-and-departments/',
-                style = {
-                    'margin' : 'auto',
-                }),
-             ),
-        ], width={"size": 3}),
-
-        dbc.Col(children = [
-            dbc.Row(
-                html.Img(src='/assets/advisor.png', 
-                    style = {
-                        'max-height': '200px',
-                        'margin' : 'auto',
-                        'margin-bottom': '25px'
-                    }
-                ),
-            ),
-
-            dbc.Row(
-                html.A(html.Button('Advisor'), href = 'https://advisor.gatech.edu/',
-                style = {
-                    'margin' : 'auto',
-                }),
-             ),
-        ], width={"size": 3},),
-        
-
-    ], align = "center", justify = "around"),
-
-    dcc.Link(html.Button('Home Page'), href = '/',
-        style = {
-            'margin' : 'auto',
-            'position' : 'fixed',
-            'bottom' : '10px',
-            'left' : '10px',
-        }
+            html.P(desc,
+                   style = {'font-size' : '150%',
+                            'text-align':'center',
+                            'display' : 'block'}
+                   ),
+            html.Button('Close', id='modal-close-button',
+                        style = {'display':'block',
+                                   'width' : '400px', 
+                                   'margin':'0 auto',
+                                   'align':'center'})
+        ],
+        id='modal',
+        className='modal',
+        style={"display": "block",
+               'overflow': 'scroll',
+               'height': '1080px',
+               'width' : '1920px%',},
     )
-], 
-style = CONTENT_STYLE
-)
 
-# Update the URL, needed to render different pages
+# Callback to close the modal for plots page
+@app.callback(Output('modal', 'style'),
+              [Input('modal-close-button', 'n_clicks')])
 
+# Function to close the modal (setting css to disappear)
+def close_modal(n):
+    if (n is not None):
+        return {'display' : 'none'}
+    else:
+        return {'display' : 'block',
+                'overflow': 'scroll'}
+
+# Callback for page routing/changing
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
 
+# Function for returning certain page contents.
+# if adding a new page add an elif like shown and add the file's layout as it's own 
+# python file under pages directory.
 def display_page(pathname):
     if pathname == '/':
-        return index_page
+        return index.page_layout
     elif pathname == '/table-data':
-        return page_1_layout
+        return table_data.page_layout
     elif pathname == '/progress-over-time':
-        return page_2_layout
+        return progress_over_time.page_layout
     elif pathname == '/resources':
-        return page_3_layout
+        return resources.page_layout
+    elif pathname == '/plots':
+        return plots.page_layout
+    elif pathname == '/completion':
+        return completion.page_layout
 
 if __name__ == '__main__':
     app.run_server(debug=True)
