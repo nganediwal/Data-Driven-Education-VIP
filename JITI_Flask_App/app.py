@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 from pages import index, plots, progress_over_time, resources, table_data
 from globalvars import *
