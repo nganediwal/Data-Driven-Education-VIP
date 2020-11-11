@@ -197,38 +197,41 @@ def explore_unsupervised(data):
     fig, ax = plt.subplots(figsize=(15, 5))
     sns.barplot(x='cluster', y='value', hue='variable', data=tidy, palette='Set3')
     plt.legend(loc='upper right')
-    plt.savefig("./plots/results.png")
+    plt.savefig("./plots/clustering_results.png")
 
 def clean_data_outlier(df_in):
-    #re-fined the outlier removal with dummy variables for categorical variables 11/10/2020
-    df=df_in.copy()
-    # delete not significant factors
-    del df['US']
-    del df["English"]
-    #fill na to the non-numarical factor
-    df["level_of_education"]=df["level_of_education"].fillna("Not Specified")
-    df["gender"]=df["gender"].fillna("Not Specified")
-    # simply drop null data
-    df = df.dropna(axis=0)
-    #craete dummy variable
-    dummiesgender = pd.get_dummies(df['gender']).rename(columns=lambda x: 'gender_' + str(x))
-    dummieseducation = pd.get_dummies(df['level_of_education']).rename(columns=lambda x: 'edu_' + str(x))
-    #add the dummy variables to the table
-    df = pd.concat([df, dummieseducation], axis=1)
-    df = pd.concat([df, dummiesgender], axis=1)
-    # Create Age column for better analysis
-    df['Age'] = pd.datetime.now().year - df.year_of_birth
-    #delete the categorical variable for outlier removal
-    del df["gender"]
-    del df["level_of_education"]
-    del df["year_of_birth"]
-    #remove outlier based on z-score
-    z_scores = stats.zscore(df)
-    abs_z_scores = np.abs(z_scores)
-    filtered_entries = (abs_z_scores < 2).all(axis=1)
-    filtered_df = df[filtered_entries]
-	      
-    return filtered_df
+   df=df_in.copy()
+   df = df.set_index('percent_progress')
+   #del df['English']
+   del df['US']
+   #del df['Age']
+   df["level_of_education"]=df["level_of_education"].fillna("Not Specified")
+   # Temp drop all na value
+   df = df.dropna(axis=0)
+   #plot indivisual variable to obsere outlier
+   sns.boxplot(df["year_of_birth"])
+   #This method only remove outlier for numerical independent variable
+   del df ["level_of_education"]
+   del df ["gender"]
+   df['Age'] = pd.datetime.now().year - df.year_of_birth
+   del df ["year_of_birth"]
+   #remove outlier based on z-score
+   #remove outlier
+   z_scores = stats.zscore(df)
+   abs_z_scores = np.abs(z_scores)
+   filtered_entries = (abs_z_scores < 2).all(axis=1)
+   filtered_df = df_in[filtered_entries]
+   #plot again to see if it works
+   #create outlier table for outlier analysis
+   for col in df:
+       col_zscore = col + '_zscore'
+       df[col_zscore] = (abs((df[col] - df[col].mean())/df[col].std(ddof=0))>2)*1
+   z_cols = [col for col in df.columns if 'zscore' in col]
+   df_outlier= pd.DataFrame() 
+   for col in z_cols:
+       df_outlier[col]= df[col]
+   #plots are created separately and are available in the plots folder
+   return filtered_df
 
 
 
@@ -239,10 +242,10 @@ def feature_explortion(data):
     '''
     print("Data size: " + str(data.shape))
     #English does not have good data, hence removing
-    plot_feature(data,'gender','barh')
-    plot_feature(data,'US','barh')
-    plot_feature(data,'level_of_education','barh')
-    plot_feature(data,'percent_progress','line')
+    #plot_feature(data,'gender','barh')
+    #plot_feature(data,'US','barh')
+    #plot_feature(data,'level_of_education','barh')
+    #plot_feature(data,'percent_progress','line')
     print(data['percent_progress'].describe())
 	
     corr_matrix = data.corr()
@@ -285,7 +288,7 @@ def preprocessor_categorical():
 def main():
     data_path = './data/'
     data=read_csv(data_path)
-    #explore_unsupervised(data.copy())
+    explore_unsupervised(data.copy())
     data=clean_data_null(data)
     data=clean_data_outlier(data)
     xVars = feature_explortion(data)
@@ -328,11 +331,10 @@ def main():
              }
         },
         {
-            'estimator':RandomForestRegressor(), 
+            'estimator':RandomForestRegressor(n_estimators=1000), 
 		    'params':{
-                'regressor__max_depth':np.arange(4, 5),
-                'regressor__min_samples_leaf':np.arange(14,15),
-                'regressor__n_estimators':(100,200)
+                'regressor__max_depth':np.arange(5, 6),
+                'regressor__min_samples_leaf':np.arange(14,15)
              }
         },
         {
