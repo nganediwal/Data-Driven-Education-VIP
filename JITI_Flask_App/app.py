@@ -62,6 +62,7 @@ CONTENT_STYLE = {
     "margin-right": "2rem",
     "padding": "2rem 1rem",
     "z-index" : '2',
+    "width" : '80%'
 }
 
 sidebar = html.Div(
@@ -701,10 +702,13 @@ page_4_layout = html.Div([
             html.Br(),
             dbc.Row(html.Button('best features', id='btn1',
                             style={'display':'block',
-                                   'width' : '400px', 
+                                   'width' : '50%', 
                                    'margin':'0 auto',
                                    'align':'center'})
-            )]),
+            )],
+        
+        style = CONTENT_STYLE    
+        ),
 
     dbc.Col(children = [
             dbc.Row(html.Img(src='/assets/plots/correlation.png', 
@@ -1222,13 +1226,12 @@ style = CONTENT_STYLE
                Input('btn28', 'n_clicks'),
                Input('btn29', 'n_clicks'),
                Input('btn30', 'n_clicks'),
-               Input('btn21', 'n_clicks'),])
+               Input('btn31', 'n_clicks'),])
 def displayImage(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, 
                  btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19,
                 btn20, btn21, btn22, btn23, btn24, btn25, btn26, btn27, btn28, 
                 btn29, btn30, btn31):
     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
-    #print(changed_id)
     if 'btn1.n_clicks' == changed_id:
         return modal('/assets/plots/best_features.png')
     if 'btn2.n_clicks' == changed_id:
