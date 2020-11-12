@@ -31,7 +31,7 @@ from sklearn.externals import joblib
 
 
 output_variable = "percent_progress"
-filter_best_correlated = False
+filter_best_correlated = True
 
 def read_csv(filepath):
     
@@ -51,23 +51,7 @@ def quick_eval(pipeline, X_train, y_train, X_test, y_test, params, verbose=True)
     RMSE as a tuple.
     """
     CV = GridSearchCV(pipeline, params, scoring = 'neg_mean_absolute_error', n_jobs= 6, cv=10)
-    CV.fit(X_train, y_train)
-    #if the estimator has an option to provide best features, plot it
-    if(hasattr(CV.best_estimator_.named_steps['regressor'], 'feature_importances_')):
-        plt.figure(figsize=(18,18))
-        feat_imp = pd.Series(CV.best_estimator_.named_steps['regressor'].feature_importances_).sort_values(ascending=False)
-        feat_imp.plot(kind='bar', title='Feature Importances')
-        plt.clf()
-        plt.ylabel('Feature Importance Score')
-        importances = CV.best_estimator_.named_steps['regressor'].feature_importances_
-        feature_size=importances.shape[0]
-        indices = np.argsort(importances)[::-1]
-        plt.figure()
-        plt.title("Feature importances")
-        plt.bar(range(feature_size), importances[indices],align="center")
-        plt.xticks(range(feature_size), indices)
-        plt.xlim([-1, feature_size])
-        plt.savefig('./plots/model_plots/' +CV.best_estimator_.named_steps['regressor'].__class__.__name__ + '.png')  
+    CV.fit(X_train, y_train)  
     y_train_pred=CV.predict(X_train) 
     y_test_pred=CV.predict(X_test)  
     print(CV.best_params_)     
@@ -171,11 +155,11 @@ def explore_unsupervised(data):
 
     normalized_kmeans = KMeans(n_clusters=3).fit(normalized_vectors)
 
-    #min_samples = unsupervised_df.shape[1]+1
-    #dbscan = DBSCAN(eps=3.5, min_samples=min_samples).fit(unsupervised_df)
+    min_samples = unsupervised_df.shape[1]+1
+    dbscan = DBSCAN(eps=3.5, min_samples=min_samples).fit(unsupervised_df)
     print('kmeans: {}'.format(silhouette_score(unsupervised_df, kmeans.labels_, metric='euclidean')))
     print('Cosine kmeans: {}'.format(silhouette_score(normalized_vectors, normalized_kmeans.labels_, metric='cosine')))
-    #print('DBSCAN: {}'.format(silhouette_score(unsupervised_df, dbscan.labels_, metric='cosine')))
+    print('DBSCAN: {}'.format(silhouette_score(unsupervised_df, dbscan.labels_, metric='cosine')))
     scaler = MinMaxScaler()
     df_scaled = pd.DataFrame(scaler.fit_transform(unsupervised_df))
     df_scaled.columns = unsupervised_df.columns
@@ -242,10 +226,10 @@ def feature_explortion(data):
     '''
     print("Data size: " + str(data.shape))
     #English does not have good data, hence removing
-    #plot_feature(data,'gender','barh')
-    #plot_feature(data,'US','barh')
-    #plot_feature(data,'level_of_education','barh')
-    #plot_feature(data,'percent_progress','line')
+    plot_feature(data,'gender','barh')
+    plot_feature(data,'US','barh')
+    plot_feature(data,'level_of_education','barh')
+    plot_feature(data,'percent_progress','line')
     print(data['percent_progress'].describe())
 	
     corr_matrix = data.corr()
@@ -256,7 +240,7 @@ def feature_explortion(data):
             ax=ax)
     sns_plot.figure.savefig("./plots/correlation.png")
     cm=corr_matrix[output_variable].sort_values(ascending=False)
-    features = cm.index[1:5].tolist()
+    features = cm.index[1:16].tolist()
     data[np.array(features)].hist(bins=200,figsize=(16,8))
     plt.savefig('./plots/best_features.png') 
     return features
@@ -284,6 +268,24 @@ def preprocessor_categorical():
     remainder="passthrough",
     )
     return categorical
+
+def plot_best_features(estimator, xVars):
+    #if the estimator has an option to provide best features, plot it
+    if(hasattr(estimator.named_steps['regressor'], 'feature_importances_')):
+        plt.figure(figsize=(25,25))
+        plt.clf()
+        plt.ylabel('Feature Importance Score')
+        importances = estimator.named_steps['regressor'].feature_importances_
+        feature_size=importances.shape[0]
+        indices = np.argsort(importances)[::-1]
+        plt.figure()
+        plt.title("Feature importances - " + estimator.named_steps['regressor'].__class__.__name__)
+        plt.margins(0.1)
+        plt.bar(range(feature_size), importances[indices],align="center")
+        plt.xticks(range(feature_size), np.array(xVars)[indices], rotation=45, ha='right')
+        plt.xlim([-1, feature_size])
+        plt.subplots_adjust(left=0.2, bottom=0.37)
+        plt.savefig('./plots/model_plots/' +estimator.named_steps['regressor'].__class__.__name__ + '.png')  
 
 def main():
     data_path = './data/'
@@ -386,6 +388,8 @@ def main():
            ('regressor', r['estimator'])
         ])
         best_model, train_score, test_score = quick_eval(pipe, X_train, y_train, X_test, y_test, r['params'])
+        if(filter_best_correlated):
+            plot_best_features(best_model, xVars)
         if(train_score<max_score):
             max_score=train_score
             final_model=best_model    
