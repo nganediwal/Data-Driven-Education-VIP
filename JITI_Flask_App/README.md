@@ -16,3 +16,8 @@ conda activate VIP
 ```
 * Then run python app.py to the application
 * Open the web app using the url http://127.0.0.1:8050/
+
+
+# Where to place ignored files
+* "config.py" should have the credentials to accessing the C21U db and be placed in the same folder as app.py
+* "course_data.csv" should have the data needed to predict course completion and should be stored in the folder "real_model"

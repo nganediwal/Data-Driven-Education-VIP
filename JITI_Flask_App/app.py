@@ -123,7 +123,7 @@ def update_predicted_completion(student_id):
             return "id cannot be negative"
 
         else:
-            model_theta = studentdata.dummy_model_postgres('dummy_weights.csv', student_id, 'user_id', 'dataframe')
+            model_theta = studentdata.predict_completion(student_id) * 100
             return("Your predicted completion is ", model_theta, "%")
 
     except:
