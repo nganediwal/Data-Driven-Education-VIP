@@ -19,5 +19,5 @@ conda activate VIP
 
 
 # Where to place ignored files
-* "config.py" should have the credentials to accessing the C21U db and be placed in the same folder as app.py
+* "config.py" should have the credentials to accessing the C21U db and be placed in the same directory as app.py
 * "course_data.csv" should have the data needed to predict course completion and should be stored in the folder "real_model"
