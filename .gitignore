@@ -131,3 +131,6 @@ venv.bak/
 JITI_Flask_App/config.py
 
 .DS_Store
+
+# testingkeychain
+testingkeychain
