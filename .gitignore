@@ -129,3 +129,5 @@ venv.bak/
 
 # JITI DBs
 JITI_Flask_App/config.py
+
+.DS_Store
