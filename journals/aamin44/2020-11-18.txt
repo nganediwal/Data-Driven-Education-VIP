@@ -1,0 +1,12 @@
+What I have done this week:
+*Integrated the actual model created by the model team
+*Added backend slides to VIP Final Presentation
+
+ASK DURING MEETING: Can we delete data.py and testapp.py?  They seem unnecessary now.
+
+What to do before next week:
+
+
+Reflections:
+*Currently studentdata.py looks ugly with the large amount of imports and 2 functions not being even used by the frontend (they are helper functions for the model).  I might want to look into creating separate python file the model (also putting it in a class) to best encapsulate it.
+*Also, based on how I restructured the app, the globalvars.py might need to be changed somehow.  I am unsure if this file fits best practices.  Might want to spend time over the break to think about / research how this can be better implemented.

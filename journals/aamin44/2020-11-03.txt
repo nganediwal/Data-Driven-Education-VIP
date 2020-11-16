@@ -1,0 +1,19 @@
+What I have done this week:
+*I talked to model team as to how they aggregated student data.  As it turns out, the data they are using has 1 row of data for each student.  Therefore, it is not needed for me to aggregate data right now.
+*This week, the frontend team had nothing for me to do in terms of backend.  The model team is close to completing a model, but until then, there is nothing for me to integrate.  So, I spent time learning more about python dash.  I spent time learning how html, dcc, and dbc work.  Also spent time with callback functions and other components.  This way, I am more useful on the frontend and able to be support for when Hosuk is not here next semester.
+
+What to do before next week:
+*Try to break up dash file into different files for each page. (look @ reflections).
+*Follow up with Farahnaz if I do not get data CSV by Friday.
+
+Meeting Notes:
+*IMPORTANT DATES:
+	11/11 - Working Day
+	11/18 - Final sub-team Presentation
+	11/23 - Final peer-evals open
+	12/2 - Final peer evals due
+	12/2 - Final Notebooks due
+
+
+Reflections:
+*Currently, app.py is too long and crowded.  It makes things difficult to edit, and when someone new picks up the code and tries to comprehend it, it is simply too much to take in and understand what is going on.  This file needs to be broken up by page so that it is more understandable.  Good thing I spent time this past week learning more about Dash.  Anytime there is a week where I have nothing to do, spending time learning things for the future is really useful.

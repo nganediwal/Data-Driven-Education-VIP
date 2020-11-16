@@ -1,0 +1,14 @@
+What I have done this week:
+*Restructured app.py.  This took many hours of first testing with my own file structure, then implementing small changes one by one until I was able to separate out every page.  This is the only thing I worked on, but it took a long time and I am okay with it because it now makes the code more manageable.
+*I talked to the model team a lot this week in preparation of integrating the actual model.  We discussed best way to possibly implement it, how to structure the files, etc.
+
+What to do before next week:
+*Integrate the actual model
+--add pkl and csv to subdirectory
+--Create Class for runtime.py
+--Look for function created by Hosuk
+*Add my slides to VIP Presentation about backend.
+
+Reflections:
+*While I was able to separate the pages, I was unsuccesful in separating the callback functions for each page.  I might want to look into creating separate python files for these and importing them into app.py so as to complete modulate everything for the future.  Will need to talk to webapp team about this as possible thing to do in future.
+*I am not sure how to create a model class.  I am going to be crunched up through Thanksgiving, so I will probably not implement the model as a class and instead just make functions instead that will be simply called by frontend.  However, to ensure there is no issue as there was in the past with Hosuk being able to use my functions, Hosuk will demarcate in app.py where the fuction should be called.  That way, after I finish writing it, I can simply swap it in instead of Hosuk having to figure it out and possibly leading to confusion.

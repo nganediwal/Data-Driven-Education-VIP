@@ -1,0 +1,14 @@
+What I have done this week:
+*Fixed hardcoding in code.  In studentdata.py, I worked on changing pathname/filenames, database names, etc. to be taken as parameters.
+*Talked with Hosuk about what oher functions are needed and noted things down.  I saw that there were some functions written by Hosuk, and after talking with him about it, I realized he recreated functions I already wrote for him to use.
+*Talked with model team about what I managed to unhardcode.  They suggested that I also make column names an array passed as a parameter into some functions so that not all data is pulled from db (only some columns are needed to present/perform data manipulation on).
+
+What to do before next week:
+*Connect to actual C21U PSQL db (talk to Jonna to get credentials)
+*Communicate with Hosuk about functions written
+*Work on VIP Pres (by Friday!!! so Matt has time to look over things and make suggestions)
+
+Reflection:
+*Hosuk accidentally created a function that has almost the same exact functionality as a function I made.  I need to look into documenting the functions better so it is absolutely clear what each function does.
+*When writing in hard codes in the future, create variables near the top of the file designated for hardcoding so it is easier to exchange the values out later (easy ctrl+f)
+*Maybe consider making a class to easily encapsulate the repeated, multiple parameters taken in by functions.  This is not necessary for now, but as we create more backend functions, this might become necessary.

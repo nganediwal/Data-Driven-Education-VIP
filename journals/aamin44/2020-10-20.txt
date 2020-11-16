@@ -1,0 +1,14 @@
+What I have done this week:
+*Updated config.py to have user/password for C21U db.  Shared this config file with rest of webapp team.
+*Updated functions in studentdata.py to be more flexible for getting data from multiple sources
+*Added more detailed documentation for every function to prevent mistakes in studentdata.py
+*Completed back-end portion of VIP Presentation
+
+What to do before next week:
+*student_data needs to be aggregated properly instead of getting the 0 index of the returned array
+*take in a parameter of array of column names to apply weights to (for dummy_model_postgres function ins studentdata.py)
+*try to get a reasonable number out of the fake model - right now getting a number that is too large to be considered a grade
+
+Reflections:
+*For taking in a parameter of array of column names, talk to model team.  Maybe it is better to have dummymodel CSV with two things: first row is list of column names, second row is list of weights.  This way, we don't run the risk of a weight trying to be applied to a column that doesn't hold numbers.
+*I still don't understand models and had to ask Matt a bit for help.  I should spend time on youtube to look into eactly how models work, how they are set up, etc. in enterprise environments to get a better feel.
