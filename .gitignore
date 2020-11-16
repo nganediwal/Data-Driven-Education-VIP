@@ -129,6 +129,7 @@ venv.bak/
 
 # JITI DBs
 JITI_Flask_App/config.py
+JITI_Flask_App/real_model/course_data.csv
 
 .DS_Store
 
