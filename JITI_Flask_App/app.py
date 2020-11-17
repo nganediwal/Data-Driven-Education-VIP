@@ -11,7 +11,7 @@ print(dcc.__version__) # 0.6.0 or above is required
 #if adding a new link/page, add a dbc.NavLink like shown
 sidebar = html.Div(
     [
-        html.H2("Navigation Hub", className = "display-4"),
+        html.H2("JITI Web App", className = "display-4"),
         html.Hr(),
         html.P("Where do you want to go?", className = "lead"),
         dbc.Nav(
