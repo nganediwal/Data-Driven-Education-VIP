@@ -11,4 +11,4 @@
   
   
 ## Sub-team meeting:
-  -  Met on October 02
+  -  Met on Nov 03
