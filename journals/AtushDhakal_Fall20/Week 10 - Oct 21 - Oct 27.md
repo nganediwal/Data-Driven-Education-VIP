@@ -7,8 +7,8 @@
 
 ## Tasks To Complete:
   - Sub-team presentation 2
-  - Nav-bar and home page mock-up
+  - Nav-bar re-design and home page mock-up for this semester
   
   
 ## Sub-team meeting:
-  -  Met on October 26
+  -  Met on October 27
