@@ -3,7 +3,7 @@
 # JITI Sub-team
 
 ## Team Meeting:
-  - Working day on October 14th
+  - Sub-team presentation on 21st
 
 ## Tasks To Complete:
   - Sub-team presentation 2
