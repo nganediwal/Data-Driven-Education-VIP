@@ -2,90 +2,174 @@ import dash
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
 import dash_html_components as html
+
 from dash.dependencies import Input, Output
 
 from globalvars import CONTENT_STYLE
 
-# Welcome page.
-# Currently links to 3 pages.
-# Going to be changed by Attush this week
-# TODO: please update this, Attush with the new documented comments for the new home page.
+
+table_data = [
+    dbc.CardHeader("Table Data Page"),
+    dbc.CardBody(
+        [
+            # html.H5("Table-data Page", className="card-title"),
+            html.P(
+                "Table data page provides information on .......",
+                className="card-text",
+            ),
+            dbc.Button(
+                "View Page", size="lg", color="success", className="mr-1",
+                href='table_data.py',
+            ),
+        ]
+
+    ),
+]
+
+progress_over_time = [
+    dbc.CardHeader("Progress Over Time Page"),
+    dbc.CardBody(
+        [
+            # html.H5("Table-data Page", className="card-title"),
+            html.P(
+                "Progress Over Time Page provides information on .......",
+                className="card-text",
+            ),
+            dbc.Button(
+                "View Page", size="lg", color="success", className="mr-1",
+                href='progress_over_time.py',
+            ),
+        ]
+
+    ),
+]
+
+plots = [
+    dbc.CardHeader("Plots"),
+    dbc.CardBody(
+        [
+            # html.H5("Table-data Page", className="card-title"),
+            html.P(
+                "The Plots page displays ........",
+                className="card-text",
+            ),
+            dbc.Button(
+                    "View Page",size="lg",color="success", className="mr-1",
+                    href='plots.py',
+            ),
+        ]
+    ),
+]
+completion_prediction = [
+    dbc.CardHeader("Completion Prediction Page"),
+    dbc.CardBody(
+        [
+            # html.H5("Table-data Page", className="card-title"),
+            html.P(
+                "Completion Prediction Page displays .......",
+                className="card-text",
+            ),
+            dbc.Button(
+                    "View Page",size="lg",color="success", className="mr-1",
+                    href='completion_py',
+
+            ),
+        ]
+
+    ),
+]
+
 
 page_layout = html.Div([
+
     html.Div(
         html.H1(
-            "Welcome, Beta_Tester!"
-        ),  
+            "Just In Time Intervention (JITI)"
+        ),
 
         style = {
-            'margin-bottom' : '100px',
+            'margin-top' : '30px','margin-bottom' : '10px','text-align': 'center',
         }
     ),
 
-    dbc.Row(children = [
-        
-        dbc.Col(children = [
-            dbc.Row(
-                html.Img(src='/assets/strengths-and-weaknesses.jpg', 
-                    style = {
-                        'max-height': '200px',
-                        'margin' : 'auto',
-                        'margin-bottom': '25px'
-                    }
-                ),
-            ),
-
-            dbc.Row(
-                dcc.Link(html.Button('Strengths and Weaknesses'), href = '/table-data',
-                    style = {
-                        'margin' : 'auto',
-                    }
-                ),
-            ),
-        ], 
-            width={"size": 3, "offset" : 1},
+    html.Div(
+        html.H6(
+            "Created by: Data-Driven Education - JITI sub-team"
         ),
-        dbc.Col(children = [
+
+        style = {
+            'margin-top' : '10px','margin-bottom' : '10px','text-align': 'center','font-style': 'italic',
+        }
+    ),
+
+    html.Div(
+        html.P(
+            "Welcome to the Just-In-Time Intervention web app! The purpose of this website is to use data-driven "
+            "techniques such as machine learning and statistical analysis to provide you (the student) with tools "
+            "that can help you succeed in your classes."
+        ),
+
+        style = {
+            'margin-top' : '60px','margin-bottom' : '30px','text-align': 'center','font-size': '19px'
+        }
+    ),
+
+    html.Div(
+        dbc.Card(
+        dbc.CardBody(
+            [
+                html.H5("View the Prediction Page", className="card-title"),
+                # html.P(
+                #     "This card also has some text content and not much else, but "
+                #     "it is twice as wide as the first card."
+                # ),
+                dbc.Button("View App", color="success",size="lg",
+                           href='completion_py',),
+            ]
+        ),
+        ),
+        style={'margin-left' : 'auto','margin-right' : 'auto','text-align': 'center','font-size': '30px'},
+    ),
+
+
+
+    html.Div(
+
+        style = {
+            'margin-top' : '40px',
+        }
+    ),
+
+    html.Div(
+        [
             dbc.Row(
-                html.Img(src='/assets/clock.jpg', 
-                    style = {
-                        'max-height': '200px',
-                        'margin' : 'auto',
-                        'margin-bottom': '25px'
-                    }
-                ),
+                [
+                    dbc.Col(dbc.Card(table_data, color="dark", inverse=True)),
+                    dbc.Col(dbc.Card(progress_over_time, color="dark", inverse=True)),
+                ]
             ),
 
-            dbc.Row(
-                dcc.Link(html.Button('Progress Over Time'), href = '/progress-over-time',
-                    style = {
-                        'margin' : 'auto',
-                    }
-                ),
-            ),
-        ], width={"size": 3}),
+        ]
+    ),
 
-        dbc.Col(children = [
-            dbc.Row(
-                html.Img(src='/assets/books.jpg', 
-                    style = {
-                        'max-height': '200px',
-                        'margin' : 'auto',
-                        'margin-bottom': '25px'
-                    }
-                ),
-            ),
+    html.Div(
 
-            dbc.Row(
-                dcc.Link(html.Button('Resources'), href = '/resources',
-                style = {
-                    'margin' : 'auto',
-                }),
-            ),
-        ], width={"size": 3},),
-        
+        style = {
+            'margin-top' : '20px',
+        }
+    ),
 
-    ], align = "center", justify = "around"),
-], 
-style = CONTENT_STYLE
+    html.Div(
+        [
+            dbc.Row(
+                [
+                    dbc.Col(dbc.Card(plots, color="dark", inverse=True)),
+                    dbc.Col(dbc.Card(completion_prediction, color="dark", inverse=True)),
+                ]
+            ),
+            # dbc.(style={"margin-top": "20"})
+        ]
+    ),
+],
+style = CONTENT_STYLE,
 )
