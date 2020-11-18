@@ -9,12 +9,12 @@ from globalvars import CONTENT_STYLE
 
 
 table_data = [
-    dbc.CardHeader("Table Data Page"),
+    dbc.CardHeader("Grade Prediction"),
     dbc.CardBody(
         [
             # html.H5("Table-data Page", className="card-title"),
             html.P(
-                "Table data page provides information on .......",
+                "This page provides grade prediction functionality and data on how A-students perform.",
                 className="card-text",
             ),
             dbc.Button(
@@ -27,12 +27,12 @@ table_data = [
 ]
 
 progress_over_time = [
-    dbc.CardHeader("Progress Over Time Page"),
+    dbc.CardHeader("Progress Over Time"),
     dbc.CardBody(
         [
             # html.H5("Table-data Page", className="card-title"),
             html.P(
-                "Progress Over Time Page provides information on .......",
+                "This page shows your progress over time in this class.",
                 className="card-text",
             ),
             dbc.Button(
@@ -50,7 +50,7 @@ plots = [
         [
             # html.H5("Table-data Page", className="card-title"),
             html.P(
-                "The Plots page displays ........",
+                "This page provides some interesting data-driven insights on your class.",
                 className="card-text",
             ),
             dbc.Button(
@@ -61,12 +61,12 @@ plots = [
     ),
 ]
 completion_prediction = [
-    dbc.CardHeader("Completion Prediction Page"),
+    dbc.CardHeader("Completion Prediction"),
     dbc.CardBody(
         [
             # html.H5("Table-data Page", className="card-title"),
             html.P(
-                "Completion Prediction Page displays .......",
+                "This page integrates live model prediction for completion percentage.",
                 className="card-text",
             ),
             dbc.Button(
