@@ -19,7 +19,7 @@ table_data = [
             ),
             dbc.Button(
                 "View Page", size="lg", color="success", className="mr-1",
-                href='table_data.py',
+                href='table-data',
             ),
         ]
 
@@ -37,7 +37,7 @@ progress_over_time = [
             ),
             dbc.Button(
                 "View Page", size="lg", color="success", className="mr-1",
-                href='progress_over_time.py',
+                href='progress-over-time',
             ),
         ]
 
@@ -55,7 +55,7 @@ plots = [
             ),
             dbc.Button(
                     "View Page",size="lg",color="success", className="mr-1",
-                    href='plots.py',
+                    href='plots',
             ),
         ]
     ),
@@ -71,7 +71,7 @@ completion_prediction = [
             ),
             dbc.Button(
                     "View Page",size="lg",color="success", className="mr-1",
-                    href='completion_py',
+                    href='completion',
 
             ),
         ]
@@ -124,7 +124,7 @@ page_layout = html.Div([
                 #     "it is twice as wide as the first card."
                 # ),
                 dbc.Button("View App", color="success",size="lg",
-                           href='completion_py',),
+                           href='completion',),
             ]
         ),
         ),
