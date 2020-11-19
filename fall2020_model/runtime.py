@@ -60,7 +60,7 @@ def clean_data_null(df):
 
 def main():
     data_path = './data/'
-    student_id = 44987
+    student_id = 6550
     data=read_csv(data_path, student_id)
     data=clean_data_null(data)
     X_test = data.drop([output_variable], axis=1)
