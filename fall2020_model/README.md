@@ -46,37 +46,37 @@ Input data used for this research is an ammonized CSV file that contains data fr
 
 * Input Variable
 
-** English
-** gender
-** year_of_birth
-** level_of_education
-** US
-** Active_weeks
-** page_close_agg_count
-** hypertext_agg_count
-** next_selected_agg_count
-** resume_course_agg_count
-** sidebar_agg_count
-** seq_goto_agg_count
-** seq_next_agg_count
-** seq_prev_agg_count
-** tool_accessed_agg_count
-** problem_check_agg_count
-** problem_graded_agg_count
-** seek_video_agg_count
-** load_video_agg_count
-** play_video_agg_count
-** pause_video_agg_count
-** stop_video_agg_count
-** captions_hidden_agg_count
-** captions_shown_agg_count
-** hide_transcript_agg_count
-** show_transcript_agg_count
-** speed_change_video_agg_count
+	** English
+	** gender
+	** year_of_birth
+	** level_of_education
+	** US
+	** Active_weeks
+	** page_close_agg_count
+	** hypertext_agg_count
+	** next_selected_agg_count
+	** resume_course_agg_count
+	** sidebar_agg_count
+	** seq_goto_agg_count
+	** seq_next_agg_count
+	** seq_prev_agg_count
+	** tool_accessed_agg_count
+	** problem_check_agg_count
+	** problem_graded_agg_count
+	** seek_video_agg_count
+	** load_video_agg_count
+	** play_video_agg_count
+	** pause_video_agg_count
+	** stop_video_agg_count
+	** captions_hidden_agg_count
+	** captions_shown_agg_count
+	** hide_transcript_agg_count
+	** show_transcript_agg_count
+	** speed_change_video_agg_count
 
 * Output Variable
 
-** percent_progress
+	** percent_progress
 
 # Approach 
 
