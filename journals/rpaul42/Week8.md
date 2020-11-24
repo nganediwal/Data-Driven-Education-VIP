@@ -18,4 +18,5 @@
 
 
 ## Completed
-  - In Progress
+  - uploaded code to github
+  - explored trends between NULL and percent complete and best features- found some interesting results with null values correlated a higher percent completed except for in the US columm
