@@ -9,6 +9,14 @@ What to do before next week:
 *take in a parameter of array of column names to apply weights to (for dummy_model_postgres function ins studentdata.py)
 *try to get a reasonable number out of the fake model - right now getting a number that is too large to be considered a grade
 
+Trello:
+*Completed: Backend: Move to querying actual database
+*New: backend: Update local dummy model, CSV
+
+Meeting Notes:
+*Reviewed pres slides
+*Discussed different ways dummy model can be modified
+
 Reflections:
 *For taking in a parameter of array of column names, talk to model team.  Maybe it is better to have dummymodel CSV with two things: first row is list of column names, second row is list of weights.  This way, we don't run the risk of a weight trying to be applied to a column that doesn't hold numbers.
 *I still don't understand models and had to ask Matt a bit for help.  I should spend time on youtube to look into eactly how models work, how they are set up, etc. in enterprise environments to get a better feel.

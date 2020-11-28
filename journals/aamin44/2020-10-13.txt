@@ -8,6 +8,13 @@ What to do before next week:
 *Communicate with Hosuk about functions written
 *Work on VIP Pres (by Friday!!! so Matt has time to look over things and make suggestions)
 
+Trello:
+*New: Backend: Move to querying actual database
+
+Meeting Notes:
+*Talked about sub-team presentation
+*Talked to Jonna about getting C21U credentials
+
 Reflection:
 *Hosuk accidentally created a function that has almost the same exact functionality as a function I made.  I need to look into documenting the functions better so it is absolutely clear what each function does.
 *When writing in hard codes in the future, create variables near the top of the file designated for hardcoding so it is easier to exchange the values out later (easy ctrl+f)

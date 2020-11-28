@@ -1,5 +1,5 @@
 What I have done this week:
-*Restructured app.py.  This took many hours of first testing with my own file structure, then implementing small changes one by one until I was able to separate out every page.  This is the only thing I worked on, but it took a long time and I am okay with it because it now makes the code more manageable.
+*Restructured app.py (this was not my responsibility as I am backend, but I did it to help out frontend). This took many hours of first testing with my own file structure, then implementing small changes one by one until I was able to separate out every page.  This is the only thing I worked on, but it took a long time and I am okay with it because it now makes the code more manageable.
 *I talked to the model team a lot this week in preparation of integrating the actual model.  We discussed best way to possibly implement it, how to structure the files, etc.
 
 What to do before next week:
@@ -8,6 +8,15 @@ What to do before next week:
 --Create Class for runtime.py
 --Look for function created by Hosuk
 *Add my slides to VIP Presentation about backend.
+
+Trello:
+*Complete: Refactor app.py
+*New: App Dev Team: Integrate model training team's plots, Real model prediction, Accomplish as much of redesign as possible
+
+Meeting:
+*Talked more about how exactly the model can be added to backend
+*Talked about presentation
+*Talked about what is left for documentation
 
 Reflections:
 *While I was able to separate the pages, I was unsuccesful in separating the callback functions for each page.  I might want to look into creating separate python files for these and importing them into app.py so as to complete modulate everything for the future.  Will need to talk to webapp team about this as possible thing to do in future.

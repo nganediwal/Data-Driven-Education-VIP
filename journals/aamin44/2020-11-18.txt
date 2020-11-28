@@ -2,10 +2,17 @@ What I have done this week:
 *Integrated the actual model created by the model team
 *Added backend slides to VIP Final Presentation
 
-ASK DURING MEETING: Can we delete data.py and testapp.py?  They seem unnecessary now.
-
 What to do before next week:
+*Finish up any refactoring/documentation needed for backend
+*Peer Evals (asap)
+*Notebooks (asap)
 
+Trello:
+Complete: App Dev Team: Integrate model training team's plots, Real model prediction, Accomplish as much of redesign as possible
+
+Meeting Notes:
+*Rehearsed presentation
+*Rehearsed screen sharing
 
 Reflections:
 *Currently studentdata.py looks ugly with the large amount of imports and 2 functions not being even used by the frontend (they are helper functions for the model).  I might want to look into creating separate python file the model (also putting it in a class) to best encapsulate it.

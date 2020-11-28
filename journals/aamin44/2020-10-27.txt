@@ -6,6 +6,10 @@ What to do before next week:
 *Assist Hosuk in renaming functions that were already in app.py (I renamed some, added some parameters).
 *Possibly look into aggregating data by student id (look @ reflections)
 
+Trello:
+*Completed: backend: Update local dummy model, CSV
+*New: Display student data
+
 Meeting Notes:
 *Atush continued to work on mock-ups
 *Hosuk worked on getting the images on the website, having trouble with directories
@@ -13,4 +17,4 @@ Meeting Notes:
 
 Reflections:
 *Watching extra videos really helped with understanding how to approach setting up our model when the time comes.  I should continue to watch videos more if I have technical questions.
-*While the dummy model is getting decent, one last thing to consider is how the student data is aggregated.  From the C21U db, every student has multiple columns.  This is a weak point in the dummy model, as the weights are applied to a single column.
+*While the dummy model is getting decent, one last thing to consider is how the student data is aggregated.  From the C21U db, every student has multiple rows.  This is a weak point in the dummy model, as the weights are applied to a single column.
