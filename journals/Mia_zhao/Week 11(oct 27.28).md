@@ -9,3 +9,4 @@
 ### Completed:
    - Learn Decision Tree Model and Random Forest Tree model in python
    - Run models in R to detect important features and generated plots
+   - Update the R model and plots in git and Saurabh will change it to python format to better fit into the pipeline.
