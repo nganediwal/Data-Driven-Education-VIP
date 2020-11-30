@@ -5,9 +5,9 @@
 ## Team Meeting:
   - Presentation: Scalable Advanced Learning Ecosystems by Dr. Courville and Dr. Gazi
 
-## Tasks To Complete:
-  - Code new home page
-  - Refactor app.py
+## Tasks Completed:
+  - New home page is completed
+  - Refactoring of app.py
   
 ## Sub-team meeting:
   -  Met on Nov 10
