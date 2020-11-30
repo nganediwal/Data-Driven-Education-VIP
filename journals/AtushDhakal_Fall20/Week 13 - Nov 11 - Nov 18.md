@@ -10,3 +10,6 @@
   
 ## Sub-team meeting:
   -  Met on Nov 17
+  
+## Final sub-team presentation - Nov 18
+  -  Prepare for presentation
