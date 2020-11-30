@@ -5,9 +5,10 @@
 ## Team Meeting:
   - Onboarding to Engageli
 
-## Tasks To Complete:
-  - Code and commit new nav bar
-  - Consult with Matt on new home page design
+## Tasks Completed:
+  - Change nav-bar to reflect feedback
+  - Consulted with Matt on new home page design
+  - Started work on new home page ~20% complete
   
   
 ## Sub-team meeting:
