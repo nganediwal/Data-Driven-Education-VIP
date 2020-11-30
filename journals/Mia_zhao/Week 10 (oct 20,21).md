@@ -4,12 +4,12 @@
    - Learn the Decision Tree and Random forest Algos to prepare for the model training
 
    
-### Sub-team_ meeting (10.13)
+### Sub-team_ meeting (10.20)
    - Discussed on the slides on sub team presentation
    - Compared the teams work with Gardner and Brooks paper to include in sub-team presentation
    - Discussed plans on model training
    - Decided that each team members will take up 2 algorithms each.
-### Team Meeting (10.14)
+### Team Meeting (10.21)
    - presentation day
    
 ### Completed
