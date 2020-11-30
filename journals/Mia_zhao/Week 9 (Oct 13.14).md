@@ -12,5 +12,5 @@
    - Discussed on next steps on Model Generation and plan going forward
 ### Completed:
 - Discuss the tasks distribution slide for comming presentation
-- Organize the Plots and visuals
+- Generated Plots and visuals based on outlier table and original dataset to explore the relationship of factors and drive insights about student behavior.
 - Update the data clean-up ( Outlier removal)code to the pipeline
