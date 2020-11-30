@@ -5,8 +5,8 @@
 ## Team Meeting:
   - Working Day
 
-## Tasks To Complete:
-  - Finish new home page design and commit the code
+## Tasks Completed:
+  - Finished new home page design and commited the code
   
 ## Sub-team meeting:
   -  Met on Nov 17
