@@ -5,9 +5,9 @@
 ## Team Meeting:
   - Working day on October 14th
 
-## Tasks To Complete:
-  - Navigation bar clean up
-  - Review goals for the semester and what can be achived with the time left
+## Tasks Completed:
+  - Designed and developed new Navigation bar
+  - Reviewed goals for the semester and what can be achived with the time left for front-end
   
   
 ## Sub-team meeting:
