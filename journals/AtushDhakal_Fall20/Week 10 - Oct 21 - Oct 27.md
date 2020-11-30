@@ -5,9 +5,9 @@
 ## Team Meeting:
   - Sub-team presentation on 21st
 
-## Tasks To Complete:
+## Tasks Completed:
   - Sub-team presentation 2
-  - Nav-bar re-design and home page mock-up for this semester
+  - Nav-bar re-design completed and develoepd home page mock-up for this semester
   
   
 ## Sub-team meeting:
