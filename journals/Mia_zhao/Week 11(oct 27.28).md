@@ -1,0 +1,11 @@
+### TODO Tasks:
+   - Learn Decision Tree Model and Random Forest Tree model in python
+   - Run models in R to detect important features and generated plots
+ 
+### Sub-team_ meeting (10.13)
+   - Discussed new code structure for model training and parameter tuning
+### Team Meeting (10.14)
+   - Engageli Onboarding
+### Completed:
+   - Learn Decision Tree Model and Random Forest Tree model in python
+   - Run models in R to detect important features and generated plots
