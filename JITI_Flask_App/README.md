@@ -7,10 +7,13 @@ This is the Web App for displaying the predition information and suggestions to 
 * Run anaconda
 * Goto the folder .\vip-research\JITI_Flask_App\
 * Run the below command
+
 ```
-conda env create -f requirements.yaml
+conda env create -f environment.yaml
 ```
+
 * Once the enviornment is created run the below command to switch the environment 
+
 ```
 conda activate VIP
 ```
