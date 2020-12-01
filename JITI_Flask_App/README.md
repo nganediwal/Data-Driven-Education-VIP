@@ -24,3 +24,20 @@ conda activate VIP
 # Where to place ignored files
 * "config.py" should have the credentials to accessing the C21U db and be placed in the same directory as app.py
 * "course_data.csv" should have the data needed to predict course completion and should be stored in the folder "real_model"
+
+# Overview of App
+The app is built using dash by plotly. This allows for powerful graphing features and easy integration with python ML libraries. See below for a general guide on where the various parts of the app are located.
+* Modify Individual pages
+    * "JITI_Flask_App/pages/"
+    * home: "JITI_Flask_App/pages/index.py"
+* Modify database connections / create new query functions
+    * "JITI_Flask_App/studentdata.py
+* Route modification
+    * "JITI_Flask_App/app.py"
+* Location of Completion percentage model (.pkl)
+    * "JITI_Flask_App/real_model/"
+* Location of Fake models (local)
+    *  "JITI_Flask_App/temp_model/"
+
+# Helpful Resources
+* https://plotly.com/dash/
