@@ -7,8 +7,7 @@
 
 ## Tasks Completed:
   - Change nav-bar to reflect feedback
-  - Consulted with Matt on new home page design
-  - Started work on new home page ~20% complete
+  - Matt provided me with the mock-up for the new home page. I started finished ~20% of the work. Using the bootstrap component with Dash is challenging as there are not many resources available.
   
   
 ## Sub-team meeting:
