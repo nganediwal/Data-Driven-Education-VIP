@@ -6,10 +6,10 @@
   - Working Day
 
 ## Tasks Completed:
-  - Finished new home page design and commited the code
+  - I collected feedback and updated new home page design with some minor details. Matt will update the description to all the page.
   
 ## Sub-team meeting:
   -  Met on Nov 17
   
 ## Final sub-team presentation - Nov 18
-  -  Prepare for presentation
+  -  Prepare for presentation and demo. (home page and the mock-up + what can be done with the web-app)
