@@ -12,3 +12,4 @@
   
 ## Sub-team meeting:
   -  Met on October 19
+  - Matt told me that he will take care of the home page mock-up and that I can work on the navigation bat re-design
