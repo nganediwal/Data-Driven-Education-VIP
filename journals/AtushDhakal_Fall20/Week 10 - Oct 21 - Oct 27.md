@@ -12,3 +12,4 @@
   
 ## Sub-team meeting:
   -  Met on October 27
+  - As the nav-bar redesign has been complete, I decided to work on refactoring app.py and the homapge. 
