@@ -8,6 +8,8 @@
 ## Tasks To Complete:
   - [Complete secondary pages mock-ups for JITI Web App](https://www.figma.com/file/1GJh6SezoXZeVeBxIoJozP/JITI-Web-App?node-id=0%3A1)
   
+  I refined the design to incorporate suggestions from the sub-team memebers.
+  
   
 ## Sub-team meeting:
   -  Met on October 06. Discussed our progress from both App team and Model team. Talked about the authentication
