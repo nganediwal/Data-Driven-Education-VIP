@@ -6,7 +6,7 @@
   - Presentation: Scalable Advanced Learning Ecosystems by Dr. Courville and Dr. Gazi
 
 ## Tasks Completed:
-  - New home page is completed
+  - The new home page is completed. It includes an introduction to the project and brief detail on all the pages in the web app.
   - Refactoring of app.py
   
 ## Sub-team meeting:
