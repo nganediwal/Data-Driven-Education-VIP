@@ -1,0 +1,183 @@
+@font-face {
+    src: url(fonts/JetBrainsMono-1.0.3/ttf/JetBrainsMono-ExtraBold-Italic.ttf);
+    font-family: logoFont;
+}
+
+@font-face {
+    src: url(fonts/JetBrainsMono-1.0.3/ttf/JetBrainsMono-Bold.ttf);
+    font-family: primaryHeader;
+}
+
+@font-face {
+    src: url(fonts/JetBrainsMono-1.0.3/ttf/JetBrainsMono-Medium.ttf);
+    font-family: secondaryHeader;
+}
+
+@font-face {
+    src: url(fonts/JetBrainsMono-1.0.3/ttf/JetBrainsMono-Regular.ttf);
+    font-family: paragraphFont;
+}
+
+body {
+    background-color: black;
+}
+
+.logo {
+    border: 4px solid #1a1b1e;
+    background-color: #1a1b1e;
+    color: #fff;
+    font-family: logoFont;
+    font-size: 40px;
+    display: block;
+    height: auto;
+    width: auto;
+    align-content: center;
+    margin-top: 5px;
+    margin-left: 10px;
+    float: left;
+}
+
+.imgMain {
+    display: block;
+    margin: auto;
+    width: 280px;
+}
+
+body {
+    background-color: black;
+}
+
+.navbarMain {
+    background-color: black;
+}
+
+.navBrand {
+    font-family: primaryHeader;
+    color: white !important;
+    font-size: 26px;
+}
+
+.navbar-nav>li {
+    font-family: secondaryHeader;
+    font-size: 24px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    /**color: #007bff;*/
+    color: white;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #007bff;
+}
+
+.navbar-light .navbar-brand:focus,
+.navbar-light .navbar-brand:hover {
+    color: #007bff;
+}
+
+li {
+    margin: 30px;
+}
+
+h1 {
+    font-family: primaryHeader;
+    color: white;
+    font-size: 80px;
+}
+
+h2 {
+    font-family: secondaryHeader;
+    color: white;
+    font-size: 32px;
+}
+
+h3 {
+    font-family: paragraphFont;
+    font-size: 22px;
+    color: white;
+    line-height: 2em;
+}
+
+p {
+    font-family: paragraphFont;
+    font-size: 18px;
+    color: white;
+    line-height: 2em;
+}
+
+.p1 {
+    font-family: paragraphFont;
+    font-size: 13px;
+    color: white;
+}
+
+.p2 {
+    font-family: paragraphFont;
+    font-size: 18px;
+    color: white;
+    line-height: 2em;
+}
+
+.vertical-center {
+    min-height: 100%;
+    /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh;
+    /* These two lines are counted as one :-)       */
+    display: flex;
+    align-items: center;
+}
+
+.btn-success,
+.btn-danger {
+    font-family: paragraphFont;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active,
+.open>.dropdown-toggle.btn-success {
+    color: #28a745;
+    background-color: transparent;
+    background-image: none;
+    border-color: #28a745;
+    /*set the color you want here*/
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active,
+.open>.dropdown-toggle.btn-success {
+    color: #28a745;
+    background-color: transparent;
+    background-image: none;
+    border-color: #28a745;
+    /*set the color you want here*/
+}
+
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger.active,
+.open>.dropdown-toggle.btn-danger {
+    color: #dc3545;
+    background-color: transparent;
+    background-image: none;
+    border-color: #dc3545;
+    /*set the color you want here*/
+}
+
+#myInput {
+    font-family: paragraphFont;
+    padding: 20px;
+    margin-top: -6px;
+    border: 1px;
+    border-radius: 1px;
+    border: #007bff;
+    background: #f1f1f1;
+}
