@@ -21,14 +21,14 @@ To run the project below are the setup instructions.
 
 * Install Anaconda following the guide in https://docs.anaconda.com/anaconda/install/
 * Run anaconda
-* Goto the folder .\vip-research\fall2020_model\
+* Goto the folder .\vip-research\spring2021_model\
 * Run the below command
 ```
 conda env create -f environment.yml
 ```
 * Once the enviornment is created run the below command to switch the environment 
 ```
-conda activate vipfall2020
+conda activate vipspring2021
 ```
 * Then run python model_pipeline.py build a model
 

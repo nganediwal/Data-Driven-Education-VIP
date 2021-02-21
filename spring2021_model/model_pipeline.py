@@ -33,23 +33,29 @@ from sklearn.externals import joblib
 output_variable = "percent_progress"
 filter_best_correlated = True
 
-def read_csv(filepath):
+def read_csv(filepath, course):
     
     '''
     Return course data
     '''
-    data = pd.read_csv(filepath + 'course_data.csv')
+    data = pd.read_csv(filepath + 'course_data_' + course + '.csv')
     for col in data.columns: 
         if 'Unnamed' in col:
             data.drop([col], axis=1, inplace=True)
     column_names = ['course_id', 'user_id', 'week', 'event_type', 'count']
     df = pd.DataFrame(columns = column_names)
     for i in range(0, len(data.columns), 5):
-        df2 = pd.DataFrame(data.iloc[:, i:i+5].dropna(thresh=3))
+        df2 = pd.DataFrame(data.iloc[:, i:i+5].dropna(thresh=4))
         df2.columns=column_names
         df = df.append(df2, ignore_index=True)
     return df
 
+def write_csv(filepath, data, course):
+    
+    '''
+    Write course data in csv for debugging purposes
+    '''
+    data.to_csv(filepath + 'course_data_transformed_' + course + '.csv', index=False)
 
 def clean_data_null(df):
     return df.dropna();
@@ -60,11 +66,17 @@ def clean_data_outlier(df_in):
 
 
 def main():
+    writecsv = False
+    course = 'MGT100'
+    #course = 'CS1301'
     data_path = './data/'
-    data=read_csv(data_path)
-    clean_data_null(data)
-    clean_data_outlier(data)
-    print("Data Shape: ", data.shape)
+    data=read_csv(data_path, course)
+    if writecsv:
+        write_csv(data_path, data, course)
+    print("Data Shape With Nulls: ", data.shape)
+    #data = clean_data_null(data)
+    print("Data Shape without Nulls: ", data.shape)
+    #clean_data_outlier(data)
     
 if __name__ == "__main__":
     main()
