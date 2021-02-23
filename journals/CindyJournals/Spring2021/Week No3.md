@@ -8,7 +8,7 @@
 
 ## 02-06-2021
 - First Sub-team meeting
-  **Note:** Was unable to attend due to access issues with Microsoft 
+  - **Note:** Was unable to attend due to access issues with Microsoft 
   - Caught up on what was discussed during meeting which was going over semester goals.
   - Selected interest for course (Data Team)
   - Agreed on meeting time details
