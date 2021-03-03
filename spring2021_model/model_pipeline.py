@@ -64,6 +64,13 @@ def clean_data_null(df):
 def clean_data_outlier(df_in):
    return df_in
 
+def transform_data(df_in):
+	# Add each Event Type as a columns.
+    df_in["event_type"].replace({"edx.bi.course.upgrade.sidebarupsell.displayed": "sidebar", "edx.ui.lms.link_clicked": "hypertext", "edx.course.tool.accessed": "tool_accessed","edx.video.closed_captions.hidden": "captions_hidden", "edx.video.closed_captions.shown": "captions_shown", "edx.ui.lms.sequence.next_selected": "next_selected", "edx.course.home.resume_course.clicked": "resume_course"}, inplace=True)
+    new_data = df_in.pivot_table('count', ['course_id', 'user_id','week'], 'event_type')
+    new_data.reset_index( drop=False, inplace=True )
+    return new_data
+
 
 def main():
     writecsv = False
@@ -71,12 +78,16 @@ def main():
     #course = 'CS1301'
     data_path = './data/'
     data=read_csv(data_path, course)
+	#write csv data to file for debugging using excel filters
     if writecsv:
         write_csv(data_path, data, course)
     print("Data Shape With Nulls: ", data.shape)
-    #data = clean_data_null(data)
+    data = clean_data_null(data)
     print("Data Shape without Nulls: ", data.shape)
     #clean_data_outlier(data)
+    #print(data.event_type.unique())
+    data = transform_data(data)
+    print(data.head())
     
 if __name__ == "__main__":
     main()
