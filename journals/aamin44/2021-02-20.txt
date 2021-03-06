@@ -1,0 +1,11 @@
+Things completed this past week:
+* Read through LTI Integration documentation, some OAuth1 documentation
+* Completed backend portion of presentation - talked about LTI, encapsulating model (maybe include s3)
+
+Things to do for upcoming week:
+* Go over slides, make sure everything I want is in (get done by Monday night)
+* Look at code for LTI integration - watch videos, if there is time then communicate with Kenneth in order to see other subteam code for LTI Integration
+
+Meeting Notes:
+* Went through the presentation slides - assigned sldies (I am doing webdev/model team summary slide and backend slide)
+* Plan to have presentation done by Monday night

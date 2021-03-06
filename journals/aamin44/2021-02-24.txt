@@ -1,0 +1,14 @@
+Things completed this past week:
+* Completed slides, presented for class
+* Started looking at Django and Flask based code for LTI Integration 
+
+Things to do for upcoming week:
+* Continue looking at code for LTI Integrations
+* Consider contacting Kenneth soon to take a look at LTI Integration code.
+
+Meeting Notes:
+* talked with Sonam to get guidance about the UX.
+* we are integrating everything with canvas - make authentication, then go to completely separate website
+
+Reflection on Presentation:
+* Went well, good recovery in the middle with down internet

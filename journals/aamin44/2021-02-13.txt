@@ -1,0 +1,14 @@
+Things completed this past week:
+* Read through VIP Onboarding things for new information - no new information found
+* Check qualtrics survey to access data
+* Self-graded rubric
+* Ran project from previous semester and tested inputs - things seem to be working, nothing has broken yet :)
+
+Things to do for upcoming week:
+* Spend time on LTI Integration - read up documentation, email Emily if needed.
+* Work on presentation - talk about things needed for LTI integration, talk about how model should be encapsulated as a class (due before next saturday meeting).
+
+Meeting Notes:
+* 3 things for Webapp team to do: LTI Integration, Redesign Frontend, Connect with new Data / Model
+* Attush working on CSS classes to make it responsive.
+* Even though Canvas and edx not the same, doing the LTI Integeration can help with the future in terms of SSO and applying models to Canvas data.

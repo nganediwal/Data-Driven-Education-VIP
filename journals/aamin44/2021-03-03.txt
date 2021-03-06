@@ -1,0 +1,16 @@
+This week:
+* Continued looking through resources for LTI Integration (some links):
+https://canvas.instructure.com/doc/api/file.oauth.html
+https://saltire.lti.app/
+https://saltire.lti.app/platform
+https://github.com/dmitry-viskov/pylti1.3/wiki/Configure-Canvas-as-LTI-1.3-Platform
+https://github.com/ucfopen/lti-template-flask-oauth-tokens/blob/master/views.py
+
+Next week:
+* reach out to Kenneth's team to look at their application (rewatch the presentation video so I know what their proj really looking like right now).
+* reach out to c21u inhouse app devs?
+
+Meeting notes:
+* No updates from UX research
+* Done looking at documentation - now need to reach out to Kenneth's team to look at their application (rewatch the presentation video so I know what their proj really looking like right now).
+* Contact C21U inhouse app developers to discuss implementation of LTI integrations.
