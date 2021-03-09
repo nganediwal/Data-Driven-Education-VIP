@@ -12,7 +12,7 @@
   * Front-End/UI Team: Now using newly improved Css 
   * Back-End Team 
 * Established two ideal meeting times that we may alternate accordingly
-  * Saturday 10 am - ll am
+  * Saturday 10 am - 11 am
   * Wednesdays 6pm/7pm/8pm 
 ## Todo Tasks
 1. Complete Qualtrics survey/check if last submission is still valid 
