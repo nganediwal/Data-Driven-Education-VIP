@@ -1,7 +1,7 @@
 # February 20, 2021: Subteam Meeting #3
 ## Team Meeting
 * Today I led the UX design research interview with Sonam Singh and recieved the following feedback:
-** 1.1 Overview
+### 1.1 Overview
   - Overall, good, standard overview page. 
   - Consider removing past three weeks performance underlay on performance graph 
   - Should remove task actions and improve score from overview, as this page should be more informational than interactive
