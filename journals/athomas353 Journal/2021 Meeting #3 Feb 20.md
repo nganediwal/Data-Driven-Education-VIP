@@ -1,6 +1,6 @@
 # February 20, 2021: Subteam Meeting #3
 ## Team Meeting
-* Today I led the UX design research interview with Sonam Singh and recieved the following feedback:
+* Today I led the UX design research interview with Sonam Singh and recieved the following feedback for our current wireframe:
 ### 1.1 Overview
   - Overall, good, standard overview page. 
   - Consider removing past three weeks performance underlay on performance graph 
