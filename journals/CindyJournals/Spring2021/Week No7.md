@@ -14,6 +14,7 @@
 ## Assignments/ To-Do:
   - Journals (Due every week)
   - Start working on outlier handling code
+  - Read journal on interactive learning environments
 
  
 
