@@ -8,7 +8,7 @@
   
 ## Tasks To Complete:
   - Request access for data
-  - Self graded performance assignment (no submission)
+  - Self-grade VIP notebook
 
   
 ## Sub-team meeting:
