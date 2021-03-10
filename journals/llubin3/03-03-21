@@ -1,0 +1,42 @@
+# Wednesday Meeting (03/03/2021)
+- GT's Online Master's in Analytics (OMSA)
+    - Can we predict whether an applicant will be admitted?
+    - Which application features predict successful admission?
+    - Machine Learning Methods:
+        - Logistic Regression
+        - Random Forest
+        - Gradient Boosting
+        - ADA Boost Classification
+    - Takeaways:
+        - Reduced the dimensional complexity of the raw application data from 9,000+ applicants
+        - Identified key input variables among list of variables (154) for predictive modeling
+        - Provided a promising basis for applying various machine learning algorithms
+        
+- Analyzing MOOC Environment Using Clickstream Data
+    - How do learners from various demographic backgrounds interact with a MOOC environment?
+    - How is learners’ interaction with the MOOC coursewarerelated to their course engagement?
+    - Methods:
+        - Analyze clickstream event data (Course navigation, Problem interaction, Video interaction)
+    - Takeaways:
+        - Female students were found to be less likely to enroll in STEM MOOCs and yet equally likely to complete them
+        - English language learners watched the videos at a slower play rate and tended to engage less with video content
+        - Further research is needed to test whether our findings will hold in other contexts
+
+# Sub-Team Meeting (03/03/2021)
+- Team will start working in breakrooms to further their own agenda
+- Machine Learning Team
+    - new project structure of the data model development
+        - Saurabh has transformed the data to fix the repeadted coloumns
+        - Cindy to work on cleaning the data (nulls and outliers)
+        - I will work on data aggregations
+
+# To Do:
+- New Data Transformation Assignment:
+   - Since data is not in Time Series format creat function to take culmulative number of clicks each week
+   - If this does not work we could try to convert the weeks to Time Series format (More tedious)
+- Read Research Paper by Dr. Soleimani
+- Journals
+- VIP Mid-term notebooks are due (03/10)
+
+# Completed Work:
+- Web-based Peer Evaluations
