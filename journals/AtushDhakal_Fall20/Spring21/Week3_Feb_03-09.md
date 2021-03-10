@@ -12,7 +12,7 @@
 
   
 ## Sub-team meeting:
-  - First sub-team meeting in Feb 06 - Saturday
+  - First sub-team meeting on Feb 06 - Saturday
   - We went over progress made during last semester
   - Talked about the puprpose of the project
   - I was assigned to Web Dev team
