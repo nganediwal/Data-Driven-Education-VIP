@@ -5,10 +5,13 @@ https://saltire.lti.app/
 https://saltire.lti.app/platform
 https://github.com/dmitry-viskov/pylti1.3/wiki/Configure-Canvas-as-LTI-1.3-Platform
 https://github.com/ucfopen/lti-template-flask-oauth-tokens/blob/master/views.py
+* Updated journals to make sure everything is consistent
 
 Next week:
 * reach out to Kenneth's team to look at their application (rewatch the presentation video so I know what their proj really looking like right now).
 * reach out to c21u inhouse app devs?
+* Journal club
+* Make sure all notebooks are up to date and in git
 
 Meeting notes:
 * No updates from UX research

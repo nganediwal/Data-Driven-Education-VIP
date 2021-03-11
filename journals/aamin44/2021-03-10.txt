@@ -1,0 +1,24 @@
+This week:
+* Reached out to Kenneth - he says he will reach out when he feels more comfortable with it.
+* Worked on Journal Club: Notes:
+RF
+random forest algorithm randomly selects observations and features to build several decision trees and then averages the results
+basically decision tree based on subsets, then the trees are combined
+this was used with different hyperparameters to figure out a way to decide if a post is gossip or statistical
+
+SVM
+support vector machine attempts to find a "hyperplane" that splits the data into 2 parts.
+imaginee you have a bunch of data points and 2 features.  After plotting these points on a graph, linear SVM attempts to find a linear line that is able to split these data points into 2 meaningful groups.  If linear SVM cannot do this, a kernel function can be used to create a nonlinear line to find such a split.
+This is used for text categorization
+
+ANN
+ANN is supervised ML.  There is an input layer, hidden layers, output layers, and edges with the layers.  ANN is trained with input and output to find weights to apply to the input to accurately predict the output.
+
+
+Next week:
+* Begin working on code - reach out to Yang
+* Begin thinking about what goes into presentation
+
+Meeting notes:
+* Working at own pace mainly
+* No big updates
