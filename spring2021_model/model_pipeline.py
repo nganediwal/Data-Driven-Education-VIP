@@ -65,6 +65,7 @@ def write_csv(filepath, data, course):
     data.to_csv(filepath + 'course_data_transformed_' + course + '.csv', index=False)
 
 def clean_data_null(df, course):
+    # added course parameter to differentiate cleanup method
     if course == 'MGT100':
         df["user_id"].fillna(2402236, inplace = True)
     if course == 'CS1301':
