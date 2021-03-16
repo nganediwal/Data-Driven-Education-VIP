@@ -21,8 +21,11 @@
 
 ## 03-10-2021
 - Sixth Sub-team meeting
-  - Updates on task progress and overall project structure and next steps
+  - Discuss updaes on task progress and overall project structure and next steps
   - Discussed progress done on outlier analysis and reported next steps to the team
+  - Discussed doing analysis to compare demographics of stem vs non-stem course
+  - Discussed possible additional JITI to encourage team iteraction with students. 
+  - Discussed other methods for outlier analysis using z-score
 
 ## Assignments/ To-Do:
   - Journals (Due every week)
