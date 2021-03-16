@@ -26,6 +26,9 @@
   - Discussed doing analysis to compare demographics of stem vs non-stem course
   - Discussed possible additional JITI to encourage team iteraction with students. 
   - Discussed other methods for outlier analysis using z-score
+  - Discussed context on missing user-id and Dr Lee to provide context after checking with Professor Faranaz
+  - Discussed getting context on content of the classes from Anais
+  - Discussed letting Anais watch during data analysis session
 
 ## Assignments/ To-Do:
   - Journals (Due every week)
