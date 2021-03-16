@@ -20,7 +20,7 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import silhouette_score
 from sklearn.cluster import KMeans, DBSCAN
-from sklearn.preprocessing import MinMaxScaler	
+from sklearn.preprocessing import MinMaxScaler
 from collections import Counter, OrderedDict
 from ast import literal_eval
 from itertools import chain
@@ -34,12 +34,12 @@ output_variable = "percent_progress"
 filter_best_correlated = True
 
 def read_csv(filepath, course):
-    
+
     '''
     Return course data
     '''
     data = pd.read_csv(filepath + 'course_data_' + course + '.csv')
-    for col in data.columns: 
+    for col in data.columns:
         if 'Unnamed' in col:
             data.drop([col], axis=1, inplace=True)
     column_names = ['course_id', 'user_id', 'week', 'event_type', 'count']
@@ -58,15 +58,18 @@ def read_csv(filepath, course):
     return (df,demog_data,output_data)
 
 def write_csv(filepath, data, course):
-    
+
     '''
     Write course data in csv for debugging purposes
     '''
     data.to_csv(filepath + 'course_data_transformed_' + course + '.csv', index=False)
 
-def clean_data_null(df):
-    return df.dropna();
-    
+def clean_data_null(df, course):
+    if course == 'MGT100':
+        df["user_id"].fillna(2402236, inplace = True)
+    if course == 'CS1301':
+        df = df.dropna()
+    return df;
 
 def clean_data_outlier(df_in):
    return df_in
@@ -82,7 +85,7 @@ def explore_unsupervised(data):
     del data['user_id']
     # Temp drop all na value
     data = data.dropna(axis=0)
-   
+
     others_categorical = ['gender','level_of_education','country']
     for i in others_categorical:
         data = data.join(pd.get_dummies(data[i], prefix=i))
@@ -95,14 +98,14 @@ def explore_unsupervised(data):
     plt.xlabel('Number of clusters')
     plt.ylabel("Inertia")
     plt.title("Inertia of k-Means versus number of clusters")
-    plt.savefig('./plots/kmeans.png') 
+    plt.savefig('./plots/kmeans.png')
     plt.clf()
     scores = [KMeans(n_clusters=i+2).fit(normalized_vectors).inertia_ for i in range(10)]
     sns.lineplot(np.arange(2, 12), scores)
     plt.xlabel('Number of clusters')
     plt.ylabel("Inertia")
     plt.title("Inertia of Cosine k-Means versus number of clusters")
-    plt.savefig('./plots/kmeans_cosine.png') 
+    plt.savefig('./plots/kmeans_cosine.png')
     kmeans = KMeans(n_clusters=3).fit(unsupervised_df)
 
     normalized_kmeans = KMeans(n_clusters=3).fit(normalized_vectors)
@@ -147,10 +150,10 @@ def feature_explortion(data):
     plot_feature(data,'level_of_education','barh')
     plot_feature(data,'percent_progress','line')
     print(data['percent_progress'].describe())
-	
+
     corr_matrix = data.corr()
-    fig, ax = plt.subplots(figsize=(18,18)) 
-    sns_plot = sns.heatmap(corr_matrix, 
+    fig, ax = plt.subplots(figsize=(18,18))
+    sns_plot = sns.heatmap(corr_matrix,
             xticklabels=corr_matrix.columns.values,
             yticklabels=corr_matrix.columns.values,
             ax=ax)
@@ -158,7 +161,7 @@ def feature_explortion(data):
     cm=corr_matrix[output_variable].sort_values(ascending=False)
     features = cm.index[1:16].tolist()
     data[np.array(features)].hist(bins=200,figsize=(16,8))
-    plt.savefig('./plots/best_features.png') 
+    plt.savefig('./plots/best_features.png')
     return features
 
 def plot_feature(data, column, style):
@@ -168,7 +171,7 @@ def plot_feature(data, column, style):
     if style == 'barh':
         for p in ax.patches:
             ax.annotate(str(round(p.get_width()/data_count * 100,2)) +" %", (p.get_x() + p.get_width(), p.get_y()), xytext=(5, 10), textcoords='offset points')
-    plt.savefig('./plots/' +column + '.png') 
+    plt.savefig('./plots/' +column + '.png')
 
 def runAnalysisForAggregatedData(data):
     agg_data = data.groupby(
@@ -203,7 +206,7 @@ def runAnalysisForAggregatedData(data):
          percent_progress=('percent_grade', 'first')
     )
     agg_data.reset_index(inplace=True)
-    agg_data['user_id'] = agg_data['user_id'].astype(int) 
+    agg_data['user_id'] = agg_data['user_id'].astype(int)
     #test1.columns = test1.columns.get_level_values(0)
     #print(test1.columns)
     explore_unsupervised(agg_data.copy())
@@ -220,7 +223,7 @@ def main():
     if writecsv:
         write_csv(data_path, data, course)
     print("Data Shape With Nulls: ", data.shape)
-    data = clean_data_null(data)
+    data = clean_data_null(data, course)
     print("Data Shape without Nulls: ", data.shape)
     #clean_data_outlier(data)
     #print(data.event_type.unique())
@@ -231,6 +234,6 @@ def main():
     data.drop(columns=['course_id'], inplace=True)
     runAnalysisForAggregatedData(data)
 
-    
+
 if __name__ == "__main__":
     main()
