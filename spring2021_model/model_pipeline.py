@@ -65,6 +65,35 @@ def write_csv(filepath, data, course):
     '''
     data.to_csv(filepath + 'course_data_transformed_' + course + '.csv', index=False)
 
+def accumlate_data(df):
+    ''' Change the clickstream data to a time series data:
+        Loop through the columns. If there are multiple 
+        users in a row then add to the total for that user'''
+    newdf = df.copy()
+
+    columns = ['captions_hidden', 'captions_shown',
+       'hide_transcript', 'hypertext', 'load_video', 'next_selected',
+       'page_close', 'pause_video', 'play_video', 'problem_check',
+       'problem_graded', 'resume_course', 'seek_video', 'seq_goto', 'seq_next',
+       'seq_prev', 'show_transcript', 'sidebar', 'speed_change_video',
+       'stop_video', 'tool_accessed']
+    
+    for col in columns:
+        lastuser = newdf['user_id'][0]
+        total = 0
+        i = 0
+        while i < newdf['user_id'].count():
+            if (newdf['user_id'][i] == lastuser):
+                total = total + newdf[col][i]
+                #print('match!', i, 'total',total)
+                newdf[col][i] = total
+            else:
+                total = 0
+                #print('new user found')
+                lastuser = newdf['user_id'][i]
+            i = i+1
+    return newdf
+
 def clean_data_null(df, course):
     # added course parameter to differentiate cleanup method
     if course == 'MGT100':
@@ -98,11 +127,13 @@ def main():
     #clean_data_outlier(data)
     #print(data.event_type.unique())
     data = transform_data(data)
-    data= data.replace(np.nan,0)
+    data = data.replace(np.nan,0)
     data = pd.merge(data, demog, on="user_id")
     data = pd.merge(data, output, on="user_id")
-    data.drop(columns=['course_id'], inplace=True)
-    model_pipeline_agg.runAnalysisForAggregatedData(data, course)
+    data.drop(columns=['course_id'], inplace=True) 
+    data = accumlate_data(data)
+    print(data.head())
+    #model_pipeline_agg.runAnalysisForAggregatedData(data, course)
 
 
 if __name__ == "__main__":
