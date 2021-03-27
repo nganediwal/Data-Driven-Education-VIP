@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from pages import index, plots, progress_over_time, resources, table_data, completion
 from globalvars import *
 
@@ -6,6 +7,9 @@ print(dcc.__version__) # 0.6.0 or above is required
 
 # Main python file with callbacks for the Dash app.
 
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 #sidebar of the whole app
 #if adding a new link/page, add a dbc.NavLink like shown
