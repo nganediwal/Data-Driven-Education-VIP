@@ -61,6 +61,17 @@ All code related to outlier removal can be found in:
 clean_data_outlier()
 ```
 
+## Convert to Time Series
+
+Change the clickstream data to a time series data:
+Loop through the columns. If there are multiple 
+users in a row then add to the total for that user.
+
+All code related to converting the dataset to a timeseries can be found in:
+```
+accumulate_data()
+```
+
 ## Feature Selection
 
 All code related to Data exploration and feature selection can be found in:
@@ -80,7 +91,7 @@ quick_eval()
 
 
 
-## Resutls 
+## Results 
 
 
 ## Unsupervised Learning
