@@ -10,7 +10,7 @@
   - Complete Journals
   - Update Trello Board based on discussion
   
-## Sub-team meeting(6th Oct):'
+## Sub-team meeting(10th Mar):'
   - Discussed on the plan for meeting in the next 2 weeks.
   - Explained the data science team about the data Insights of MG100 course.
   - Team will continue to come up with slides from their individual work that can be presented in the next Sub-Team presentation.
