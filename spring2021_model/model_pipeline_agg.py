@@ -34,7 +34,7 @@ output_variable = "percent_progress"
 filter_best_correlated = True
 
 
-def explore_unsupervised_agg(data):
+def explore_unsupervised_agg(data, course):
     #del data['user_id']
     # Temp drop all na value
     data = data.dropna(axis=0)
@@ -51,14 +51,14 @@ def explore_unsupervised_agg(data):
     plt.xlabel('Number of clusters')
     plt.ylabel("Inertia")
     plt.title("Inertia of k-Means versus number of clusters")
-    plt.savefig('./plots/kmeans.png') 
+    plt.savefig('./plots/' +course + '/kmeans.png') 
     plt.clf()
     scores = [KMeans(n_clusters=i+2).fit(normalized_vectors).inertia_ for i in range(10)]
     sns.lineplot(np.arange(2, 12), scores)
     plt.xlabel('Number of clusters')
     plt.ylabel("Inertia")
     plt.title("Inertia of Cosine k-Means versus number of clusters")
-    plt.savefig('./plots/kmeans_cosine.png') 
+    plt.savefig('./plots/' + course + '/kmeans_cosine.png') 
     kmeans = KMeans(n_clusters=3).fit(unsupervised_df)
 
     normalized_kmeans = KMeans(n_clusters=3).fit(normalized_vectors)
@@ -89,19 +89,19 @@ def explore_unsupervised_agg(data):
     fig, ax = plt.subplots(figsize=(15, 5))
     sns.barplot(x='cluster', y='value', hue='variable', data=tidy, palette='Set3')
     plt.legend(loc='upper right')
-    plt.savefig("./plots/clustering_results.png")
+    plt.savefig("./plots/" + course + "/clustering_results.png")
 
 
-def feature_explortion_agg(data):
+def feature_explortion_agg(data, course):
     '''
     Explore features and return a list of features thats needs to be included in the model
     '''
     print("Data size: " + str(data.shape))
     #English does not have good data, hence removing
-    plot_feature_agg(data,'gender','barh')
-    plot_feature_agg(data,'country','barh')
-    plot_feature_agg(data,'level_of_education','barh')
-    plot_feature_agg(data,'percent_progress','line')
+    plot_feature_agg(data,'gender','barh', course)
+    plot_feature_agg(data,'country','barh',course)
+    plot_feature_agg(data,'level_of_education','barh',course)
+    plot_feature_agg(data,'percent_progress','line',course)
     print(data['percent_progress'].describe())
 	
     corr_matrix = data.corr()
@@ -110,21 +110,21 @@ def feature_explortion_agg(data):
             xticklabels=corr_matrix.columns.values,
             yticklabels=corr_matrix.columns.values,
             ax=ax)
-    sns_plot.figure.savefig("./plots/correlation.png")
+    sns_plot.figure.savefig("./plots/" + course + "/correlation.png")
     cm=corr_matrix[output_variable].sort_values(ascending=False)
     features = cm.index[1:16].tolist()
     data[np.array(features)].hist(bins=200,figsize=(16,8))
-    plt.savefig('./plots/best_features.png') 
+    plt.savefig('./plots/' + course + '/best_features.png') 
     return features
 
-def plot_feature_agg(data, column, style):
+def plot_feature_agg(data, column, style, course):
     data_count=len(data.index)
     plt.clf()
     ax=data[column].value_counts(sort=False).sort_index().plot(kind=style)
     if style == 'barh':
         for p in ax.patches:
             ax.annotate(str(round(p.get_width()/data_count * 100,2)) +" %", (p.get_x() + p.get_width(), p.get_y()), xytext=(5, 10), textcoords='offset points')
-    plt.savefig('./plots/' +column + '.png') 
+    plt.savefig('./plots/' +course + '/'+column + '.png') 
 
 def runAnalysisForAggregatedData(data, course):
     agg_data = data.groupby(
@@ -166,10 +166,14 @@ def runAnalysisForAggregatedData(data, course):
     #agg_data['user_id'] = agg_data['user_id'].astype(int) 
     #test1.columns = test1.columns.get_level_values(0)
     #print(test1.columns)
-    explore_unsupervised_agg(agg_data.copy())
-    agg_data=clean_agg_data_null(agg_data)
-    agg_data=clean_agg_data_outlier(agg_data)
-    xVars = feature_explortion_agg(agg_data)
+    print("Running Aggregated Clusterening analysis..............")
+    explore_unsupervised_agg(agg_data.copy(), course)
+    print("Running Aggregated Null analysis..............")
+    agg_data=clean_agg_data_null(agg_data, course)
+    print("Running Aggregated Outlier analysis..............")
+    agg_data=clean_agg_data_outlier(agg_data, course)
+    print("Running Aggregated Feature analysis..............")
+    xVars = feature_explortion_agg(agg_data, course)
     X = agg_data.drop([output_variable], axis=1)
     y = agg_data[output_variable]
     X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, train_size=0.90,test_size=0.10, random_state=2020)
@@ -179,6 +183,7 @@ def runAnalysisForAggregatedData(data, course):
 	    preprocessor = preprocessor_best_features_agg(xVars)
     else:
         preprocessor = preprocessor_categorical_agg()
+    print("Running Aggregated Model analysis..............")
     regressors = [
         # @Rachel
         #LinearRegression(),
@@ -265,17 +270,17 @@ def runAnalysisForAggregatedData(data, course):
         ])
         best_model, train_score, test_score = quick_eval_agg(pipe, X_train, y_train, X_test, y_test, r['params'])
         if(filter_best_correlated):
-            plot_best_features_agg(best_model, xVars)
+            plot_best_features_agg(best_model, xVars, course)
         if(train_score<max_score):
             max_score=train_score
             final_model=best_model    
         rows.append([r['estimator'].__class__.__name__, train_score, test_score])
-    joblib.dump(final_model, './model/best_model.pkl')
+    joblib.dump(final_model, './model/' + course + '/best_model.pkl')
     output = pd.DataFrame(rows, columns=["Algorithm", "Train RMSE", "Test RMSE"])
     output = output.set_index("Algorithm")
     print(output)
     fig = output.plot(kind='barh').get_figure()
-    fig.savefig('./plots/model_plots/algorithms.png',bbox_inches='tight')
+    fig.savefig('./plots/' +course + '/model_plots/algorithms.png',bbox_inches='tight')
 
 def quick_eval_agg(pipeline, X_train, y_train, X_test, y_test, params, verbose=True):
     """
@@ -298,7 +303,7 @@ def quick_eval_agg(pipeline, X_train, y_train, X_test, y_test, params, verbose=T
     return CV.best_estimator_, train_score, test_score
 
 
-def clean_agg_data_null(df):
+def clean_agg_data_null(df,course):
     print(df.isnull().sum().sort_values(ascending=False))
 
     #fill null in education and gender with unspecified
@@ -308,12 +313,12 @@ def clean_agg_data_null(df):
 
     #Filling in year_of_birth col with median, creating box plot of before and after
     ax = df.boxplot(column='year_of_birth')
-    ax.figure.savefig("./plots/YOB_boxplot_before.png")
+    ax.figure.savefig("./plots/"+ course + "/YOB_boxplot_before.png")
     ax.figure.clf()
 
     df['year_of_birth'].fillna(df['year_of_birth'].median(), inplace=True);
     ax = df.boxplot(column='year_of_birth')
-    ax.figure.savefig("./plots/YOB_boxplot_after.png")
+    ax.figure.savefig("./plots/"+ course + "/YOB_boxplot_after.png")
     ax.figure.clf()
 
     #create bar graphs of the averages of the output variable and the 6 top input variables as seperated by gender, US, and percent progress
@@ -323,22 +328,22 @@ def clean_agg_data_null(df):
 
         genderPlot = (df.groupby('gender')[col].mean()).plot.bar()
         genderPlot.axhline(df[col].mean(), color='red', linewidth=2)
-        genderPlot.figure.savefig("./plots/gender_vs_"+col+".png")
+        genderPlot.figure.savefig("./plots/" + course + "/gender_vs_"+col+".png")
         genderPlot.figure.clf()
         USplot = (df.fillna(-1).groupby(by='country')[col].mean()).plot.bar()
         USplot.axhline(df[col].mean(), color='red', linewidth=2)
-        USplot.figure.savefig("./plots/country_vs_"+col+".png")
+        USplot.figure.savefig("./plots/" + course + "/country_vs_"+col+".png")
         USplot.figure.clf()
         
         LOEplot = (df.groupby('level_of_education')[col].mean()).plot.bar()
         LOEplot.axhline(df[col].mean(), color='red', linewidth=2)
-        LOEplot.figure.savefig("./plots/level_of_education_vs_"+col+".png")
+        LOEplot.figure.savefig("./plots/" + course + "/level_of_education_vs_"+col+".png")
         LOEplot.figure.clf()
 
     return df;
 
 
-def clean_agg_data_outlier(df_in):
+def clean_agg_data_outlier(df_in, course):
    df=df_in.copy()
    df = df.set_index('percent_progress')
    #del df['English']
@@ -396,7 +401,7 @@ def preprocessor_categorical_agg():
     )
     return categorical
 
-def plot_best_features_agg(estimator, xVars):
+def plot_best_features_agg(estimator, xVars, course):
     #if the estimator has an option to provide best features, plot it
     if(hasattr(estimator.named_steps['regressor'], 'feature_importances_')):
         plt.figure(figsize=(25,25))
@@ -412,4 +417,4 @@ def plot_best_features_agg(estimator, xVars):
         plt.xticks(range(feature_size), np.array(xVars)[indices], rotation=45, ha='right')
         plt.xlim([-1, feature_size])
         plt.subplots_adjust(left=0.2, bottom=0.37)
-        plt.savefig('./plots/model_plots/' +estimator.named_steps['regressor'].__class__.__name__ + '.png')  
+        plt.savefig('./plots/' + course+ '/model_plots/' +estimator.named_steps['regressor'].__class__.__name__ + '.png')  
