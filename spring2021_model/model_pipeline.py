@@ -67,7 +67,7 @@ def write_csv(filepath, data, course):
 
 def accumlate_data(df):
     ''' Change the clickstream data to a time series data:
-        Loop through the columns. If there are multiple 
+        Loop through the columns. If there are multiple
         users in a row then add to the total for that user'''
     newdf = df.copy()
 
@@ -77,7 +77,7 @@ def accumlate_data(df):
        'problem_graded', 'resume_course', 'seek_video', 'seq_goto', 'seq_next',
        'seq_prev', 'show_transcript', 'sidebar', 'speed_change_video',
        'stop_video', 'tool_accessed']
-    
+
     for col in columns:
         lastuser = newdf['user_id'][0]
         total = 0
@@ -104,10 +104,25 @@ def clean_data_null(df, course):
     return df;
 
 def clean_data_outlier(df_in):
-   del df_in['country']
-   df_in['Age'] = pd.datetime.now().year - df_in.year_of_birth
-   del df_in ["year_of_birth"]
-   return df_in
+    # Visualize outliers using boxplot
+    df_in.boxplot(column=['count'], by='event_type', fontsize= 5)
+    plt.show()
+
+    # Visualize outliers using histograms
+    df_in['count'].hist(by= df_in['event_type'])
+    plt.show()
+
+    df_grouped = df_in.groupby(['event_type'])['count']
+
+    # Remove outliers using Z-score
+    df_in = df_in.dropna(axis=0)
+    abs_z_scores = np.abs(stats.zscore(df_in))
+    # Use threshold of 3 for sd
+    filtered_entries = (abs_z_scores < 3).all(axis=1)
+    df_out = df_in[filtered_entries]
+    # print(df_out)
+
+    return df_out;
 
 def transform_data(df_in):
 	# Add each Event Type as a columns.
@@ -134,7 +149,7 @@ def main():
     data = data.replace(np.nan,0)
     data = pd.merge(data, demog, on="user_id")
     data = pd.merge(data, output, on="user_id")
-    data.drop(columns=['course_id'], inplace=True) 
+    data.drop(columns=['course_id'], inplace=True)
     if run_aggregated_analysis:
         print("Running Aggregated analysis..............")
         model_pipeline_agg.runAnalysisForAggregatedData(data, course)
@@ -157,13 +172,13 @@ def main():
     print("Running Time Series Model analysis..............")
     regressors = [
         {
-            'estimator':KNeighborsRegressor(),  
+            'estimator':KNeighborsRegressor(),
             'params':{'regressor__n_neighbors':np.arange(10, 15)}
         },
 		{
-            'estimator':GradientBoostingRegressor(), 
+            'estimator':GradientBoostingRegressor(),
             'params':{
-                'regressor__max_depth':np.arange(5, 6), 
+                'regressor__max_depth':np.arange(5, 6),
                 'regressor__min_samples_leaf':np.arange(1, 2)
             }
 		}
@@ -180,7 +195,7 @@ def main():
         #    plot_best_features(best_model, xVars, course)
         if(train_score<max_score):
             max_score=train_score
-            final_model=best_model    
+            final_model=best_model
         rows.append([r['estimator'].__class__.__name__, train_score, test_score])
     joblib.dump(final_model, './model/' + course + '/best_model_time_series.pkl')
     output = pd.DataFrame(rows, columns=["Algorithm", "Train RMSE", "Test RMSE"])
@@ -204,10 +219,10 @@ def quick_eval(pipeline, X_train, y_train, X_test, y_test, params, verbose=True)
     RMSE as a tuple.
     """
     CV = GridSearchCV(pipeline, params, scoring = 'neg_mean_absolute_error', n_jobs= 6, cv=10)
-    CV.fit(X_train, y_train)  
-    y_train_pred=CV.predict(X_train) 
-    y_test_pred=CV.predict(X_test)  
-    print(CV.best_params_)     
+    CV.fit(X_train, y_train)
+    y_train_pred=CV.predict(X_train)
+    y_test_pred=CV.predict(X_test)
+    print(CV.best_params_)
     train_score = np.sqrt(mean_squared_error(y_train, y_train_pred))
     test_score = np.sqrt(mean_squared_error(y_test, y_test_pred))
 
@@ -215,7 +230,7 @@ def quick_eval(pipeline, X_train, y_train, X_test, y_test, params, verbose=True)
         print(f"Regression algorithm: {pipeline.named_steps['regressor'].__class__.__name__}")
         print(f"Train RMSE: {train_score}")
         print(f"Test RMSE: {test_score}")
-    
+
     return CV.best_estimator_, train_score, test_score
 
 def plot_best_features(estimator, xVars, course):
@@ -234,7 +249,7 @@ def plot_best_features(estimator, xVars, course):
         plt.xticks(range(feature_size), np.array(xVars)[indices], rotation=45, ha='right')
         plt.xlim([-1, feature_size])
         plt.subplots_adjust(left=0.2, bottom=0.37)
-        plt.savefig('./plots/' + course+ '/model_plots/' +estimator.named_steps['regressor'].__class__.__name__ + '_time_series.png') 
+        plt.savefig('./plots/' + course+ '/model_plots/' +estimator.named_steps['regressor'].__class__.__name__ + '_time_series.png')
 
 if __name__ == "__main__":
     main()
