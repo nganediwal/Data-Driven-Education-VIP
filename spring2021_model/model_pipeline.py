@@ -29,7 +29,7 @@ from pandas import read_excel
 from scipy import stats
 from sklearn.externals import joblib
 import model_pipeline_agg
-
+#import smogn
 
 output_variable = "percent_grade"
 filter_best_correlated = True
@@ -154,8 +154,8 @@ def transform_data(df_in):
 def main():
     writecsv = False
     run_aggregated_analysis = False
-    course = 'MGT100'
-    #course = 'CS1301'
+    #course = 'MGT100'
+    course = 'CS1301'
     data_path = './data/'
     data, demog, output =read_csv(data_path, course)
     print("Data Shape With Nulls: ", data.shape)
@@ -163,9 +163,10 @@ def main():
     if writecsv:
         write_csv(data_path, data, course)
     print("Data Shape without Nulls: ", data.shape)
-    visualize_raw_data_outlier(data, course)
-    #print(data.event_type.unique())
+	#Commenting the below visualizations as it takes very long to generate the plots.
+    #visualize_raw_data_outlier(data, course)
     data = transform_data(data)
+    print("Data Transformation Completed...")
     data = data.replace(np.nan,0)
     data = pd.merge(data, demog, on="user_id")
     data = pd.merge(data, output, on="user_id")
@@ -178,6 +179,8 @@ def main():
     data_timeseries = clean_data_null(data_timeseries, course)
     data_timeseries = removeBadColumns(data_timeseries)
     data_timeseries = clean_data_outlier(data_timeseries)
+    data_timeseries.drop(columns=['user_id'], inplace=True)
+    #data_timeseries = smogn.smoter(data = data_timeseries, y = "percent_grade")
     print(data_timeseries.head())
     print("Running Time Series analysis..............")
     #xVars = feature_explortion_agg(agg_data, course)
