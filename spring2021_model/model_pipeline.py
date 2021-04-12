@@ -103,22 +103,42 @@ def clean_data_null(df, course):
         df = df.dropna()
     return df;
 
-def clean_data_outlier(df_in):
+def visualize_raw_data_outlier(df_in, course):
     # Visualize outliers using boxplot
     df_in.boxplot(column=['count'], by='event_type', fontsize= 5)
-    plt.show()
+    plt.savefig('./plots/' + course+ '/box_plot_by_event_type.png')
 
     # Visualize outliers using histograms
     df_in['count'].hist(by= df_in['event_type'])
-    plt.show()
+    plt.savefig('./plots/' + course+ '/histogram_by_event_type.png')
 
-    df_grouped = df_in.groupby(['event_type'])['count']
+def removeBadColumns(df_in):
+    del df_in['country']
+    del df_in ["level_of_education"]
+    del df_in ["gender"]
+    df_in['Age'] = pd.datetime.now().year - df_in.year_of_birth
+    del df_in ["year_of_birth"]
+    return df_in
+
+def clean_data_outlier(df_in):
+    # Visualize outliers using boxplot
+    #df_in.boxplot(column=['count'], by='event_type', fontsize= 5)
+    #plt.show()
+
+    # Visualize outliers using histograms
+    #df_in['count'].hist(by= df_in['event_type'])
+    #plt.show()
+    #print("Grouping")
+    #df_grouped = df_in.groupby(['event_type'])['count']
 
     # Remove outliers using Z-score
-    df_in = df_in.dropna(axis=0)
+    #df_in = df_in.dropna(axis=0)
     abs_z_scores = np.abs(stats.zscore(df_in))
+    
     # Use threshold of 3 for sd
+    print("FInding index by zscores")
     filtered_entries = (abs_z_scores < 3).all(axis=1)
+    print("Filtering by zscores")
     df_out = df_in[filtered_entries]
     # print(df_out)
 
@@ -132,10 +152,10 @@ def transform_data(df_in):
     return new_data
 
 def main():
-    writecsv = True
+    writecsv = False
     run_aggregated_analysis = False
-    #course = 'MGT100'
-    course = 'CS1301'
+    course = 'MGT100'
+    #course = 'CS1301'
     data_path = './data/'
     data, demog, output =read_csv(data_path, course)
     print("Data Shape With Nulls: ", data.shape)
@@ -143,7 +163,7 @@ def main():
     if writecsv:
         write_csv(data_path, data, course)
     print("Data Shape without Nulls: ", data.shape)
-    #clean_data_outlier(data)
+    visualize_raw_data_outlier(data, course)
     #print(data.event_type.unique())
     data = transform_data(data)
     data = data.replace(np.nan,0)
@@ -156,6 +176,7 @@ def main():
     print("Running Cumalitive sum by week..............")
     data_timeseries = accumlate_data(data)
     data_timeseries = clean_data_null(data_timeseries, course)
+    data_timeseries = removeBadColumns(data_timeseries)
     data_timeseries = clean_data_outlier(data_timeseries)
     print(data_timeseries.head())
     print("Running Time Series analysis..............")
@@ -165,10 +186,8 @@ def main():
     X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, train_size=0.90,test_size=0.10, random_state=2020)
     train_data = X_train.copy()
     train_data[output_variable] = y_train
-    #if(filter_best_correlated):
-	#    preprocessor = preprocessor_best_features_agg(xVars)
-    #else:
-    preprocessor = preprocessor_categorical()
+	# preprocessor to convert stirng variables to categorical
+    #preprocessor = preprocessor_categorical()
     print("Running Time Series Model analysis..............")
     regressors = [
         {
@@ -185,9 +204,10 @@ def main():
     ]
     rows = []
     max_score=100;
+	#loop over each regressor and evaluate train errors.
     for r in regressors:
         pipe = Pipeline(steps = [
-           ('preprocessor', preprocessor),
+           #('preprocessor', preprocessor),
            ('regressor', r['estimator'])
         ])
         best_model, train_score, test_score = quick_eval(pipe, X_train, y_train, X_test, y_test, r['params'])
@@ -197,6 +217,7 @@ def main():
             max_score=train_score
             final_model=best_model
         rows.append([r['estimator'].__class__.__name__, train_score, test_score])
+	#Persist the model for use by Web.
     joblib.dump(final_model, './model/' + course + '/best_model_time_series.pkl')
     output = pd.DataFrame(rows, columns=["Algorithm", "Train RMSE", "Test RMSE"])
     output = output.set_index("Algorithm")
