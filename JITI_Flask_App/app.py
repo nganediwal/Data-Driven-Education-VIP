@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from pages import index, plots, progress_over_time, resources, table_data, completion
+from pages import index, plots, progress_over_time, resources, table_data, completion, completionspring
 from globalvars import *
 
 print(dcc.__version__) # 0.6.0 or above is required
@@ -26,6 +26,7 @@ sidebar = html.Div(
                 dbc.NavLink("Progress Over Time", href ="progress-over-time", id = "progress-over-time"),
                 dbc.NavLink("Plots", href = "plots", id = "Plots"),
                 dbc.NavLink("Completion Prediction", href = "completion", id = "completion"),
+                dbc.NavLink("Spring Models", href = "completionspring", id = "completionspring"),
             ],
             vertical = True,
             pills=True,
@@ -107,6 +108,28 @@ def update_predicted_score(student_id):
 
     except:
         return "Grade cannot be predicted with invalid ID"
+
+# Predicted Grade / Predicted Score
+@app.callback(
+    Output(component_id ='predicted_completion_spring21', component_property='children'),
+    [Input(component_id='student_id', component_property='value'), Input(component_id='student_course', component_property='value')]
+)
+
+def update_predicted_score_spring21(student_id, student_course):
+    try:
+
+        if (student_id == None):
+            return "Completion cannot be predicted with no ID"
+            
+        if(student_id < 0):
+            return "id cannot be negative"
+
+        else:
+            model_theta = studentdata.predict_completion(student_id) * 100
+            return("Your predicted completion is ", model_theta, "%  ", student_course)
+
+    except:
+        return "Completion cannot be predicted with invalid ID"
     
 @app.callback(
     Output(component_id ='predicted_completion', component_property='children'),
@@ -611,6 +634,8 @@ def display_page(pathname):
         return plots.page_layout
     elif pathname == '/completion':
         return completion.page_layout
+    elif pathname == '/completionspring':
+        return completionspring.page_layout
 
 if __name__ == '__main__':
     app.run_server(debug=True)

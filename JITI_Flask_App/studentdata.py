@@ -43,7 +43,7 @@ mongo_db = mongo_client[config.mongo_db]
 mongo_collection = mongo_db[config.mongo_collection]
 mongo_cursor = mongo_collection.find({})
 
-# for doc in mycur:
+# for doc in mongo_cursor:
 #     print(doc)
 
 

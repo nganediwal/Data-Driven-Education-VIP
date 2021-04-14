@@ -3,6 +3,8 @@ creds.py
 .aws/
 JITI_Flask_App/config.py
 
+tempCodeRunnerFile.py
+
 # Ignore your credential files!
 creds/
 
