@@ -7,10 +7,9 @@
 - My updates for this week
   - This week I finished Exploring z-score outlier detection and removal and decided to use it going forward instead of IQR.
   - I then started working on implementing it in our model file. 
-  - Completed outlier analysis using IQR from boxplot analysis. 
   - I also worked on adding content for my slide sections for our second team presentation.
 
 ## Assignments/ To-Do:
   - Journals (Due every week)
   - Implement z-score outlier detection and removal
-  - Finish adding content for the slides and also prep for sub-team presentation 2
+  - Finish adding content for the slides and also prepare for sub-team presentation 2
