@@ -65,6 +65,13 @@ def write_csv(filepath, data, course):
     '''
     data.to_csv(filepath + 'course_data_transformed_' + course + '.csv', index=False)
 
+def write_csv_for_web(filepath, data, course):
+
+    '''
+    Write course data in csv for debugging purposes
+    '''
+    data.to_csv(filepath + 'course_data_web_' + course + '.csv', index=False)
+
 def accumlate_data(df):
     ''' Change the clickstream data to a time series data:
         Loop through the columns. If there are multiple
@@ -153,6 +160,7 @@ def transform_data(df_in):
 
 def main():
     writecsv = False
+    writecsv_for_web = True
     run_aggregated_analysis = False
     #course = 'MGT100'
     course = 'CS1301'
@@ -172,6 +180,8 @@ def main():
     if run_aggregated_analysis:
         print("Running Aggregated analysis..............")
         model_pipeline_agg.runAnalysisForAggregatedData(data, course)
+    if writecsv_for_web:
+        write_csv_for_web(data_path, data, course)
     data = removeBadColumns(data)
     print("Data Shape With Nulls: ", data.shape)
     data = clean_data_null(data, course)
@@ -179,7 +189,7 @@ def main():
     #data = clean_data_outlier(data)
     print("Data Shape Without Outliers: ", data.shape)
     print("Running Cumalitive sum by week..............")
-    data_timeseries = accumlate_data1(data)
+    data_timeseries = accumlate_data(data)
     print("Running Time Series analysis..............")
     #xVars = feature_explortion_agg(agg_data, course)
 	# splitting data based on user id groups so that data from one user does not get split into test set and train set.
