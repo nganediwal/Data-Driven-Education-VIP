@@ -182,7 +182,7 @@ class Spring2021Models(object):
 #     springmodel = Spring2021Models()
 #     course = 'MGT100' 
 #     student_id = 819642
-#     #CS1301 id - 21602, week 54
+#     #CS1301 id - 466451, week 12
 #     #MGT100 id - 819642, week 12
 #     week = None # give actual week for time series
 #     print(springmodel.run_model(course, student_id, week))

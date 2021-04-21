@@ -18,9 +18,9 @@ page_layout = html.Div([
         html.Div(dcc.Dropdown(
             id='student_course',
             options=[
-                {'label': 'Management 100 Normal', 'value': 'MGT100N'},
+                {'label': 'Management 100 Aggregate', 'value': 'MGT100N'},
                 {'label': 'Management 100 Timeseries', 'value': 'MGT100TS'},
-                {'label': 'Computer Science 1301 Normal', 'value': 'CS1301N'},
+                {'label': 'Computer Science 1301 Aggregate', 'value': 'CS1301N'},
                 {'label': 'Computer Science 1301 Timeseries', 'value': 'CS1301TS'},
             ],
             value='MGT100N'
