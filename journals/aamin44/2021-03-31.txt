@@ -1,0 +1,14 @@
+This week:
+* Completed documentation, uploaded to github
+* Completed my part of presentation
+
+Next week:
+* Work on encapsulating the current model in "data.py" to a class (probably in a different file)
+* I am to work on putting insights into the web app whenever possible
+
+Meeting notes:
+* Reflected on presentations
+* I talked to model team a little about what insights they might be able to gather
+
+Personal Reflections:
+* Slide deck was a bit too long, unable for everyone to keep their time limit of 30 seconds per slide.  We need to either practice or focus on have 20 slides maximum to make sure we are able to end on time

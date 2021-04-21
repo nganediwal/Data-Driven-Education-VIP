@@ -1,0 +1,12 @@
+This week:
+* Completed integrating all spring 2021 models to the frontend.  This includes organizing the entire file structure within spring_2021_real_models folder of JITI Flask App, converting the runtime created by Saurabh into a class, updating the frontend place holder to input a week, etc.  Reflections:
+	* Better handling can be done for the issues regarding invalid student id, invalid weeks.  This is a next semester thing
+	* Maybe look into doing a better job of dealing with having to set the filepath within the class created - everything is currently hardcoded.  Creating a self.path variable may help with moving around the entire directory later on.
+* Added what was done and what is still needed to be done to the presentation.
+
+Next week:
+* If I manage to find time, I will work on putting the insights graphs into the frontend, although this may not happen due to how busy I am :(
+
+
+Meeting notes:
+
