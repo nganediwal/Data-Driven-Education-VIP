@@ -76,7 +76,6 @@ def accumlate_data(df):
     ''' Change the clickstream data to a time series data:
         Loop through the columns. If there are multiple
         users in a row then add to the total for that user'''
-    newdf = df.copy()
 
     columns = ['captions_hidden', 'captions_shown',
        'hide_transcript', 'hypertext', 'load_video', 'next_selected',
@@ -86,20 +85,9 @@ def accumlate_data(df):
        'stop_video', 'tool_accessed']
 
     for col in columns:
-        lastuser = newdf['user_id'][0]
-        total = 0
-        i = 0
-        while i < newdf['user_id'].count():
-            if (newdf['user_id'][i] == lastuser):
-                total = total + newdf[col][i]
-                #print('match!', i, 'total',total)
-                newdf[col][i] = total
-            else:
-                total = 0
-                #print('new user found')
-                lastuser = newdf['user_id'][i]
-            i = i+1
-    return newdf
+        df[col]=df.groupby(['user_id'])[col].cumsum(axis=0)
+      
+    return df
 
 def clean_data_null(df, course):
     # added course parameter to differentiate cleanup method
