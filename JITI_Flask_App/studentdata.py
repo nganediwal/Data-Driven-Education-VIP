@@ -7,6 +7,7 @@ from sqlalchemy import create_engine
 import pandas as pd
 import numpy as np
 from real_model.model import GradePredModel
+from spring_2021_real_models.spring2021model import Spring2021Models
 
 
 abspath = os.path.abspath(__file__)
@@ -148,3 +149,9 @@ grade_pred_model = GradePredModel()
 # student_id = 44987
 def predict_completion(student_id):
     return grade_pred_model.predict_completion(student_id)
+
+
+springmodels = Spring2021Models()
+
+def run_model_spring_2021(course, student_id, week=None):
+    return springmodels.run_model(course, student_id, week)

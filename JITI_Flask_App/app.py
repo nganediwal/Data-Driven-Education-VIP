@@ -112,10 +112,10 @@ def update_predicted_score(student_id):
 # Predicted Grade / Predicted Score
 @app.callback(
     Output(component_id ='predicted_completion_spring21', component_property='children'),
-    [Input(component_id='student_id', component_property='value'), Input(component_id='student_course', component_property='value')]
+    [Input(component_id='student_id', component_property='value'), Input(component_id='week', component_property='value'), Input(component_id='student_course', component_property='value')]
 )
 
-def update_predicted_score_spring21(student_id, student_course):
+def update_predicted_score_spring21(student_id, week, student_course):
     try:
 
         if (student_id == None):
@@ -125,11 +125,29 @@ def update_predicted_score_spring21(student_id, student_course):
             return "id cannot be negative"
 
         else:
-            model_theta = studentdata.predict_completion(student_id) * 100
-            return("Your predicted completion is ", model_theta, "%  ", student_course)
+            if (student_course == "MGT100N"):
+                model_theta = studentdata.run_model_spring_2021("MGT100", student_id, week=None)
+                return("The returned value for MGT100 Normal Model is: ", model_theta)
+            if (student_course == "MGT100TS"):
+                if(week == None):
+                    return("Week needed for timeseries model!")
+                model_theta = studentdata.run_model_spring_2021("MGT100", student_id, week)
+                return("The returned value for MGT100 Timeseries Model is: ", model_theta)
+
+            if (student_course == "CS1301N"):
+                model_theta = studentdata.run_model_spring_2021("CS1301", student_id, week=None)
+                return("The returned value for CS1301 Normal Model is: ", model_theta)
+            if (student_course == "CS1301TS"):
+                if(week == None):
+                    return("Week needed for timeseries model!")
+                model_theta = studentdata.run_model_spring_2021("CS1301", student_id, week)
+                return("The returned value for CS1301 Timeseries Model is: ", model_theta)
+            # elif (student_course == "CS1301 Time"):
+            #     model_theta = studentdata.cs_normal(student_id) * 100
+            #     return("Your predicted completion is ", model_theta, "%  ", student_course)
 
     except:
-        return "Completion cannot be predicted with invalid ID"
+        return "Either the studentID is invalid or the week does not exist for the student."
     
 @app.callback(
     Output(component_id ='predicted_completion', component_property='children'),

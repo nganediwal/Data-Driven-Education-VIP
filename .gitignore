@@ -137,3 +137,7 @@ JITI_Flask_App/real_model/course_data.csv
 
 # testingkeychain
 testingkeychain
+
+# data
+course_data_web_CS1301.csv
+course_data_web_MGT100.csv
