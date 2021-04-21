@@ -83,7 +83,7 @@ def accumlate_data(df):
        'problem_graded', 'resume_course', 'seek_video', 'seq_goto', 'seq_next',
        'seq_prev', 'show_transcript', 'sidebar', 'speed_change_video',
        'stop_video', 'tool_accessed']
-
+    df=df.sort_values(['week']).reset_index(drop=True)
     for col in columns:
         df[col]=df.groupby(['user_id'])[col].cumsum(axis=0)
       
