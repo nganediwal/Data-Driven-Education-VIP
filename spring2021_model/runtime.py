@@ -60,21 +60,22 @@ def removeBadColumns(df_in):
     return df_in
 
 
-def accumlate_data1(df):
+def accumlate_data(df):
     ''' Change the clickstream data to a time series data:
         Loop through the columns. If there are multiple
         users in a row then add to the total for that user'''
-    newdf = df.copy()
+
     columns = ['captions_hidden', 'captions_shown',
        'hide_transcript', 'hypertext', 'load_video', 'next_selected',
        'page_close', 'pause_video', 'play_video', 'problem_check',
        'problem_graded', 'resume_course', 'seek_video', 'seq_goto', 'seq_next',
        'seq_prev', 'show_transcript', 'sidebar', 'speed_change_video',
        'stop_video', 'tool_accessed']
-    newdf=newdf.sort_values(['week']).reset_index(drop=True)
+    df=df.sort_values(['week']).reset_index(drop=True)
     for col in columns:
-         newdf[col]=newdf.groupby(['user_id'])[col].cumsum(axis=0)  
-    return newdf
+        df[col]=df.groupby(['user_id'])[col].cumsum(axis=0)
+      
+    return df
 
 def clean_agg_data_null(df):
     #fill null in education and gender with unspecified
@@ -172,7 +173,7 @@ def main():
     #course = 'MGT100'
     course = 'CS1301' 
     student_id = 21602
-    week = 54.0 # give actual week for time series
+    week = 54.0 # give actual week for time series and None for aggregated analysis
     run_model(course, student_id, week)
 
 if __name__ == "__main__":
