@@ -10,7 +10,7 @@
 - My updates for this week
   - Continued working on training time series model
   - Updated Read.me doc with explanation on analysis
-  - Updated folder with uploads of charts built for analysis
+  - Updated plots folder with uploads of charts built for analysis
 
 ## Assignments/ To-Do:
   - Journals (Due every week)
