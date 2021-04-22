@@ -11,7 +11,7 @@
   - Had a detailed conversation with Saurabh on planning last weeks of the semester
   - Agreed on focusing on using Tree models to train CS data
   - Discussed adding analysis description to read me doc
-  - Discussed uploading any charts and images we used during analysis
+  - Discussed uploading any charts and images we used during analysis into plot folder
 - My updates for this week
   - I spent most of my time trying to write up code for training model
   - I also had some issues pulling code from github so spent time debugging.
