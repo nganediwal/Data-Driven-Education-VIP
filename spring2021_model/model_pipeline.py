@@ -165,6 +165,7 @@ def main():
     data = pd.merge(data, demog, on="user_id")
     data = pd.merge(data, output, on="user_id")
     data.drop(columns=['course_id'], inplace=True)
+    data['week'] = data.week - data.groupby('user_id').week.transform('min') + 1.0
     if run_aggregated_analysis:
         print("Running Aggregated analysis..............")
         model_pipeline_agg.runAnalysisForAggregatedData(data, course)
@@ -181,7 +182,7 @@ def main():
     print("Running Time Series analysis..............")
     #xVars = feature_explortion_agg(agg_data, course)
 	# splitting data based on user id groups so that data from one user does not get split into test set and train set.
-    train_inds, test_inds = next(model_selection.GroupShuffleSplit(test_size=.20, n_splits=2, random_state = 2020).split(data_timeseries, groups=data_timeseries['user_id']))
+    train_inds, test_inds = next(model_selection.GroupShuffleSplit(test_size=.15, n_splits=2, random_state = 2020).split(data_timeseries, groups=data_timeseries['user_id']))
     data_timeseries.drop(columns=['user_id'], inplace=True)
     train_data_by_user = data_timeseries.iloc[train_inds]
     #print("Adding synthetic data..", train_data_by_user.shape)
@@ -228,7 +229,7 @@ def main():
     max_wk = test_data_by_user["week"].max()
     print("Max Wk",max_wk)
     wk_rows = []
-    for wk in np.arange(1.0,max_wk,2.0):
+    for wk in np.arange(1.0,25.0,1.0):
         df_filterd = test_data_by_user[test_data_by_user['week']==wk]
         X_test = df_filterd.drop([output_variable], axis=1)
         y_test = df_filterd[output_variable]
@@ -264,7 +265,7 @@ def quick_eval(pipeline, X_train, y_train, X_test, y_test, params, verbose=True)
     Trains modeling pipeline using Grid Search on hyper parameters passed and evaluates on train data.      Returns the best model, training RMSE, and testing
     RMSE as a tuple.
     """
-    CV = GridSearchCV(pipeline, params, scoring = 'neg_mean_absolute_error', n_jobs= 6, cv=10)
+    CV = GridSearchCV(pipeline, params, scoring = 'neg_mean_absolute_error', n_jobs= 6, cv=6)
     CV.fit(X_train, y_train)
     y_train_pred=CV.predict(X_train)
     y_test_pred=CV.predict(X_test)
