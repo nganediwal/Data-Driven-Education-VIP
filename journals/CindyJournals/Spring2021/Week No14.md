@@ -15,4 +15,6 @@
 ## Assignments/ To-Do:
   - Journals (Due every week)
   - Complete Running Tree models on CS data for time series analysis
+  - Find best hyper parameters for model
+  - Find minimum required data to effectively predict student progress
   - Finalize content for final sub-team presentation
