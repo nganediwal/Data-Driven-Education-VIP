@@ -45,9 +45,17 @@ Input data used for this research is an ammonized CSV file that contains data fr
 # Approach
 
 ## Data Exploration
-
+- Used various data visualization techniques such as scatter plots, 
+- Correlation matrix, and other descriptive statistics to identify patterns and understand data better.
 
 ## Null data removal
+
+### MGMT100 Course Data
+- There were 127 records that had missing user_id. 
+- MNAR →  Replaced all the records with missing user_id with specific user_id. 
+### CS1301 Course Data
+- There were 10322 records that had missing user_id. 
+- MCAR →  Removed missing records with missing user_id 
 
 All code related to null removal can be found in:
 ```
@@ -55,6 +63,10 @@ clean_data_null()
 ```
 
 ## Outlier data removal
+- Visualized outliers using Box Plots & Histograms
+- Obtained context on existence of outliers to determine handling decision
+- Evaluated the removal of outliers using IQR and Z-score
+- Found Z-score to retain most data and keep context so implemented z-score as final outlier removal method. 
 
 All code related to outlier removal can be found in:
 ```

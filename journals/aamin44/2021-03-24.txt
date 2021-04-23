@@ -1,0 +1,20 @@
+This week:
+* Completed a significant portion of the presentation discussing findings about why we are unable to complete the Canvas OAuth
+* Contributed significantly to my documentation about Canvas OAuth: https://github.gatech.edu/C21U/vip-research/blob/master/JITI_Flask_App/Website%20Documentation/CanvasLTI_Documentation.docx
+* Talked with Chris
+	* Asked for a starting point, Chris provided a general overview including discussion about Canvas holding applications as an iframe
+	* Asked about OAuth flow, Chris confirmed I need a client_id and that he is unable to provide a way for me to get one, he suggested I reach out to Dr. Lee
+* Talked with Dr. Lee
+	* Asked to get elevated status within GT Canvas, she was able to create a teacher sandbox for me
+	* Spent time in a bluejeans call explaining to her the situtation and my reason for needing admin rights or at least an LTI key created for me.  She attempted to get me an LTI key, but GT is currently not permitting them for student research.
+* Spoke with others during meeting (see meeting notes for collaboration)
+
+Next week:
+* Complete the documentation for the findings with Canvas LTI
+* Complete my part of the presentation (try to get done by SATURDAY)
+
+Meeting notes:
+* During our call, I talked about the issue we were facing.  After receiving feedback, we have decided we will not continue pursuing LTI integrations for now.
+* Team gave feedback on my next steps: encapsulating models in classes and adding insights to website.
+* Model team is making good work with data cleanup / feature selection and are now currently looking to find good ML models to help train the data on.
+

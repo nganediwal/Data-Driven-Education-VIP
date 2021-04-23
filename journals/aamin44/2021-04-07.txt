@@ -1,0 +1,14 @@
+This week:
+* Completed encapsulating model.  Changes are shown in JITI_Flask_App/real_model.  Deleted code from student_data.py and transferred to else where.  Made a pull request for these changes.  Reflections:
+	* Problem with joblib module, need to make sure to use sklearn.extensions joblib
+	* Issues with working directory for each file, in future semesters might want to consider looking into how to deal with working directories for the multiple files.
+* Created PR from my branch to master - got it accepted by Saurabh
+
+Next week:
+* Incorporate charts, incorporate time-series model
+* For incorporating new model, copy paste of current model stuff
+
+Meeting notes:
+* Wire Frames
+	* Need less pages
+	* Segment each page and add to trello

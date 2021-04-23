@@ -1,0 +1,14 @@
+This week:
+* Created free canvas account in order to get an access token to be able to make API calls
+* Began writing some curl commands in order to test the waters with Canvas API (an example can be found in the documentaion: https://github.gatech.edu/C21U/vip-research/blob/master/JITI_Flask_App/Website%20Documentation/CanvasLTI_Documentation.docx)
+* Progressed on writing documentation of working with the basic API.
+* Talked with Saurabh and the webdev team to discuss how progress is coming along.  I have stated that I will make progress with writing scripts to grant OAuth access
+
+Next week:
+* Begin working with API endpoint for OAuth, need to find out how to get Admin rights
+* Talk with Chris about beginning the application, getting access to Admin rights?
+* Talk with Dr. Lee to see about getting admin rights to be able to get a client_id in order to do the OAuth things.
+* Begin thinking about what to put on presentation
+
+Meeting notes:
+* No meeting for this week

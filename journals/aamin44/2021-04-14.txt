@@ -1,0 +1,14 @@
+This week:
+* Completed creating frontend placeholder for this semester's models, including a drop down and everything.  This inlcuded creating completionpring.py in pages, adding a path, and adding code to app.py in order to handle the set input.  This took a long time.
+* Communicated with ML team to figure out exactly what they are expecting for the backend to be able to handle and how this would be displayed in the front end
+
+Next week:
+* Begin adding stuff to the presentations
+* Add to documentation - I am good, all the canvas LTI integration documentaitons is already complete
+* If time permits, putting insights into the front end.
+
+
+Meeting notes:
+* 24th - maybe do recording for presentation
+* Ania showed us wireframes, possible changes/rearrangement to do for app
+	* It looks good!  It all makes sense.
