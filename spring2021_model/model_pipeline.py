@@ -181,7 +181,49 @@ def main():
                 'regressor__max_depth':np.arange(5, 6),
                 'regressor__min_samples_leaf':np.arange(1, 2)
             }
-		}
+		},
+        {
+            'estimator':DecisionTreeRegressor(),
+		    'params':{
+                'regressor__max_depth':np.arange(2, 6),
+                'regressor__min_samples_leaf':np.arange(1,15),
+                #'regressor__max_leaf_nodes':(6,7,8) - R default setting found 7 leaf nodes but looks like there is a better configuration hence adding them for tuning.
+             }
+        },
+        {
+            'estimator':RandomForestRegressor(n_estimators=1000),
+		    'params':{
+                'regressor__max_depth':np.arange(5, 6),
+                'regressor__min_samples_leaf':np.arange(14,15)
+             }
+        },
+        {
+            'estimator':BaggingRegressor(DecisionTreeRegressor(), random_state=2020),
+		    'params':{
+                'regressor__base_estimator__max_depth':np.arange(4, 5),
+                'regressor__base_estimator__min_samples_leaf':np.arange(14,15),
+                'regressor__n_estimators':(50,200)
+             }
+        },
+        {
+            'estimator':AdaBoostRegressor(DecisionTreeRegressor(), random_state=2020),
+            'params':{
+                'regressor__base_estimator__max_depth':np.arange(4, 5),
+                'regressor__base_estimator__min_samples_leaf':np.arange(19, 20),
+                'regressor__loss':('linear', 'square', 'exponential'),
+                'regressor__n_estimators':(50, 100),
+                'regressor__learning_rate':(0.01,0.05)
+             }
+        },
+        {
+            'estimator':MLPRegressor(random_state=2020),
+            'params':{
+                'regressor__hidden_layer_sizes':np.arange(9, 10),
+                'regressor__activation':('tanh', 'relu'),
+                'regressor__solver':('sgd', 'adam'),
+                'regressor__max_iter':(100,200)
+            }
+        }
     ]
     rows = []
     max_score=100;
