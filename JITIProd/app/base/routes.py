@@ -51,7 +51,7 @@ def login():
     # return redirect(url_for('home_blueprint.index'))
     return render_template('index.html')
 
-@blueprint.route('/register', methods=['GET', 'POST'])
+@blueprint.route('/register', methods=['GET', 'POST'])g
 def register():
     login_form = LoginForm(request.form)
     create_account_form = CreateAccountForm(request.form)
