@@ -150,8 +150,8 @@ def main():
     writecsv = False
     writecsv_for_web = True
     run_aggregated_analysis = False
+    course = 'CS1301'
     #course = 'MGT100'
-    course = 'MGT100'
     data_path = './data/'
     data, demog, output =read_csv(data_path, course)
 	#write csv data to file for debugging using excel filters
@@ -197,25 +197,9 @@ def main():
 	# preprocessor to convert stirng variables to categorical
     #preprocessor = preprocessor_categorical()
     print("Running Time Series Model analysis..............")
-    regressors = [
-
-    #CS1301
-
-
-  #       {
-  #           'estimator':KNeighborsRegressor(),
-  #           'params':{'regressor__n_neighbors':np.arange(10, 12)}
-  #       },
-		# {
-  #           'estimator':GradientBoostingRegressor(),
-  #           'params':{
-  #               'regressor__max_depth':np.arange(8, 10),
-  #               'regressor__min_samples_leaf':np.arange(10, 15),
-  #           }
-		# }
-
-    #MGT100
-
+    if course=='MGT100':
+        regressors = [
+        #MGT100
         {
             'estimator':DecisionTreeRegressor(),
             'params':{
@@ -270,9 +254,10 @@ def main():
                 'regressor__solver':('sgd', 'adam'),
                 'regressor__max_iter':(100,200)
             }
-        },
-
-        # Beginning of Tree models for CS-1301
+        }
+        ]
+    else:
+        regressors = [
         {
             'estimator':DecisionTreeRegressor(),
 		    'params':{
@@ -291,8 +276,7 @@ def main():
             'estimator':BaggingRegressor(DecisionTreeRegressor(), random_state=2020),
 		    'params':{
                 'regressor__base_estimator__max_depth':np.arange(3, 5),
-                'regressor__base_estimator__min_samples_leaf':np.arange(14,15),
-                'regressor__n_estimators':(50,200)
+                'regressor__base_estimator__min_samples_leaf':np.arange(14,15)
              }
         },
         {
@@ -301,9 +285,19 @@ def main():
                 'regressor__base_estimator__max_depth':np.arange(4, 6),
                 'regressor__base_estimator__min_samples_leaf':np.arange(19, 20),
                 'regressor__loss':('linear', 'square', 'exponential'),
-                'regressor__n_estimators':(50, 100),
                 'regressor__learning_rate':(0.01,0.05)
              }
+        },
+        {
+            'estimator':KNeighborsRegressor(),
+            'params':{'regressor__n_neighbors':np.arange(5, 8)}
+        },
+        {
+            'estimator':GradientBoostingRegressor(),
+            'params':{
+                'regressor__max_depth':np.arange(3, 6),
+                'regressor__learning_rate':(0.05,0.1)
+            }
         },
         {
             'estimator':MLPRegressor(random_state=2020),
@@ -314,8 +308,7 @@ def main():
                 'regressor__max_iter':(100,200)
             }
         }
-
-    ]
+        ]  
     rows = []
     max_score=100;
 	#loop over each regressor and evaluate train errors.
@@ -332,9 +325,8 @@ def main():
             final_model=best_model
         rows.append([r['estimator'].__class__.__name__, train_score, test_score])
     max_wk = test_data_by_user["week"].max()
-    print("Max Wk",max_wk)
     wk_rows = []
-    for wk in np.arange(1.0,max_wk,2.0):
+    for wk in np.arange(1.0,25.0,1.0):
         df_filterd = test_data_by_user[test_data_by_user['week']==wk]
         X_test = df_filterd.drop([output_variable], axis=1)
         y_test = df_filterd[output_variable]
