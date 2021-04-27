@@ -86,7 +86,7 @@ def accumlate_data(df):
 
     for col in columns:
         df[col]=df.groupby(['user_id'])[col].cumsum(axis=0)
-      
+
     return df
 
 def clean_data_null(df, course):
@@ -129,7 +129,7 @@ def clean_data_outlier(df_in):
     # Remove outliers using Z-score
     #df_in = df_in.dropna(axis=0)
     abs_z_scores = np.abs(stats.zscore(df_in))
-    
+
     # Use threshold of 3 for sd
     print("Finding index by zscores")
     filtered_entries = (abs_z_scores < 4).all(axis=1)
@@ -150,8 +150,8 @@ def main():
     writecsv = False
     writecsv_for_web = True
     run_aggregated_analysis = False
+    course = 'CS1301'
     #course = 'MGT100'
-    course = 'MGT100'
     data_path = './data/'
     data, demog, output =read_csv(data_path, course)
 	#write csv data to file for debugging using excel filters
@@ -197,27 +197,11 @@ def main():
 	# preprocessor to convert stirng variables to categorical
     #preprocessor = preprocessor_categorical()
     print("Running Time Series Model analysis..............")
-    regressors = [
-
-    #CS1301
-    
-
-  #       {
-  #           'estimator':KNeighborsRegressor(),
-  #           'params':{'regressor__n_neighbors':np.arange(10, 12)}
-  #       },
-		# {
-  #           'estimator':GradientBoostingRegressor(),
-  #           'params':{
-  #               'regressor__max_depth':np.arange(8, 10),
-  #               'regressor__min_samples_leaf':np.arange(10, 15),
-  #           }
-		# }
-
-    #MGT100
-
+    if course=='MGT100':
+        regressors = [
+        #MGT100
         {
-            'estimator':DecisionTreeRegressor(), 
+            'estimator':DecisionTreeRegressor(),
             'params':{
                 'regressor__max_depth':np.arange(2, 6),
                 'regressor__min_samples_leaf':np.arange(1,15),
@@ -225,14 +209,14 @@ def main():
              }
         },
         {
-            'estimator':RandomForestRegressor(n_estimators=1000), 
+            'estimator':RandomForestRegressor(n_estimators=1000),
             'params':{
                 'regressor__max_depth':np.arange(3, 6),
                 'regressor__min_samples_leaf':np.arange(14,15)
              }
         },
         {
-            'estimator':BaggingRegressor(DecisionTreeRegressor(), random_state=2020), 
+            'estimator':BaggingRegressor(DecisionTreeRegressor(), random_state=2020),
             'params':{
                 'regressor__base_estimator__max_depth':np.arange(4, 5),
                 'regressor__base_estimator__min_samples_leaf':np.arange(14,15),
@@ -240,39 +224,91 @@ def main():
              }
         },
         {
-            'estimator':AdaBoostRegressor(DecisionTreeRegressor(), random_state=2020), 
+            'estimator':AdaBoostRegressor(DecisionTreeRegressor(), random_state=2020),
             'params':{
-                'regressor__base_estimator__max_depth':np.arange(3, 5),  
-                'regressor__base_estimator__min_samples_leaf':np.arange(19, 20), 
+                'regressor__base_estimator__max_depth':np.arange(3, 5),
+                'regressor__base_estimator__min_samples_leaf':np.arange(19, 20),
                 'regressor__loss':('linear', 'square', 'exponential'),
-                'regressor__n_estimators':(50, 100), 
+                'regressor__n_estimators':(50, 100),
                 'regressor__learning_rate':(0.01,0.05)
              }
         },
         {
-            'estimator':KNeighborsRegressor(),  
+            'estimator':KNeighborsRegressor(),
             'params':{'regressor__n_neighbors':np.arange(14, 15)}
         },
         {
-            'estimator':GradientBoostingRegressor(), 
+            'estimator':GradientBoostingRegressor(),
             'params':{
-                'regressor__max_depth':np.arange(3, 6), 
+                'regressor__max_depth':np.arange(3, 6),
                 'regressor__min_samples_leaf':np.arange(1, 2),
-                'regressor__n_estimators':(50,300), 
+                'regressor__n_estimators':(50,300),
                 'regressor__learning_rate':(0.05,0.1)
             }
         },
         {
-            'estimator':MLPRegressor(random_state=2020),  
+            'estimator':MLPRegressor(random_state=2020),
             'params':{
-                'regressor__hidden_layer_sizes':np.arange(9, 10), 
-                'regressor__activation':('tanh', 'relu'), 
+                'regressor__hidden_layer_sizes':np.arange(9, 10),
+                'regressor__activation':('tanh', 'relu'),
                 'regressor__solver':('sgd', 'adam'),
                 'regressor__max_iter':(100,200)
-            } 
+            }
         }
-
-    ]
+        ]
+    else:
+        regressors = [
+        {
+            'estimator':DecisionTreeRegressor(),
+		    'params':{
+                'regressor__max_depth':np.arange(2, 5),
+                'regressor__min_samples_leaf':np.arange(1,15)
+             }
+        },
+        {
+            'estimator':RandomForestRegressor(n_estimators=1000),
+		    'params':{
+                'regressor__max_depth':np.arange(5, 6),
+                'regressor__min_samples_leaf':np.arange(14,15)
+             }
+        },
+        {
+            'estimator':BaggingRegressor(DecisionTreeRegressor(), random_state=2020),
+		    'params':{
+                'regressor__base_estimator__max_depth':np.arange(3, 5),
+                'regressor__base_estimator__min_samples_leaf':np.arange(14,15)
+             }
+        },
+        {
+            'estimator':AdaBoostRegressor(DecisionTreeRegressor(), random_state=2020),
+            'params':{
+                'regressor__base_estimator__max_depth':np.arange(4, 6),
+                'regressor__base_estimator__min_samples_leaf':np.arange(19, 20),
+                'regressor__loss':('linear', 'square', 'exponential'),
+                'regressor__learning_rate':(0.01,0.05)
+             }
+        },
+        {
+            'estimator':KNeighborsRegressor(),
+            'params':{'regressor__n_neighbors':np.arange(5, 8)}
+        },
+        {
+            'estimator':GradientBoostingRegressor(),
+            'params':{
+                'regressor__max_depth':np.arange(3, 6),
+                'regressor__learning_rate':(0.05,0.1)
+            }
+        },
+        {
+            'estimator':MLPRegressor(random_state=2020),
+            'params':{
+                'regressor__hidden_layer_sizes':np.arange(8, 10),
+                'regressor__activation':('tanh', 'relu'),
+                'regressor__solver':('sgd', 'adam'),
+                'regressor__max_iter':(100,200)
+            }
+        }
+        ]  
     rows = []
     max_score=100;
 	#loop over each regressor and evaluate train errors.
@@ -289,9 +325,8 @@ def main():
             final_model=best_model
         rows.append([r['estimator'].__class__.__name__, train_score, test_score])
     max_wk = test_data_by_user["week"].max()
-    print("Max Wk",max_wk)
     wk_rows = []
-    for wk in np.arange(1.0,max_wk,2.0):
+    for wk in np.arange(1.0,25.0,1.0):
         df_filterd = test_data_by_user[test_data_by_user['week']==wk]
         X_test = df_filterd.drop([output_variable], axis=1)
         y_test = df_filterd[output_variable]
@@ -304,7 +339,7 @@ def main():
     data_requirement = data_requirement.set_index("week")
     print(data_requirement)
     fig = data_requirement.plot(kind='line').get_figure()
-    fig.savefig('./plots/' +course + '/model_plots/data_requirement_by_week.png') 
+    fig.savefig('./plots/' +course + '/model_plots/data_requirement_by_week.png')
 	#Persist the model for use by Web.
     joblib.dump(final_model, './model/' + course + '/best_model_time_series.pkl')
     output = pd.DataFrame(rows, columns=["Algorithm", "Train RMSE", "Test RMSE"])
