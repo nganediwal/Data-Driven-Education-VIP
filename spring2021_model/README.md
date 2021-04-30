@@ -5,6 +5,13 @@ This is the Model building project to predict percentage_complete from demograph
 
 # Spring 2021 Deliverables
 
+* Review modeling techniques from previous semeters and extend it for MGT Course
+* Perform data Insights and generate plots for MGT Course and compare it with CS Course
+* Build automated pipeline for ETL and training for aggregated model for both CS and MGT Course and compare.
+* Build automated pipeline for ETL and training for time series model for both CS and MGT Course and compare.
+* Create a persisted model that can be queried online for all the course and both aggregated and time-series
+
+
 # Previous Work and Literature review
 ## Predicting Student Success
 * [Gardner and Brooks, 2018: Model Evaluation Method](https://learning-analytics.info/journals/index.php/JLA/article/view/5814)
