@@ -7,7 +7,6 @@
  
   
 ## Tasks To Complete:
-  - Spring Break
   - Continue working on UI/UX
   - Continue working on Overview and Performance page
 
