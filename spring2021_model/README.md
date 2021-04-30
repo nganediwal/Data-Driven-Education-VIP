@@ -122,8 +122,6 @@ feature_explortion()
 
 ## Model Training Pipeline and Hyperparamter tuning
 
-## Model Training Pipeline and Hyperparamter tuning
-
 The dataset was split to 75% train and 25% test set using GroupShuffleSplit and then sklearn pipeline was used to train the model. Using this approch we evaluated 7 different models. The hyperparemater is set with a if condition based on the course anme.
 
 All code related to training pipeline can be found in:
