@@ -1,17 +1,8 @@
 # [Flask Dashboard](https://appseed.us/admin-dashboards/flask) Argon
 
-> Links
-
-- [Flask Dashboard Argon](https://appseed.us/admin-dashboards/flask-boilerplate-dashboard-argon) - Product page
-- [Flask Dashboard Argon - Demo](https://flask-argon-dashboard.appseed-srv1.com) - LIVE App deployment
-- [Flask Tutorial](https://github.com/app-generator/tutorial-flask) - Getting started with Flask
-
 <br />
 
-
-<br />
-
-## How to use it
+## How to install the app
 
 ```bash
 $ # Get the code
