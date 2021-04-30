@@ -38,9 +38,37 @@ Input data used for this research is an ammonized CSV file that contains data fr
 
 * Input Variable
 
+	* English
+	* gender
+	* year_of_birth
+	* level_of_education
+	* US
+	* Active_weeks
+	* page_close_agg_count
+	* hypertext_agg_count
+	* next_selected_agg_count
+	* resume_course_agg_count
+	* sidebar_agg_count
+	* seq_goto_agg_count
+	* seq_next_agg_count
+	* seq_prev_agg_count
+	* tool_accessed_agg_count
+	* problem_check_agg_count
+	* problem_graded_agg_count
+	* seek_video_agg_count
+	* load_video_agg_count
+	* play_video_agg_count
+	* pause_video_agg_count
+	* stop_video_agg_count
+	* captions_hidden_agg_count
+	* captions_shown_agg_count
+	* hide_transcript_agg_count
+	* show_transcript_agg_count
+	* speed_change_video_agg_count
 
 * Output Variable
 
+	* percent_progress
 
 # Approach
 
@@ -94,18 +122,31 @@ feature_explortion()
 
 ## Model Training Pipeline and Hyperparamter tuning
 
+## Model Training Pipeline and Hyperparamter tuning
+
+The dataset was split to 75% train and 25% test set using GroupShuffleSplit and then sklearn pipeline was used to train the model. Using this approch we evaluated 7 different models. The hyperparemater is set with a if condition based on the course anme.
+
 All code related to training pipeline can be found in:
 ```
 quick_eval() 
 ```
 
-## Model Performance
+## Imbalanced Data Removal
+
+Imabalaced data was fixed using  SMOTE for Regression using the library SMOGN (https://pypi.org/project/smogn/). Below code was used to do the analysis but was commented for the final model evaluation for performance reasons.
+```
+train_data_by_user = smogn.smoter(data=train_data_by_user.reset_index(drop=True), y = "percent_grade")
+```
+
+	- Troubleshooting
+	Using the above code gives a error in the code that canbe removed by following the instructions in the link(https://github.com/nickkunz/smogn/issues/12)
 
 
+## Aggregated Supervised Learning
 
-## Results 
+The aggregated alanylsis is impleted in the file model_pipeline_agg.py with the same methods developed in Fall2020
 
+## Plots and charts
 
-## Unsupervised Learning
-
+All plots and charts can be found  in the folder https://github.gatech.edu/C21U/vip-research/blob/master/spring2021_model/plots/model_plots/
 
