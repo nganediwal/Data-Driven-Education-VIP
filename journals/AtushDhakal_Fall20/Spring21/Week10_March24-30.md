@@ -18,5 +18,5 @@
   
 ## Sub-team meeting:
   - meeting on March 27 - Saturday
-  - Plans for the final presentation
-  - We talked about finishing pages for the final presentation
+  - Plans for the second sub-team presentation
+  - Finalize 2nd sub-team presentation
