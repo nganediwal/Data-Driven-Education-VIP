@@ -99,4 +99,3 @@ The *Base* blueprint handles the authentication (routes and forms) and assets ma
 <br />
 
 ---
-[Flask Dashboard](https://appseed.us/admin-dashboards/flask) Argon - Provided by **AppSeed [App Generator](https://appseed.us/app-generator)**.
