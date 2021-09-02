@@ -27,7 +27,8 @@ from itertools import chain
 import matplotlib.pyplot as plt
 from pandas import read_excel
 from scipy import stats
-from sklearn.externals import joblib
+# from sklearn.externals import joblib
+import joblib
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)

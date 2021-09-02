@@ -3,13 +3,14 @@
 This is the Web App for displaying the predition information and suggestions to students and teachers
 
 # Installation Steps
+## Install Anaconda and Create Environment
 * Install Anaconda following the guide in https://docs.anaconda.com/anaconda/install/
-* Run anaconda
-* Goto the folder .\vip-research\JITI_Flask_App\
-* Run the below command
+* Run the anaconda install script
+* cd to the folder vip-research\JITI_Flask_App\
+* Run the command below to create a conda environment
 
 ```
-conda env create -f environment.yaml
+conda env create -f env-min.yml
 ```
 
 * Once the enviornment is created run the below command to switch the environment 
@@ -17,7 +18,17 @@ conda env create -f environment.yaml
 ```
 conda activate VIP
 ```
-* Then run python app.py to the application
+## Database Setup
+The .gitignore file does not allow and the config.py file to be uploaded to Github, so you are missing this file. 
+
+You need to contact Dr. Lee for access to the database, after IRB training
+
+## Config File Setup
+Your config.py file should look like this:  
+```To be added```
+
+## Running the App
+* Then run python app.py to start the application
 * Open the web app using the url http://127.0.0.1:8050/
 
 

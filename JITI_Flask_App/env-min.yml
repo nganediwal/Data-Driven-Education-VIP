@@ -1,0 +1,43 @@
+name: VIP
+channels:
+  - defaults
+dependencies:
+  - matplotlib
+  - numpy
+  - numpy-base
+  - pandas
+  - pip
+  - psycopg2
+  - pymongo
+  - pyparsing
+  - python
+  - python-dateutil
+  - pytz
+  - readline
+  - scikit-learn
+  - scipy
+  - seaborn
+  - setuptools
+  - six
+  - sqlalchemy
+  - sqlite
+  - pip:
+    - brotli
+    - click
+    - config
+    - dash
+    - dash-bootstrap-components
+    - dash-core-components
+    - dash-html-components
+    - dash-renderer
+    - dash-table
+    - dnspython
+    - flask
+    - flask-compress
+    - future
+    - itsdangerous
+    - jinja2
+    - markupsafe
+    - plotly
+    - retrying
+    - werkzeug

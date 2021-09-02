@@ -26,7 +26,8 @@ from itertools import chain
 import matplotlib.pyplot as plt
 from pandas import read_excel
 from scipy import stats
-from sklearn.externals import joblib
+# from sklearn.externals import joblib
+import joblib
 
 
 output_variable = "percent_progress"
