@@ -24,8 +24,18 @@ The .gitignore file does not allow and the config.py file to be uploaded to Gith
 You need to contact Dr. Lee for access to the database, after IRB training
 
 ## Config File Setup
+
+**NOTE: Do not put the AWS database in your config file!!!** We are currently working with a db on elephantsql.com
+
 Your config.py file should look like this:  
-```To be added```
+```python
+# dummy config info
+psql_db = 'your db'
+psql_user = 'your user'
+psql_host = 'your host'
+psql_port = '5432'
+psql_password = 'your password'
+```
 
 ## Running the App
 * Then run python app.py to start the application
