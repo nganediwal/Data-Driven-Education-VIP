@@ -36,6 +36,14 @@ psql_host = 'your host'
 psql_port = '5432'
 psql_password = 'your password'
 ```
+## Environment Variables Setup
+At least on Linux, you need to run (if it's bash):
+`export FLASK_APP=app.py`
+`export FLASK_ENV=development`
+
+In Windows or Mac you'll have to look at your settings, I'm not sure if these are needed outside of Linux, so try without them set.
+
+The FLASK_ENV=development means debugging is on and when you make changes to a file and save, the server will update with those changes.
 
 ## Running the App
 * Then run python app.py to start the application
