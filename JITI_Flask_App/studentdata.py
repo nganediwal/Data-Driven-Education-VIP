@@ -37,11 +37,11 @@ postgres_cursor = postgres_connection.cursor()
 ################################################################
 
 # create mongo connection
-mongo_client = pymongo.MongoClient("mongodb+srv://%s:%s@%s/%s?retryWrites=true&w=majority" % (config.mongo_user, config.mongo_password, config.mongo_host, config.mongo_db))
+# mongo_client = pymongo.MongoClient("mongodb+srv://%s:%s@%s/%s?retryWrites=true&w=majority" % (config.mongo_user, config.mongo_password, config.mongo_host, config.mongo_db))
 
-mongo_db = mongo_client[config.mongo_db]
-mongo_collection = mongo_db[config.mongo_collection]
-mongo_cursor = mongo_collection.find({})
+# mongo_db = mongo_client[config.mongo_db]
+# mongo_collection = mongo_db[config.mongo_collection]
+# mongo_cursor = mongo_collection.find({})
 
 # for doc in mycur:
 #     print(doc)
@@ -50,7 +50,7 @@ mongo_cursor = mongo_collection.find({})
 #################################################################
 
 # simplify taking data from a table in psql and turn it into df using sqlalchemy
-alchemyEngine = create_engine("postgres+psycopg2://%s:%s@%s:%s/%s" % (config.psql_user, config.psql_password, config.psql_host, config.psql_port, config.psql_db))
+alchemyEngine = create_engine("postgresql+psycopg2://%s:%s@%s:%s/%s" % (config.psql_user, config.psql_password, config.psql_host, config.psql_port, config.psql_db))
 postgres_pandas_connection = alchemyEngine.connect()
 
 # dbConnection.close()
