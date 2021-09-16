@@ -19,13 +19,11 @@ conda env create -f env-min.yml
 conda activate VIP
 ```
 ## Database Setup
-The .gitignore file does not allow and the config.py file to be uploaded to Github, so you are missing this file. 
+The .gitignore file does not allow the config.py file to be uploaded to Github, so you are missing this file. 
 
 You need to contact Dr. Lee for access to the database, after IRB training
 
 ## Config File Setup
-
-**NOTE: Do not put the AWS database in your config file!!!** We are currently working with a db on elephantsql.com
 
 Your config.py file should look like this:  
 ```python
