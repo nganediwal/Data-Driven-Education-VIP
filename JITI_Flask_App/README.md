@@ -2,21 +2,44 @@
 
 This is the Web App for displaying the predition information and suggestions to students and teachers
 
-# Installation Steps
+# Installation Steps  
+
+## Decide on your environment, recommend to use a Linux VM
+* It's best if you run this in a VM because you'll install a lot of packages you normally wouldn't use
+* When you're done with the class, you can just delete the VM and not have to uninstall a lot of stuff
+* If you're using Windows or MacOS, it's up to you to know how to translate instructions to your env
+* If you haven't already installed it, you can get VirtualBox or VMWare free, if you're on a Mac, use VMWare
+* For a free VMWare license, [see the OIT page about VMWare](https://support.cc.gatech.edu/resources/downloads). Download [VirtualBox here](https://www.virtualbox.org/wiki/Downloads) 
+* Then I recommend [Ubuntu 20.04, download the iso](https://ubuntu.com/download/desktop) and import the ova appliance into VirtualBox or VMWare  
+
+Once you spin up your VM, open a terminal and follow the rest of the instructions below.
+
+## Git instructions to clone the repo
+* `cd` to your home directory or wherever you'd like to have a vip-research directory with the repo
+* Run the following command:
+```
+git clone https://github.gatech.edu/C21U/vip-research.git
+```
+* NOTE: You may need to install git, run: `sudo apt install git`
+
 ## Install Anaconda and Create Environment
 * Install Anaconda following the guide in https://docs.anaconda.com/anaconda/install/
 * Run the anaconda install script
-* cd to the folder vip-research\JITI_Flask_App\
+* Make sure you're in the vip-research folder, we're about to create a Conda environment, and it must be created here at the top level of the repo. 
 * Run the command below to create a conda environment
 
 ```
 conda env create -f env-min.yml
 ```
 
-* Once the enviornment is created run the below command to switch the environment 
+* Once the enviornment is created run the following commands to switch the environment 
 
 ```
 conda activate VIP
+```
+* Now, cd to the JITI_Flask_App directory
+```
+cd JITI_Flask_App
 ```
 ## Database Setup
 The .gitignore file does not allow the config.py file to be uploaded to Github, so you are missing this file. 
