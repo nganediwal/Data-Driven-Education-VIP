@@ -65,16 +65,18 @@ You need to contact Dr. Lee for access to the database, after IRB training
 Your config.py file should look like this:  
 ```python
 # dummy config info
-psql_db = 'your db'
-psql_user = 'your user'
-psql_host = 'your host'
+psql_db =gatechmoocs
+psql_user =<your username>
+psql_host =gatechmoocs.cjlu8nfb8vh0.us-east-1.rds.amazonaws.com
 psql_port = '5432'
-psql_password = 'your password'
+psql_password =<your password>
 ```
 ## Environment Variables Setup
 At least on Linux, you need to run (if it's bash):  
 `export FLASK_APP=app.py`  
 `export FLASK_ENV=development`  
+
+It's best to set these in your ~/.bashrc file, so every login/terminal will have them set even after a reboot
 
 In Windows or Mac you'll have to look at your settings, I'm not sure if these are needed outside of Linux, so try without them set.
 
@@ -104,4 +106,5 @@ The app is built using dash by plotly. This allows for powerful graphing feature
     *  "JITI_Flask_App/temp_model/"
 
 # Helpful Resources
-* https://plotly.com/dash/
+* [Dash docs](https://dash.plotly.com/)
+* [Datacamp DASH tutorial](https://www.datacamp.com/community/tutorials/learn-build-dash-python)
