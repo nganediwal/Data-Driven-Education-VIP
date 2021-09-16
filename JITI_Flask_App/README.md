@@ -10,7 +10,9 @@ This is the Web App for displaying the predition information and suggestions to 
 * If you're using Windows or MacOS, it's up to you to know how to translate instructions to your env
 * If you haven't already installed it, you can get VirtualBox or VMWare free, if you're on a Mac, use VMWare
 * For a free VMWare license, [see the OIT page about VMWare](https://support.cc.gatech.edu/resources/downloads). Download [VirtualBox here](https://www.virtualbox.org/wiki/Downloads) 
-* Then I recommend [Ubuntu 20.04, download the iso](https://ubuntu.com/download/desktop) and import the ova appliance into VirtualBox or VMWare  
+* Then the recommendation is [Ubuntu 20.04, download the iso](https://ubuntu.com/download/desktop) and import the ova appliance into VirtualBox or VMWare 
+
+There are still some things to tweak in the VM, such as Display and Network settings to get the VM working. Ask James for help.
 
 Once you spin up your VM, open a terminal and follow the rest of the instructions below.
 
@@ -41,6 +43,18 @@ conda activate VIP
 ```
 cd JITI_Flask_App
 ```
+## Installing VS Code in the VM
+* If you chose the VM route, you probably want VS Code or Pycharm. 
+* For VS Code, assuming you chose Ubuntu and have `snap` installed, run:
+```
+sudo snap install --classic code
+```
+* For PyCharm, because of libraries we use, you'll want the Pro version (needs a license through GA Tech), please run:
+```
+sudo snap install pycharm-professional --classic
+```
+* Then during the PyCharm launch, it will prompt you for a license key or Jetbrains login to activate the license.
+
 ## Database Setup
 The .gitignore file does not allow the config.py file to be uploaded to Github, so you are missing this file. 
 
