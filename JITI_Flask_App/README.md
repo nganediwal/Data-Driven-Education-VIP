@@ -64,14 +64,14 @@ You need to contact Dr. Lee for access to the database, after IRB training
 
 ## Config File Setup
 
-Your config.py file should look like this:  
+Your config.py file goes in the JITI_Flask_App directory and should look like this:  
 ```python
 # dummy config info
-psql_db =gatechmoocs
-psql_user =<your username>
-psql_host =gatechmoocs.cjlu8nfb8vh0.us-east-1.rds.amazonaws.com
+psql_db ='gatechmoocs'
+psql_user =<your username in quotes>
+psql_host ='gatechmoocs.cjlu8nfb8vh0.us-east-1.rds.amazonaws.com'
 psql_port = '5432'
-psql_password =<your password>
+psql_password =<your password in quotes>
 ```
 ## Environment Variables Setup
 At least on Linux, you need to run (if it's bash):  
