@@ -7,11 +7,16 @@
     - Mostly in-person
 
 ## Todo
-    - get VM set up for Jenkins - continuing
+    - get VM set up for Jenkins - waiting on VM until Monday
     - talk to team what kind of tests would be good
+    - continue studying Dash docs
 
 ## Done
     - Explore repo
     - Get VM from College of Computing lab - done
+    - updated install instructions on Github for Flask app
+    - recommended use of VM and gave some links and info about VMs
     - installed Jenkins on devops server
     - setup webhook in Github for Jenkins
+    - studied Dash docs
+    - looked into Github-Jenkins-JIRA integration

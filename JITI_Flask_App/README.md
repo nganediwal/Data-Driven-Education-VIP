@@ -14,6 +14,8 @@ This is the Web App for displaying the predition information and suggestions to 
 
 There are still some things to tweak in the VM, such as Display and Network settings to get the VM working. Ask James for help.
 
+If you want copy-paste to work between guest and host, you need to install Guest Additions in the VM and add the user to the vboxsf group.
+
 Once you spin up your VM, open a terminal and follow the rest of the instructions below.
 
 ## Git instructions to clone the repo
@@ -31,7 +33,7 @@ git clone https://github.gatech.edu/C21U/vip-research.git
 * Run the command below to create a conda environment
 
 ```
-conda env create -f env-min.yml
+conda env create -f JITI_Flask_App/env-min.yml
 ```
 
 * Once the enviornment is created run the following commands to switch the environment 

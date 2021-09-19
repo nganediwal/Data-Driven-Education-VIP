@@ -26,3 +26,4 @@
     - communicate with Aashay, get his help understanding repo
     - wrote Github practices doc at [https://bit.ly/dev-practices-devops](https://bit.ly/dev-practices-devops)
     - communicate with team about various issues/concerns
+    - improving Flask app instructions in the README.md in JITI_Flask_App
