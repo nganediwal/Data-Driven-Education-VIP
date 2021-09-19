@@ -68,10 +68,10 @@ Your config.py file goes in the JITI_Flask_App directory and should look like th
 ```python
 # dummy config info
 psql_db ='gatechmoocs'
-psql_user =<your username in quotes>
+psql_user ='your username'
 psql_host ='gatechmoocs.cjlu8nfb8vh0.us-east-1.rds.amazonaws.com'
 psql_port = '5432'
-psql_password =<your password in quotes>
+psql_password ='your password'
 ```
 ## Environment Variables Setup
 At least on Linux, you need to run (if it's bash):  
