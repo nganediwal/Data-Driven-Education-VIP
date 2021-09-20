@@ -41,7 +41,7 @@ conda activate vipspring2021
 
 # Input Data
 
-Input data used for this research is an ammonized CSV file that contains data from a CS based MOOC course with demographics and clickstream.
+Input data used for this research is an anonymized CSV file that contains data from a CS based MOOC course with demographics and clickstream.
 
 * Input Variable
 
@@ -123,7 +123,7 @@ accumulate_data()
 
 All code related to Data exploration and feature selection can be found in:
 ```
-feature_explortion()
+feature_exploration()
 ```
 
 
@@ -138,18 +138,18 @@ quick_eval()
 
 ## Imbalanced Data Removal
 
-Imabalaced data was fixed using  SMOTE for Regression using the library SMOGN (https://pypi.org/project/smogn/). Below code was used to do the analysis but was commented for the final model evaluation for performance reasons.
+Imabalaced data was fixed using SMOTE for Regression using the library SMOGN (https://pypi.org/project/smogn/). Below code was used to do the analysis but was commented for the final model evaluation for performance reasons.
 ```
 train_data_by_user = smogn.smoter(data=train_data_by_user.reset_index(drop=True), y = "percent_grade")
 ```
 
 	- Troubleshooting
-	Using the above code gives a error in the code that canbe removed by following the instructions in the link(https://github.com/nickkunz/smogn/issues/12)
+	Using the above code gives a error in the code that can be removed by following the instructions in the link(https://github.com/nickkunz/smogn/issues/12)
 
 
 ## Aggregated Supervised Learning
 
-The aggregated alanylsis is impleted in the file model_pipeline_agg.py with the same methods developed in Fall2020
+The aggregated alanylsis is implemented in the file model_pipeline_agg.py with the same methods developed in Fall2020
 
 ## Plots and charts
 

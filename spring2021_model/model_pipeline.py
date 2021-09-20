@@ -98,7 +98,7 @@ def clean_data_null(df, course):
         df = df.dropna()
     return df;
 
-def visualize_raw_data_outlier(df_in, course):
+def visualize_raw_data_outlier(df_in, course):  
     # Visualize outliers using boxplot
     df_in.boxplot(column=['count'], by='event_type', fontsize= 5)
     plt.savefig('./plots/' + course+ '/box_plot_by_event_type.png')
