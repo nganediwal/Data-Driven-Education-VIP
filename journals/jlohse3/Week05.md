@@ -10,6 +10,11 @@
     - get VM set up for Jenkins - waiting on VM until Monday
     - talk to team what kind of tests would be good
     - continue studying Dash docs
+    - continue studying Jenkins docs
+    - get Jenkins-Github integration working
+    - get Jenkins-JIRA integration working
+    - look into CodeceptJS for testing UI
+    - work on outdated repo README
 
 ## Done
     - Explore repo

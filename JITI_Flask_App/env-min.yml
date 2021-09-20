@@ -2,6 +2,7 @@ name: VIP
 channels:
   - defaults
 dependencies:
+  - joblib
   - matplotlib
   - numpy
   - numpy-base

@@ -1,0 +1,23 @@
+name: vipspring2021
+dependencies:
+  - freetype
+  - joblib
+  - libpng
+  - matplotlib
+  - mkl
+  - numpy
+  - openssl
+  - pandas
+  - pip
+  - pyqt
+  - python-dateutil
+  - pytz
+  - qt
+  - scikit-learn
+  - scipy
+  - seaborn
+  - sqlite
+  - zlib
+  - pip:
+    - datetime
+    - smogn

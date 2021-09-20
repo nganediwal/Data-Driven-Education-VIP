@@ -27,7 +27,7 @@ from itertools import chain
 import matplotlib.pyplot as plt
 from pandas import read_excel
 from scipy import stats
-from sklearn.externals import joblib
+import joblib
 
 
 output_variable = "percent_progress"
@@ -92,7 +92,7 @@ def explore_unsupervised_agg(data, course):
     plt.savefig("./plots/" + course + "/clustering_results.png")
 
 
-def feature_explortion_agg(data, course):
+def feature_exploration_agg(data, course):
     '''
     Explore features and return a list of features thats needs to be included in the model
     '''
@@ -173,7 +173,7 @@ def runAnalysisForAggregatedData(data, course):
     print("Running Aggregated Outlier analysis..............")
     agg_data=clean_agg_data_outlier(agg_data, course)
     print("Running Aggregated Feature analysis..............")
-    xVars = feature_explortion_agg(agg_data, course)
+    xVars = feature_exploration_agg(agg_data, course)
     X = agg_data.drop([output_variable], axis=1)
     y = agg_data[output_variable]
     X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, train_size=0.90,test_size=0.10, random_state=2020)

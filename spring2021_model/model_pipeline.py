@@ -27,7 +27,7 @@ from itertools import chain
 import matplotlib.pyplot as plt
 from pandas import read_excel
 from scipy import stats
-from sklearn.externals import joblib
+import joblib
 import model_pipeline_agg
 #import smogn
 
@@ -145,6 +145,53 @@ def transform_data(df_in):
     new_data = df_in.pivot_table('count', ['course_id', 'user_id','week'], 'event_type', aggfunc='first')
     new_data.reset_index( drop=False, inplace=True )
     return new_data
+
+def preprocessor_categorical():
+    categorical = ColumnTransformer(
+    [
+        ("categorical",  OneHotEncoder(dtype=np.int),['gender','level_of_education']),
+    ],
+    remainder="passthrough",
+    )
+    return categorical
+
+def quick_eval(pipeline, X_train, y_train, X_test, y_test, params, verbose=True):
+    """
+    Trains modeling pipeline using Grid Search on hyper parameters passed and evaluates on train data.      Returns the best model, training RMSE, and testing
+    RMSE as a tuple.
+    """
+    CV = GridSearchCV(pipeline, params, scoring = 'neg_mean_absolute_error', n_jobs= 6, cv=10)
+    CV.fit(X_train, y_train)
+    y_train_pred=CV.predict(X_train)
+    y_test_pred=CV.predict(X_test)
+    print(CV.best_params_)
+    train_score = np.sqrt(mean_squared_error(y_train, y_train_pred))
+    test_score = np.sqrt(mean_squared_error(y_test, y_test_pred))
+
+    if verbose:
+        print(f"Regression algorithm: {pipeline.named_steps['regressor'].__class__.__name__}")
+        print(f"Train RMSE: {train_score}")
+        print(f"Test RMSE: {test_score}")
+
+    return CV.best_estimator_, train_score, test_score
+
+def plot_best_features(estimator, xVars, course):
+    #if the estimator has an option to provide best features, plot it
+    if(hasattr(estimator.named_steps['regressor'], 'feature_importances_')):
+        plt.figure(figsize=(25,25))
+        plt.clf()
+        plt.ylabel('Feature Importance Score')
+        importances = estimator.named_steps['regressor'].feature_importances_
+        feature_size=importances.shape[0]
+        indices = np.argsort(importances)[::-1]
+        plt.figure()
+        plt.title("Feature importances - " + estimator.named_steps['regressor'].__class__.__name__)
+        plt.margins(0.1)
+        plt.bar(range(feature_size), importances[indices],align="center")
+        plt.xticks(range(feature_size), np.array(xVars)[indices], rotation=45, ha='right')
+        plt.xlim([-1, feature_size])
+        plt.subplots_adjust(left=0.2, bottom=0.37)
+        plt.savefig('./plots/' + course+ '/model_plots/' +estimator.named_steps['regressor'].__class__.__name__ + '_time_series.png')
 
 def main():
     writecsv = False
@@ -348,52 +395,6 @@ def main():
     fig = output.plot(kind='barh').get_figure()
     fig.savefig('./plots/' +course + '/model_plots/algorithms_time_series.png',bbox_inches='tight')
 
-def preprocessor_categorical():
-    categorical = ColumnTransformer(
-    [
-        ("categorical",  OneHotEncoder(dtype=np.int),['gender','level_of_education']),
-    ],
-    remainder="passthrough",
-    )
-    return categorical
-
-def quick_eval(pipeline, X_train, y_train, X_test, y_test, params, verbose=True):
-    """
-    Trains modeling pipeline using Grid Search on hyper parameters passed and evaluates on train data.      Returns the best model, training RMSE, and testing
-    RMSE as a tuple.
-    """
-    CV = GridSearchCV(pipeline, params, scoring = 'neg_mean_absolute_error', n_jobs= 6, cv=10)
-    CV.fit(X_train, y_train)
-    y_train_pred=CV.predict(X_train)
-    y_test_pred=CV.predict(X_test)
-    print(CV.best_params_)
-    train_score = np.sqrt(mean_squared_error(y_train, y_train_pred))
-    test_score = np.sqrt(mean_squared_error(y_test, y_test_pred))
-
-    if verbose:
-        print(f"Regression algorithm: {pipeline.named_steps['regressor'].__class__.__name__}")
-        print(f"Train RMSE: {train_score}")
-        print(f"Test RMSE: {test_score}")
-
-    return CV.best_estimator_, train_score, test_score
-
-def plot_best_features(estimator, xVars, course):
-    #if the estimator has an option to provide best features, plot it
-    if(hasattr(estimator.named_steps['regressor'], 'feature_importances_')):
-        plt.figure(figsize=(25,25))
-        plt.clf()
-        plt.ylabel('Feature Importance Score')
-        importances = estimator.named_steps['regressor'].feature_importances_
-        feature_size=importances.shape[0]
-        indices = np.argsort(importances)[::-1]
-        plt.figure()
-        plt.title("Feature importances - " + estimator.named_steps['regressor'].__class__.__name__)
-        plt.margins(0.1)
-        plt.bar(range(feature_size), importances[indices],align="center")
-        plt.xticks(range(feature_size), np.array(xVars)[indices], rotation=45, ha='right')
-        plt.xlim([-1, feature_size])
-        plt.subplots_adjust(left=0.2, bottom=0.37)
-        plt.savefig('./plots/' + course+ '/model_plots/' +estimator.named_steps['regressor'].__class__.__name__ + '_time_series.png')
 
 if __name__ == "__main__":
     main()

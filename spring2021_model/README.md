@@ -31,7 +31,7 @@ To run the project below are the setup instructions.
 * Goto the folder .\vip-research\spring2021_model\
 * Run the below command
 ```
-conda env create -f environment.yml
+conda env create -f env-min.yml
 ```
 * Once the enviornment is created run the below command to switch the environment 
 ```
