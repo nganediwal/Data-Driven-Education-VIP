@@ -138,7 +138,7 @@ quick_eval()
 
 ## Imbalanced Data Removal
 
-Imabalaced data was fixed using SMOTE for Regression using the library SMOGN (https://pypi.org/project/smogn/). Below code was used to do the analysis but was commented for the final model evaluation for performance reasons.
+Imbalanced data was fixed using SMOTE for Regression using the library SMOGN (https://pypi.org/project/smogn/). Below code was used to do the analysis but was commented for the final model evaluation for performance reasons.
 ```
 train_data_by_user = smogn.smoter(data=train_data_by_user.reset_index(drop=True), y = "percent_grade")
 ```
