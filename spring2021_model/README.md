@@ -22,18 +22,26 @@ This is the Model building project to predict percentage_complete from demograph
 * [Davis et al., 2018: Retrieval Practice](https://learning-analytics.info/journals/index.php/JLA/article/view/6098)
 * [Kizilcec et al., 2017: Social Identity Threat ](http://science.sciencemag.org/content/sci/355/6322/251.full.pdf)
 
+# Should you use a VM?
+
+As of this writing, this advice would apply to the Data Scientist and Machine Learning Engineer, thus it's here in the data model README. If you make sure to use anaconda/conda, or if you already have latest Python installed, you can create an environment on your local/host computer using the `env-min.py` file as shown below. It's designed for conda, you can adapt it to pip.
+
+If you're installing Python, 
+
+If you do need to run any web app associated with the project, [it's recommended you use a VM.](../JITI_Flask_App/README.md)
+
 # Environmental Setup
 
 To run the project below are the setup instructions.
 
 * Install Anaconda following the guide in https://docs.anaconda.com/anaconda/install/
 * Run anaconda
-* Goto the folder .\vip-research\spring2021_model\
+* Goto the folder ./vip-research/spring2021_model
 * Run the below command
 ```
 conda env create -f env-min.yml
 ```
-* Once the enviornment is created run the below command to switch the environment 
+* Once the environment is created run the below command to switch the environment 
 ```
 conda activate vipspring2021
 ```

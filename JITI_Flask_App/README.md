@@ -5,6 +5,8 @@ This is the Web App for displaying the predition information and suggestions to 
 # Installation Steps  
 
 ## Decide on your environment, recommend to use a Linux VM
+
+Data Science and Machine Learning people [can look at this resource first.](../spring2021_model/README.md)
 * It's best if you run this in a VM because you'll install a lot of packages you normally wouldn't use
 * When you're done with the class, you can just delete the VM and not have to uninstall a lot of stuff
 * If you're using Windows or MacOS, it's up to you to know how to translate instructions to your env
